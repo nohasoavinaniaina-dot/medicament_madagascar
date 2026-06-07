@@ -7,9 +7,7 @@
 <meta name="theme-color" content="#061F16">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>Médicaments & Pharmacies — Madagascar — v52 ✅</title>
+<title>Médicaments & Pharmacies — Madagascar — v54 ✅</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -3268,130 +3266,106 @@
 
 </style>
 
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 
 <style>
-#licenseOverlay {
-  position: fixed; inset: 0; z-index: 999999;
-  background: linear-gradient(135deg, #061F16 0%, #0a3d26 100%);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Sans', system-ui, sans-serif;
+#lic-overlay {
+  position: fixed !important;
+  top: 0 !important; left: 0 !important;
+  width: 100% !important; height: 100% !important;
+  z-index: 2147483647 !important;
+  background: linear-gradient(135deg, #061F16 0%, #0a3d26 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: system-ui, sans-serif !important;
 }
-#licenseBox {
-  background: #fff; border-radius: 20px; padding: 36px 28px;
-  width: 90%; max-width: 380px; text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+#lic-box {
+  background: #fff !important;
+  border-radius: 20px !important;
+  padding: 36px 28px !important;
+  width: 90% !important;
+  max-width: 380px !important;
+  text-align: center !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4) !important;
 }
-#licenseBox .lic-logo {
-  font-size: 48px; margin-bottom: 8px;
+#lic-box h2 { font-size: 20px; font-weight: 700; color: #061F16; margin: 8px 0 4px; }
+#lic-box p { font-size: 13px; color: #666; margin: 0 0 20px; }
+#lic-input {
+  width: 100% !important; box-sizing: border-box !important;
+  border: 2px solid #ccc !important; border-radius: 10px !important;
+  padding: 12px 16px !important; font-size: 16px !important;
+  letter-spacing: 2px !important; text-align: center !important;
+  font-family: monospace !important; outline: none !important;
+  text-transform: uppercase !important;
 }
-#licenseBox h2 {
-  font-size: 20px; font-weight: 700; color: #061F16;
-  margin: 0 0 4px;
+#lic-input:focus { border-color: #061F16 !important; }
+#lic-btn {
+  display: block !important; width: 100% !important;
+  margin-top: 14px !important; background: #061F16 !important;
+  color: #fff !important; border: none !important;
+  border-radius: 10px !important; padding: 14px !important;
+  font-size: 16px !important; font-weight: 600 !important;
+  cursor: pointer !important;
 }
-#licenseBox p {
-  font-size: 13px; color: #666; margin: 0 0 24px;
-}
-#licenseInput {
-  width: 100%; box-sizing: border-box;
-  border: 2px solid #e0e0e0; border-radius: 10px;
-  padding: 12px 16px; font-size: 16px; letter-spacing: 2px;
-  text-align: center; text-transform: uppercase;
-  outline: none; transition: border 0.2s;
-  font-family: monospace;
-}
-#licenseInput:focus { border-color: #061F16; }
-#licenseBtn {
-  width: 100%; margin-top: 16px;
-  background: #061F16; color: #fff;
-  border: none; border-radius: 10px;
-  padding: 14px; font-size: 16px; font-weight: 600;
-  cursor: pointer; transition: background 0.2s;
-}
-#licenseBtn:hover { background: #0a3d26; }
-#licenseError {
-  color: #e53e3e; font-size: 13px;
-  margin-top: 10px; min-height: 20px;
-}
-#licenseFooter {
-  font-size: 11px; color: #aaa; margin-top: 20px;
-}
+#lic-err { color: #e53e3e; font-size: 13px; margin-top: 10px; min-height: 20px; }
+#lic-foot { font-size: 11px; color: #aaa; margin-top: 16px; }
 </style>
-
-<div id="licenseOverlay">
-  <div id="licenseBox">
-    <div class="lic-logo">💊</div>
+<div id="lic-overlay">
+  <div id="lic-box">
+    <div style="font-size:48px">💊</div>
     <h2>Ny Aina Med's</h2>
     <p>Entrez votre clé de licence pour activer l'application</p>
-    <input id="licenseInput" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19"
-      oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')">
-    <button id="licenseBtn" onclick="checkLicense()">Activer</button>
-    <div id="licenseError"></div>
-    <div id="licenseFooter">© 2025 RANDRIAMBOLOLONIAINA N.T.C.<br>Tous droits réservés</div>
+    <input id="lic-input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
+    <button id="lic-btn" type="button">Activer</button>
+    <div id="lic-err"></div>
+    <div id="lic-foot">© 2025 RANDRIAMBOLOLONIAINA N.T.C.<br>Tous droits réservés</div>
   </div>
 </div>
-
 <script>
 (function() {
-  // Check if already activated
-  if (localStorage.getItem('nyaina_med_activated') === 'true') {
-    document.getElementById('licenseOverlay').style.display = 'none';
+  if (localStorage.getItem('nyaina_lic') === '1') {
+    document.getElementById('lic-overlay').style.display = 'none';
     return;
   }
-
-  // Valid license key hashes (SHA-256)
-  const VALID_HASHES = ["f55239537ecd2492952b6fe986bd25363356f5e6d42d29482fb6716f50510643", "02911412953e7645868ecb539dc34136c236aadacfc9d6bbfecd6de8758e827d", "f5edb19bebb9762958a2387c1aa249fe41195ff11ad8d5f3bf8a1bfebfc0046e", "a7e95de2f921c71f4454ac611f8a72d8afefd526358bd1742b0ce862dd733b65", "9ea19bbc7b2c1aa0bd25c78daa4ed59a9cc035cffcf590c35995026efdfec301", "59767baecc8f4f1975244a34d78ef84df26261285e23d4cab5dfbbf4e149c61c", "4e753d0a34546dc36a24c5693a71df4ae2446dbd2522f049bf2e54a53886eea2", "ead551319aa4e9056fdac76544e78dd8bd872efe1fc9d1496b74c93cf49f7f72", "b790ea313773028defaed45fc9b318d27d74f4afb850c02f022f3dc53037a31b", "1a66c5784c768c398ddc922eef1b2e2b6a81f6228c81a374405ac2d218fd46ac", "27712700a92af8a954369471c26d44508bb44a45638aff9759f22ff88fe4ae60", "e96904ea67297e8bce091738757ff73c7f283857dedad113d3a772f6967fe884", "cf07b52d7272e1586e595af2efa53716edd5634272304704a74b6c6441b6e215", "54b3bb4222a42a095a497ecb84dcc027f5a21e983e110a098aca0d700c72e337", "285b1c8bf47f3a3d2976b75c3f459b9fd59d61c218a02930b7c20657a1e557b1", "226cb569cc04360820ee72124f4d7682a1de290efa8a811f38407f9d219780ff", "8f0ba34c3a9bc23abb78773b21135fc54828af3ae53a046dda8f01ce18a6a783", "35cd68822f798bce2f1eb1467f2940b9437117949479c11cbc03eaf2d90aa865", "eec7c26f87de68fe6b41373c84d51f0d0585cc7fd60e827071497f96ba2090d2", "b75836f3cc236a543ecd2ea13b831a4f17d3868f84fa42b8e0fe66e553f5b306", "69a9d9a81f22c932a9bab7dc7831024336ae349341e910d25dedc478973a9125", "49850a1313d2d33a4ccf6a411f83160f2914e5450be713e3485e4c8446582a7f", "be9240cab14404ed3ee6c6f42ac1d8a673e94f0e56de60d81bcbe12bb7cd4396", "fd1a3eaf7e67354edcce3ba74dd52fbeca1b60827751a6f731603175805b9243", "0caba73928e19c62a8ee0db04777ba1933d73be95c5a5409b1fdf4a870c10795", "602c2e3f1ac6eb5b2feec23ca977bb5adc576412a14431f60b55e10abfb13204", "90e370d6fa57181f6e8c708ad8073b9d475e9673619cb9442c24a96825ab0f48", "2538fd2dfa656b6d36c36a6591fb9bcbfaec7365052e795347170bb6cc12eee5", "a7e18d89e5014b575cd6982bdd0bc8fdd1cf1ce59d73d26c94b48bfcd981be15", "d1c2ab87b6156e0adb58fd3ebbaab7400b56b2002d7e5904bb37e65da743ce07", "a2255803544462f84624ed6224099d7c104ead42dcb4f3426bdd88343ccb3de2", "4341b2557b28efc7447ccbbca00cc1d500bcfd31c2c6ac6b21aa0b984d4e4a45", "c0e4bbc7952565b6a8d7c8d5d9ad5cb372283618b498019d2063f2227701f72a", "87ac5223680de47c9cdbc32c05c566b67066dad4dbb1b4c1d459834842df1bcf", "8a3bad92fdcb08e0792850f83ee5824d6ffa2ad9b47b63118c23722ae4a1d3dd", "3e2a6c847c760ed0324401f66fb185a927396e0e2b60ed0b60a105741608b7e9", "523736c6b94acf9b4fd861b6d17b4a291661298ecd4a933e67f978ebc03fc57f", "6b706c514cff00d0b8ef9f9fe5631ebd052ff9ea0e366b4b837b0a23a5ed110c", "f19d67394b3d6ee2cd1c43ea31c40ce04b50c0d6765c052714ed5e95ed25d480", "b66f907d6d3221fac058e04ab1036e05ec5899f5ecfda25fae66758e1d4fed33", "1047002beb2da16e7b45084b334737cccb16d88351ecdb581526eb15adc859fb", "1f5ee64d8eb6e1630a003f44e52c6b3bd568ea1eca19ca0d5e2c6e6cc8c52f4a", "80a007f43c72888056fceeb75f058feb493edb77420034ea24bab03a6616b92e", "800ccdf3f928024138dd9e9b6d6f3d62c5690954ef7fcd2b0b21a3b46a406dda", "55904b10dca87f4c2a893d5419b486cb2823da017b1fe1fb9b8a5b08aabd14f6", "e1475bd2bcc4d68b82b22e6ea387a882b5d66455b8762181866ebb8bc10d9cd7", "e27f9ae5a91a66672f97e51bbaae5d3716607c90e2a90f1829f19600ef03741c", "d450e462662f6dcc40a8a73097c044d61032a6c34e6ade8375f1200b5ee797c7", "c31770131fac50f19ee114a5aff2643e84e9571adde0c6d015a33b7a28de17c2", "a9dec78fc77ee9c31e3ff36388b26a8ccad681285a08ce6ed1898ae2661d97a3", "c27131d507748c56713398cf81a9069b9b157bfd3f263057ddca76c72e8ac312", "ad04e620416a1c8874efca8e75b0769d0519db65efe4fb9ac220f8fbeda99050", "fb591bc8eab05454bb77883272d5e808d9278d8bd0939747617ccc02dd21d50e", "aad1da0657e82f49bac83d59f71ee3e89c494e4ed657b37eebeb1697ce071b9c", "ae0d379c7994f35d138e9c2ba37a4b1825e693e2966146adf0a719a0c612de42", "3073775f698e2831c6163db1198a1acea716d545d3d776e6304a57ad1cf5a1a6", "b9f577b15240bc25df7a89ad69a88429515b3f8e451d485a15dda0b617c19b03", "be101743263028da17295b5a16dcb3d4812e9362854040a248081dccb7ca1887", "380f7d02db85f53d95ff52f457959449879283ab9696fe36a65eb40d45b14747", "5e98e3b76755d6e5bec787cd18ff8001599ae2975efd42d36bc83951af844d08", "6cb3a9e712357ffbdd909a40ffb6a66f753361c80b2bcff9c980251a0302dbfe", "133565e5ae0f7a75244763402b6fbabd63bd1d1c4cb7e67ac041a37c4fe8d243", "3a46013ecfc925a551a0287bd5ebd619d6bad924129563d8e1eecee2da36aea3", "aceb96a0bb5ccd76701a59c9f0f091aa0f30a2e32c930587cc456b1785d34550", "e0796396a0583d0bc39ccc791811405e03278bf2e20688ee37b154154eb3e744", "c0776b3f80961ea5e01b203c25838d5dbe591c314e615e51d72cb75a69ec1662", "af2fedc7d4accc0a148545a90df0ebdc82810706ee2e8455d41a3ec66106f7bc", "caf554c9a9c60abf6a2211340634b01d1139ad3a0b650dd87b05c2f382686333", "4194ee2d0e8243fb713ac71e1bb0923263543a8379c8f6de7a93375baaf7a300", "87bab58766bf9d4793e7dcb23af15f6a7d41e6bb898f1d685fcae99972063d37", "922b18ad853b8a3481629930f40f7236f48b639634d839d892518f4170065190", "e40d83d70d6cb1303d8ad18d8f4ebb4f75edb0c44b55434ca01d49590b047114", "34e24aa92dc787d1bd80fa8b6fa4ebb5b3e4df767d3da83c435dcf069d38781f", "f2a62e8f78c886fc176c135b03fa7f66b6e119b7dcd70ee6e5692e593b285235", "67c55a2d89aa5bbbab4376fc92a62786ab550111ff1d3e001b78c3cf322cd143", "04bea185507318b9dd7d5c80fb16d729bd03f0b954d2666f515fbc93225ebe5c", "8bffd1c8836bd6d522b569b6fafd57da2e276ec85908d93bb6e4685b167a398c", "58f7102709bac94e65c0d43fd05d56198d504b67cc8ff0d32fe862e82997c5dc", "a281f9e92955703860d717d95d798a36c5ffbe49cbdd1c08466fbf201e1f5aba", "1a59908c7ca88aa16ece64f94da74ee437244420aae4af01bd8d37d295a8c74e", "73425e8d139b531f8203e965e56f95a28074dfe7f8862b9d0d893bc780b5703f", "58beb80dd5cfdd2d548e05902978a49955e3c5fdda76f711fa217bb10ca972ac", "d5b9c6c0dcb86ee0f4217503ed49540e1e03a6ed5c3fb971893c5827f8156e21", "eaae5580ea872460dfebd02d540bb6b93a5bc91f7a6fa34e7a4389826160d038", "c4b82a35150b2031e1e4c352729ead4fabcd6e648a4b996bc72746eaf6eb857a", "2dd5f1d99884d38349c3dff101b46605984928b2b848aa0396c3076772f35fce", "cf1e73370d4ef5370335f4c5497a940533fe483378cbbd0cefa4e5311a4ffb28", "081eba9ea96cf4574364a8806890c7e5471ea7aefeb8bb726d568c8db4e58e19", "42e2e490306f0156a6bd49ee289f2a7c6a8fd80980bf74bba6067dcb765883df", "54d0cc96e2c882ab366a65e11ce2980fe24e26de5f1e4cfb94b12c922cce2691", "8aa597f77d11f5fc06e74b58a2b69266040f8f5af16a1bf845853207d0f05ed3", "a2668206e9bf492d1cd9936f362510cb9dccd28a6689d21c07c959aa34a3834e", "49b5201e060ed000e37490541cb0ec7973007eca8f7266539095b3146bc06947", "c002123c9306756bed318cf8516d850c9414492f41b042f45803af6d68ac9e38", "f311da46c977d207dd9aedf90c996c05a5678ced4e926fa50f97fbaee6903ae4", "f5d065e16bd2031d8b8e8674ecf6deeeb697e28c97e3bb6c0021e817f6fb8e1d", "c95cf985eb47bae50a29347926fcc2a126e8320c0b264afce2e37736a71f9480", "1c6b42a5498c92aed91909322c84c1c7f30fa774c0fa6417295ba59ca3e86747", "6d28e2f8e893a52a551292326698895ed331c098484430b6ba7f9e2a2f2e5ddc", "44f8f8abab1f30e3e6c533156712859c6f8760daa2a43928d4094617cd03e431"];
-
-  async function sha256(message) {
-    const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  var HASHES = ["f55239537ecd2492952b6fe986bd25363356f5e6d42d29482fb6716f50510643", "02911412953e7645868ecb539dc34136c236aadacfc9d6bbfecd6de8758e827d", "f5edb19bebb9762958a2387c1aa249fe41195ff11ad8d5f3bf8a1bfebfc0046e", "a7e95de2f921c71f4454ac611f8a72d8afefd526358bd1742b0ce862dd733b65", "9ea19bbc7b2c1aa0bd25c78daa4ed59a9cc035cffcf590c35995026efdfec301", "59767baecc8f4f1975244a34d78ef84df26261285e23d4cab5dfbbf4e149c61c", "4e753d0a34546dc36a24c5693a71df4ae2446dbd2522f049bf2e54a53886eea2", "ead551319aa4e9056fdac76544e78dd8bd872efe1fc9d1496b74c93cf49f7f72", "b790ea313773028defaed45fc9b318d27d74f4afb850c02f022f3dc53037a31b", "1a66c5784c768c398ddc922eef1b2e2b6a81f6228c81a374405ac2d218fd46ac", "27712700a92af8a954369471c26d44508bb44a45638aff9759f22ff88fe4ae60", "e96904ea67297e8bce091738757ff73c7f283857dedad113d3a772f6967fe884", "cf07b52d7272e1586e595af2efa53716edd5634272304704a74b6c6441b6e215", "54b3bb4222a42a095a497ecb84dcc027f5a21e983e110a098aca0d700c72e337", "285b1c8bf47f3a3d2976b75c3f459b9fd59d61c218a02930b7c20657a1e557b1", "226cb569cc04360820ee72124f4d7682a1de290efa8a811f38407f9d219780ff", "8f0ba34c3a9bc23abb78773b21135fc54828af3ae53a046dda8f01ce18a6a783", "35cd68822f798bce2f1eb1467f2940b9437117949479c11cbc03eaf2d90aa865", "eec7c26f87de68fe6b41373c84d51f0d0585cc7fd60e827071497f96ba2090d2", "b75836f3cc236a543ecd2ea13b831a4f17d3868f84fa42b8e0fe66e553f5b306", "69a9d9a81f22c932a9bab7dc7831024336ae349341e910d25dedc478973a9125", "49850a1313d2d33a4ccf6a411f83160f2914e5450be713e3485e4c8446582a7f", "be9240cab14404ed3ee6c6f42ac1d8a673e94f0e56de60d81bcbe12bb7cd4396", "fd1a3eaf7e67354edcce3ba74dd52fbeca1b60827751a6f731603175805b9243", "0caba73928e19c62a8ee0db04777ba1933d73be95c5a5409b1fdf4a870c10795", "602c2e3f1ac6eb5b2feec23ca977bb5adc576412a14431f60b55e10abfb13204", "90e370d6fa57181f6e8c708ad8073b9d475e9673619cb9442c24a96825ab0f48", "2538fd2dfa656b6d36c36a6591fb9bcbfaec7365052e795347170bb6cc12eee5", "a7e18d89e5014b575cd6982bdd0bc8fdd1cf1ce59d73d26c94b48bfcd981be15", "d1c2ab87b6156e0adb58fd3ebbaab7400b56b2002d7e5904bb37e65da743ce07", "a2255803544462f84624ed6224099d7c104ead42dcb4f3426bdd88343ccb3de2", "4341b2557b28efc7447ccbbca00cc1d500bcfd31c2c6ac6b21aa0b984d4e4a45", "c0e4bbc7952565b6a8d7c8d5d9ad5cb372283618b498019d2063f2227701f72a", "87ac5223680de47c9cdbc32c05c566b67066dad4dbb1b4c1d459834842df1bcf", "8a3bad92fdcb08e0792850f83ee5824d6ffa2ad9b47b63118c23722ae4a1d3dd", "3e2a6c847c760ed0324401f66fb185a927396e0e2b60ed0b60a105741608b7e9", "523736c6b94acf9b4fd861b6d17b4a291661298ecd4a933e67f978ebc03fc57f", "6b706c514cff00d0b8ef9f9fe5631ebd052ff9ea0e366b4b837b0a23a5ed110c", "f19d67394b3d6ee2cd1c43ea31c40ce04b50c0d6765c052714ed5e95ed25d480", "b66f907d6d3221fac058e04ab1036e05ec5899f5ecfda25fae66758e1d4fed33", "1047002beb2da16e7b45084b334737cccb16d88351ecdb581526eb15adc859fb", "1f5ee64d8eb6e1630a003f44e52c6b3bd568ea1eca19ca0d5e2c6e6cc8c52f4a", "80a007f43c72888056fceeb75f058feb493edb77420034ea24bab03a6616b92e", "800ccdf3f928024138dd9e9b6d6f3d62c5690954ef7fcd2b0b21a3b46a406dda", "55904b10dca87f4c2a893d5419b486cb2823da017b1fe1fb9b8a5b08aabd14f6", "e1475bd2bcc4d68b82b22e6ea387a882b5d66455b8762181866ebb8bc10d9cd7", "e27f9ae5a91a66672f97e51bbaae5d3716607c90e2a90f1829f19600ef03741c", "d450e462662f6dcc40a8a73097c044d61032a6c34e6ade8375f1200b5ee797c7", "c31770131fac50f19ee114a5aff2643e84e9571adde0c6d015a33b7a28de17c2", "a9dec78fc77ee9c31e3ff36388b26a8ccad681285a08ce6ed1898ae2661d97a3", "c27131d507748c56713398cf81a9069b9b157bfd3f263057ddca76c72e8ac312", "ad04e620416a1c8874efca8e75b0769d0519db65efe4fb9ac220f8fbeda99050", "fb591bc8eab05454bb77883272d5e808d9278d8bd0939747617ccc02dd21d50e", "aad1da0657e82f49bac83d59f71ee3e89c494e4ed657b37eebeb1697ce071b9c", "ae0d379c7994f35d138e9c2ba37a4b1825e693e2966146adf0a719a0c612de42", "3073775f698e2831c6163db1198a1acea716d545d3d776e6304a57ad1cf5a1a6", "b9f577b15240bc25df7a89ad69a88429515b3f8e451d485a15dda0b617c19b03", "be101743263028da17295b5a16dcb3d4812e9362854040a248081dccb7ca1887", "380f7d02db85f53d95ff52f457959449879283ab9696fe36a65eb40d45b14747", "5e98e3b76755d6e5bec787cd18ff8001599ae2975efd42d36bc83951af844d08", "6cb3a9e712357ffbdd909a40ffb6a66f753361c80b2bcff9c980251a0302dbfe", "133565e5ae0f7a75244763402b6fbabd63bd1d1c4cb7e67ac041a37c4fe8d243", "3a46013ecfc925a551a0287bd5ebd619d6bad924129563d8e1eecee2da36aea3", "aceb96a0bb5ccd76701a59c9f0f091aa0f30a2e32c930587cc456b1785d34550", "e0796396a0583d0bc39ccc791811405e03278bf2e20688ee37b154154eb3e744", "c0776b3f80961ea5e01b203c25838d5dbe591c314e615e51d72cb75a69ec1662", "af2fedc7d4accc0a148545a90df0ebdc82810706ee2e8455d41a3ec66106f7bc", "caf554c9a9c60abf6a2211340634b01d1139ad3a0b650dd87b05c2f382686333", "4194ee2d0e8243fb713ac71e1bb0923263543a8379c8f6de7a93375baaf7a300", "87bab58766bf9d4793e7dcb23af15f6a7d41e6bb898f1d685fcae99972063d37", "922b18ad853b8a3481629930f40f7236f48b639634d839d892518f4170065190", "e40d83d70d6cb1303d8ad18d8f4ebb4f75edb0c44b55434ca01d49590b047114", "34e24aa92dc787d1bd80fa8b6fa4ebb5b3e4df767d3da83c435dcf069d38781f", "f2a62e8f78c886fc176c135b03fa7f66b6e119b7dcd70ee6e5692e593b285235", "67c55a2d89aa5bbbab4376fc92a62786ab550111ff1d3e001b78c3cf322cd143", "04bea185507318b9dd7d5c80fb16d729bd03f0b954d2666f515fbc93225ebe5c", "8bffd1c8836bd6d522b569b6fafd57da2e276ec85908d93bb6e4685b167a398c", "58f7102709bac94e65c0d43fd05d56198d504b67cc8ff0d32fe862e82997c5dc", "a281f9e92955703860d717d95d798a36c5ffbe49cbdd1c08466fbf201e1f5aba", "1a59908c7ca88aa16ece64f94da74ee437244420aae4af01bd8d37d295a8c74e", "73425e8d139b531f8203e965e56f95a28074dfe7f8862b9d0d893bc780b5703f", "58beb80dd5cfdd2d548e05902978a49955e3c5fdda76f711fa217bb10ca972ac", "d5b9c6c0dcb86ee0f4217503ed49540e1e03a6ed5c3fb971893c5827f8156e21", "eaae5580ea872460dfebd02d540bb6b93a5bc91f7a6fa34e7a4389826160d038", "c4b82a35150b2031e1e4c352729ead4fabcd6e648a4b996bc72746eaf6eb857a", "2dd5f1d99884d38349c3dff101b46605984928b2b848aa0396c3076772f35fce", "cf1e73370d4ef5370335f4c5497a940533fe483378cbbd0cefa4e5311a4ffb28", "081eba9ea96cf4574364a8806890c7e5471ea7aefeb8bb726d568c8db4e58e19", "42e2e490306f0156a6bd49ee289f2a7c6a8fd80980bf74bba6067dcb765883df", "54d0cc96e2c882ab366a65e11ce2980fe24e26de5f1e4cfb94b12c922cce2691", "8aa597f77d11f5fc06e74b58a2b69266040f8f5af16a1bf845853207d0f05ed3", "a2668206e9bf492d1cd9936f362510cb9dccd28a6689d21c07c959aa34a3834e", "49b5201e060ed000e37490541cb0ec7973007eca8f7266539095b3146bc06947", "c002123c9306756bed318cf8516d850c9414492f41b042f45803af6d68ac9e38", "f311da46c977d207dd9aedf90c996c05a5678ced4e926fa50f97fbaee6903ae4", "f5d065e16bd2031d8b8e8674ecf6deeeb697e28c97e3bb6c0021e817f6fb8e1d", "c95cf985eb47bae50a29347926fcc2a126e8320c0b264afce2e37736a71f9480", "1c6b42a5498c92aed91909322c84c1c7f30fa774c0fa6417295ba59ca3e86747", "6d28e2f8e893a52a551292326698895ed331c098484430b6ba7f9e2a2f2e5ddc", "44f8f8abab1f30e3e6c533156712859c6f8760daa2a43928d4094617cd03e431"];
+  async function sha256(msg) {
+    var buf = new TextEncoder().encode(msg);
+    var hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
-
-  window.checkLicense = async function() {
-    const key = document.getElementById('licenseInput').value.trim();
-    const err = document.getElementById('licenseError');
-    const btn = document.getElementById('licenseBtn');
-
-    if (key.length < 19) {
-      err.textContent = '⚠️ Format invalide. Exemple: XXXX-XXXX-XXXX-XXXX';
-      return;
+  function fmt(e) {
+    var v = e.target.value.replace(/-/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+    var out = '';
+    for (var i = 0; i < v.length && i < 16; i++) {
+      if (i > 0 && i % 4 === 0) out += '-';
+      out += v[i];
     }
-
+    e.target.value = out;
+  }
+  async function check() {
+    var key = document.getElementById('lic-input').value.trim();
+    var err = document.getElementById('lic-err');
+    var btn = document.getElementById('lic-btn');
+    if (key.length < 19) { err.textContent = '⚠️ Format: XXXX-XXXX-XXXX-XXXX'; return; }
     btn.textContent = 'Vérification...';
     btn.disabled = true;
-
-    const hash = await sha256(key);
-
-    if (VALID_HASHES.includes(hash)) {
-      localStorage.setItem('nyaina_med_activated', 'true');
-      localStorage.setItem('nyaina_med_key', hash);
-      document.getElementById('licenseOverlay').style.display = 'none';
-      err.textContent = '';
+    var h = await sha256(key);
+    if (HASHES.indexOf(h) !== -1) {
+      localStorage.setItem('nyaina_lic', '1');
+      document.getElementById('lic-overlay').style.display = 'none';
     } else {
-      err.textContent = '❌ Clé invalide. Contactez l'administrateur.';
+      err.textContent = '❌ Clé invalide. Contactez l\'administrateur.';
       btn.textContent = 'Activer';
       btn.disabled = false;
     }
-  };
-
-  // Allow Enter key
-  document.getElementById('licenseInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') window.checkLicense();
-  });
-
-  // Auto-format input: add dashes
-  document.getElementById('licenseInput').addEventListener('input', function(e) {
-    let val = this.value.replace(/-/g, '');
-    let formatted = '';
-    for (let i = 0; i < val.length && i < 16; i++) {
-      if (i > 0 && i % 4 === 0) formatted += '-';
-      formatted += val[i];
-    }
-    this.value = formatted;
-  });
+  }
+  document.getElementById('lic-input').addEventListener('input', fmt);
+  document.getElementById('lic-input').addEventListener('keypress', function(e) { if (e.key==='Enter') check(); });
+  document.getElementById('lic-btn').addEventListener('click', check);
 })();
 </script>
 
@@ -4795,6 +4769,11 @@ const PRIORITY_DCI_ALIASES = {
   "ALCOOL ETHYLIQUE": "ETHANOL",
   "ALCOOL ETHYLIQUE 70": "ETHANOL",
   "ETHANOL DILUE": "ETHANOL",
+  "BECLOMETASONE DIPROPIONATE ANHYDRE": "BECLOMETHASONE DIPROPIONATE",
+  "BUDESOMIDE": "BUDESONIDE",
+  "MEMBEDAZOLE": "MEBENDAZOLE",
+  "ROSYVASTATINE CALCIUM": "ROSUVASTATINE",
+  "CHLORTETRACYCLINE HCL": "CHLORTETRACYCLINE CHLORHYDRATE",
 };
 
 function buildPriorityPosology(m = {}) {
@@ -4810,9 +4789,9 @@ function buildPriorityPosology(m = {}) {
   const inhaled = /INHAL|AEROSOL|SPRAY|SUSP INH|POUDRE POUR INHALATION|DOSES/.test(route);
   const topical = /CREME|POMMADE|GEL|CUTAN|LOCALE|BAUME/.test(route);
   const vaginal = /VAG/.test(route);
-  const ocular = /COLLYRE|OCULAIRE/.test(route);
+  const ocular = /COLLYRE|OCULAIRE|OPHT/.test(route);
   const nasal = /NASAL|NARINE|PULVERISATION NASALE|GOUTTES NASALES/.test(route);
-  const injectable = /INJECT|PERFUSION|IM\/IV| IV | IM /.test(` ${route} `);
+  const injectable = /INJECT|PERFUSION|PARENTERAL|US PARENTERAL|PSI|SC\/IM|SC\/IV|SC|IM\/IV| IV | IM /.test(` ${route} `);
   const rectal = /RECT|SUPPOSITOIRE/.test(route);
   const same = (...names) => names.includes(dci);
   const contains = (...fragments) => fragments.some(f => dci.includes(f));
@@ -4845,7 +4824,7 @@ function buildPriorityPosology(m = {}) {
     };
   }
 
-  if (same('ETHANOL') && topical) {
+  if (same('ETHANOL')) {
     return {
       voie: 'Voie cutanée / application locale',
       standard: 'Antiseptique local utilisé pour l’antisepsie de la peau ou des petites plaies superficielles.',
@@ -9231,6 +9210,32 @@ function buildPriorityPosology(m = {}) {
     };
   }
 
+  if (same('TETRACYCLINE') && oralSolid) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Antibiotique de la famille des tétracyclines à administrer par voie orale, de préférence à distance des repas et avec un grand verre d’eau.',
+      adulte: 'Adulte : dose usuelle totale de 1 g/j, soit 500 mg 2 fois/j, soit 250 mg 4 fois/j. En cas d’infection sévère ou de réponse insuffisante, la dose peut aller jusqu’à 500 mg 4 fois/j sur prescription médicale.',
+      enfant: 'Pas de schéma pédiatrique standard repris dans cette base ; contre-indiqué chez l’enfant de moins de 8 ans. Au-delà, la posologie doit être individualisée par le médecin selon l’indication.',
+      adaptation: 'Éviter la prise concomitante avec les aliments, surtout les produits laitiers, ainsi qu’avec les antiacides contenant aluminium/calcium/magnésium, le fer, le zinc ou le bicarbonate de sodium qui diminuent l’absorption.',
+      conseil: 'Prendre au moins 1 h avant ou 2 h après les repas avec suffisamment d’eau, et éviter de s’allonger juste après la prise afin de limiter l’irritation œsophagienne.',
+      source: 'DailyMed — Tetracycline Hydrochloride capsules',
+      source_url: 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=32a409a0-fea6-411a-8218-c1c7df46d664'
+    };
+  }
+
+  if (same('TETRACYCLINE') && topical && !ocular) {
+    return {
+      voie: 'Voie cutanée / application locale',
+      standard: 'Pommade antibiotique locale destinée aux petites lésions cutanées superficielles après nettoyage de la zone.',
+      adulte: 'Appliquer une petite quantité sur la zone atteinte 1 à 3 fois/j. Un pansement stérile peut être ajouté si nécessaire.',
+      enfant: 'Même rythme d’application locale pour les lésions cutanées superficielles ; demander un avis médical pour les plaies profondes, morsures d’animaux ou brûlures importantes.',
+      adaptation: 'Ne pas utiliser plus d’1 semaine sans avis médical. Ne pas appliquer dans les yeux ni sur de grandes surfaces corporelles.',
+      conseil: 'Nettoyer la zone avant application. Arrêter et consulter si la lésion persiste, s’aggrave, ou en cas de réaction d’hypersensibilité.',
+      source: 'DailyMed — Tetracycline 3% ointment',
+      source_url: 'https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=647918a1-f49f-ef01-e053-2a91aa0a11fb'
+    };
+  }
+
   if (same('TETRACYCLINE') && ocular) {
     return {
       voie: 'Voie ophtalmique usuelle',
@@ -10340,11 +10345,382 @@ function buildPriorityPosology(m = {}) {
     };
   }
 
+  if (same('ADAPALENE + PEROXYDE DE BENZOYLE HYDRATE', 'ADAPALENE + PEROXYDE DE BENZOYLE')) {
+    return {
+      voie: 'Voie cutanée',
+      standard: 'Antiacnéique local à appliquer le soir sur une peau propre et bien sèche, en couche mince sur l’ensemble des zones acnéiques.',
+      adulte: 'Adulte et enfant de 9 ans et plus : 1 application/j, avant le coucher. En cas d’irritation marquée, le médecin peut conseiller un espacement des applications (par exemple un jour sur deux).',
+      enfant: 'Même repère à partir de 9 ans ; pas d’utilisation standard retenue ici avant 9 ans.',
+      adaptation: 'Éviter les paupières, les lèvres, les muqueuses et les zones lésées. Réévaluer la tolérance si sécheresse, rougeur ou desquamation importantes ; prudence au soleil et en cas de grossesse ou projet de grossesse.',
+      conseil: 'Appliquer après la toilette du soir ; ne pas utiliser la veille, le jour même ni le lendemain d’une exposition solaire importante et prévenir le patient du risque de décoloration des tissus.',
+      source: 'Vidal — ADAPALÈNE/PEROXYDE DE BENZOYLE ZENTIVA',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/adapalene-peroxyde-de-benzoyle-zentiva-118306.html'
+    };
+  }
+
+  if (same('CLORAZEPATE DIPOTASSIQUE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Benzodiazépine anxiolytique à utiliser à la dose minimale efficace, avec augmentation progressive si nécessaire et durée la plus courte possible.',
+      adulte: 'Adulte : 25 à 90 mg/j en 1 à 3 prises selon l’indication et la réponse clinique.',
+      enfant: 'Pas de repère pédiatrique standard retenu dans la source consultée pour cette présentation.',
+      adaptation: 'Réduire la posologie chez la personne âgée et en cas d’insuffisance rénale ou hépatique ; arrêt toujours progressif pour limiter le sevrage.',
+      conseil: 'Prendre pendant ou entre les repas ; éviter l’alcool, les autres sédatifs sans avis médical et programmer une décroissance progressive en fin de traitement.',
+      source: 'Vidal — Clorazépate dipotassique / TRANXÈNE',
+      source_url: 'https://www.vidal.fr/medicaments/substances/clorazepate-dipotassique-1023.html'
+    };
+  }
+
+  if (same('ISRADIPINE')) {
+    return {
+      voie: 'Voie orale (gélule LP)',
+      standard: 'Inhibiteur calcique à libération prolongée administré en une prise quotidienne, le matin.',
+      adulte: 'Adulte : 5 mg en 1 prise le matin.',
+      enfant: 'Pas d’utilisation pédiatrique : contre-indiqué chez l’enfant dans la source Vidal consultée.',
+      adaptation: 'Chez la personne âgée ainsi qu’en insuffisance rénale ou hépatique, la posologie initiale est réduite de moitié.',
+      conseil: 'Avaler la gélule avec un verre d’eau, sans l’ouvrir ; surveiller la pression artérielle et réévaluer en cas de bouffées de chaleur, œdèmes ou vertiges.',
+      source: 'Vidal — ICAZ',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/icaz-51237.html'
+    };
+  }
+
+  if (same('ENANTHATE DE TESTOSTERONE', 'TESTOSTERONE ENANTHATE')) {
+    return {
+      voie: 'Voie intramusculaire stricte',
+      standard: 'Traitement substitutif androgénique injectable administré lentement par voie IM.',
+      adulte: 'Adulte : 1 ampoule de 250 mg, toutes les 2 à 4 semaines.',
+      enfant: 'Pas d’indication pédiatrique standard retenue ici.',
+      adaptation: 'Surveiller régulièrement la prostate, l’hémoglobine/hématocrite et la tolérance cardiovasculaire ; prudence chez le sujet âgé, hypertendu ou à risque thrombotique.',
+      conseil: 'Injecter très lentement et exclusivement en intramusculaire ; ne jamais utiliser hors déficit documenté en testostérone.',
+      source: 'Vidal — ANDROTARDYL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/androtardyl-477.html'
+    };
+  }
+
+  if (same('TROLAMINE')) {
+    return {
+      voie: 'Voie cutanée',
+      standard: 'Protecteur cutané à appliquer en couche épaisse sur la zone lésée.',
+      adulte: 'Brûlure du 1er degré : 2 à 4 applications/j. Brûlure du 2e degré : renouveler les applications tant qu’il ne reste pas un excédent d’émulsion. Rougeurs après radiothérapie : 2 à 3 applications/j.',
+      enfant: 'Même usage local possible sur avis médical/pharmaceutique pour les lésions superficielles non infectées.',
+      adaptation: 'Ne pas utiliser sur plaie infectée ou saignante ; réévaluer rapidement si brûlure étendue, cloque, douleur importante ou absence d’amélioration.',
+      conseil: 'Appliquer en couche épaisse ; la dernière application des brûlures du 2e degré peut être recouverte d’une compresse humide.',
+      source: 'Vidal — BIAFINE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/biafine-1033.html'
+    };
+  }
+
+  if (same('BRINZOLAMIDE')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Collyre antiglaucomateux administré dans le cul-de-sac conjonctival après agitation du flacon.',
+      adulte: 'Adulte : 1 goutte dans l’œil atteint, 2 à 3 fois/j.',
+      enfant: 'Pas de repère pédiatrique standard retenu ici.',
+      adaptation: 'Respecter un intervalle minimal de 5 minutes avec un autre collyre ; retirer les lentilles avant instillation et attendre 15 minutes avant leur remise.',
+      conseil: 'Éviter tout contact de l’embout avec l’œil ; comprimer l’angle interne de l’œil après instillation pour limiter le passage systémique.',
+      source: 'Vidal — BRINZOLAMIDE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/brinzolamide-biogaran-79971.html'
+    };
+  }
+
+  if (same('BRIMONIDINE TARTRATE', 'BRIMONIDINE')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Collyre antiglaucomateux administré matin et soir dans l’œil malade.',
+      adulte: 'Adulte : 1 goutte dans l’œil atteint, matin et soir.',
+      enfant: 'Contre-indiqué chez le nouveau-né et le nourrisson de moins de 2 ans ; pas de repère pédiatrique standard supplémentaire retenu ici.',
+      adaptation: 'Respecter un intervalle d’au moins 15 minutes avec un autre collyre ; retirer les lentilles souples avant instillation puis attendre 15 minutes avant de les remettre.',
+      conseil: 'Éviter de toucher l’œil avec l’embout ; comprimer les voies lacrymales après instillation pour augmenter l’effet local et diminuer le passage systémique.',
+      source: 'Vidal — BRIMONIDINE EG',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/brimonidine-eg-41385.html'
+    };
+  }
+
+  if (same('MINOCYCLINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Cycline réservée aux infections pour lesquelles les autres antibiotiques ne conviennent pas ; prise au milieu d’un repas avec un grand verre d’eau.',
+      adulte: 'Adulte : 100 mg, 2 fois/j.',
+      enfant: 'Enfant de plus de 8 ans : 4 mg/kg/j répartis en 2 prises.',
+      adaptation: 'Éviter chez l’enfant de moins de 8 ans, pendant la grossesse avancée et en cas d’insuffisance hépatique ; prudence en insuffisance rénale et en cas d’exposition solaire.',
+      conseil: 'Ne pas prendre en position allongée ; éviter l’association avec les rétinoïdes oraux et espacer des sels de fer/pansements digestifs.',
+      source: 'Vidal — MYNOCINE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/mynocine-6413.html'
+    };
+  }
+
+  if (same('DEXAMETHASONE + OXYTETRACYCLINE')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Pommade ophtalmique anti-inflammatoire et antibactérienne à déposer dans le cul-de-sac conjonctival.',
+      adulte: 'Adulte et enfant de plus de 8 ans : 1 à 3 applications/j.',
+      enfant: 'Même repère à partir de 8 ans ; pas d’utilisation standard retenue ici avant 8 ans.',
+      adaptation: 'Limiter à 7 jours sans suivi ophtalmologique ; éviter le port de lentilles pendant le traitement et réévaluer si irritation importante.',
+      conseil: 'Après lavage des mains, déposer l’équivalent d’un grain de riz de pommade ; chaque unidose doit être jetée après usage.',
+      source: 'Vidal — STERDEX',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/sterdex-9730.html'
+    };
+  }
+
+  if (same('CHLORTETRACYCLINE CHLORHYDRATE', 'CHLORTETRACYCLINE')) {
+    return {
+      voie: ocular ? 'Voie ophtalmique' : 'Voie cutanée',
+      standard: ocular
+        ? 'Antibiotique ophtalmique local à administrer dans le cul-de-sac conjonctival de l’œil atteint.'
+        : 'Antibiotique local dermique à appliquer sur la lésion préalablement nettoyée.',
+      adulte: ocular
+        ? 'Adulte : appliquer une petite quantité de pommade ophtalmique 2 à 4 fois/j ; réévaluer rapidement si absence d’amélioration.'
+        : 'Adulte : 2 à 3 applications/j sur la lésion.' ,
+      enfant: ocular
+        ? 'Éviter avant 8 ans sans avis spécialisé ; prudence accrue chez l’enfant.'
+        : 'Même rythme possible, mais éviter l’usage prolongé, étendu ou sur lésion profonde chez l’enfant.',
+      adaptation: ocular
+        ? 'Éviter la grossesse à partir du 2e trimestre et l’allaitement prolongé ; ne pas prolonger sans contrôle médical.'
+        : 'Durée habituelle limitée à 8 jours ; éviter les plis, les lésions suintantes, les surfaces étendues et l’exposition solaire sur la zone traitée.',
+      conseil: ocular
+        ? 'Se laver les mains avant et après application ; la vision peut être brièvement troublée après la pose.'
+        : 'Nettoyer la lésion au savon avant application et prévenir le patient du risque de photosensibilisation cutanée.',
+      source: ocular ? 'Vidal — AURÉOMYCINE EVANS 1 % pommade ophtalmique' : 'Vidal — AURÉOMYCINE MONOT / EVANS dermique',
+      source_url: ocular ? 'https://www.vidal.fr/medicaments/aureomycine-evans-1-pom-ophtalm-1743.html' : 'https://www.vidal.fr/medicaments/gammes/aureomycine-monot-791.html'
+    };
+  }
+
+  if (same('BENZYL BENZOATE + SULFIRAME', 'BENZOATE DE BENZYLE + SULFIRAME')) {
+    return {
+      voie: 'Voie cutanée',
+      standard: 'Antiparasitaire externe appliqué en 2 couches successives espacées de 10 à 15 minutes, avec répétition du schéma à 8 jours dans la gale.',
+      adulte: 'Adulte : 2 applications à 8 jours d’intervalle. Chaque application comporte 2 couches successives sur tout le corps sauf le visage, avec un temps de contact de 24 heures avant rinçage.',
+      enfant: 'Enfant de plus de 2 ans : même schéma que l’adulte. Entre 1 mois et 2 ans : une seule couche et temps de contact réduit (12 heures, voire 6 heures chez les très jeunes enfants), sur avis médical.',
+      adaptation: 'Chez la femme enceinte : même schéma mais une seule couche par application. Éviter les muqueuses, les flammes et toute ingestion ; traiter aussi l’entourage et le linge selon les recommandations de décontamination.',
+      conseil: 'Bien agiter le flacon ; appliquer après douche/bain sur peau sèche avec linge propre, changer draps et vêtements après application puis après rinçage.',
+      source: 'Vidal — ASCABIOL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/ascabiol-693.html'
+    };
+  }
+
+
+  return null;
+}
+
+function buildContinuedPosology(m = {}) {
+  const rawDci = canonicalizeDci(m.dci);
+  const dci = PRIORITY_DCI_ALIASES[rawDci] || rawDci;
+  const forme = canonicalizeDci(m.forme);
+  const presentation = canonicalizeDci(m.presentation);
+  const route = `${forme} ${presentation}`;
+  const same = (...names) => names.includes(dci);
+  const oralSolid = /COMPRIME|GELULE|CAPSULE/.test(route);
+  const injectable = /INJECT|PERFUSION|SC\/IM|SC\/IV| IV | IM /.test(` ${route} `);
+  const ocular = /COLLYRE|OPHT|OCULAIRE/.test(route);
+  const topical = /CREME|POMMADE|GEL/.test(route);
+  const vaginal = /OVULE|VAG/.test(route);
+
+  if (same('DROTAVERINE CHLORHYDRATE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antispasmodique en 2 à 3 prises quotidiennes selon l’intensité des spasmes.',
+      adulte: 'Adulte : 120 à 240 mg/j en 2 à 3 prises (par exemple 40 à 80 mg, 2 à 3 fois par jour).',
+      enfant: 'Enfant 6 à 12 ans : maximum 80 mg/j en 2 prises ; plus de 12 ans : maximum 160 mg/j en 2 à 4 prises. Pas de données établies avant 6 ans.',
+      adaptation: 'Prudence en cas d’hypotension ; contre-indiqué en insuffisance rénale, hépatique ou cardiaque sévère selon le RCP consulté.',
+      conseil: 'Avaler avec de l’eau ; prévenir le patient d’un possible vertige après la prise et vérifier la présence de lactose si intolérance connue.',
+      source: 'SmPC EFDA — No-Spa 40 mg (drotavérine)',
+      source_url: 'https://www.efda.gov.et/wp-content/uploads/2024/06/Drotaverine-hydrochloride-40-mg-tablet_No-Spa-40-mg-tablet_SANOFI-AVENTIS.pdf'
+    };
+  }
+
+  if (same('HYPROMELLOSE') && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Substitut lacrymal avec instillations répétées au cours de la journée.',
+      adulte: 'Adulte : 1 goutte dans l’œil concerné, 4 à 6 fois par jour.',
+      enfant: 'Pas de schéma pédiatrique spécifique détaillé sur la source consultée ; usage ophtalmique à individualiser si nécessaire.',
+      adaptation: 'Espacer d’au moins 15 minutes avec un autre collyre ; éviter l’usage prolongé sans avis médical.',
+      conseil: 'Jeter l’unidose après ouverture ; si la vision se trouble après instillation, attendre le retour à la normale avant de conduire.',
+      source: 'Vidal — ARTELAC',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/artelac-22793.html'
+    };
+  }
+
+  if (same('BESIFLOXACINE') && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Antibiotique local en instillation 3 fois par jour pendant 7 jours.',
+      adulte: 'Adulte : 1 goutte dans l’œil atteint 3 fois par jour, espacée de 4 à 12 heures, pendant 7 jours.',
+      enfant: 'Même schéma à partir de 1 an selon le libellé FDA ; sécurité non établie avant 1 an.',
+      adaptation: 'Ne pas porter de lentilles de contact pendant les signes de conjonctivite bactérienne ou pendant le traitement.',
+      conseil: 'Inverser le flacon fermé et l’agiter une fois avant emploi ; éviter tout contact de l’embout avec l’œil ou les doigts.',
+      source: 'FDA label — BESIVANCE 0.6%',
+      source_url: 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/022308s013lbl.pdf'
+    };
+  }
+
+  if (same('MONTMORILLONITE BEIDELLITIQUE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Pansement digestif généralement administré en 3 prises par jour.',
+      adulte: 'Adulte : 1 sachet, 3 fois par jour.',
+      enfant: 'Posologie pédiatrique non détaillée dans la source patient consultée ; demander un avis médical/pharmaceutique avant utilisation chez l’enfant.',
+      adaptation: 'Espacer d’au moins 2 heures avec les autres médicaments, voire 4 heures avec les quinolones ; éviter l’usage prolongé, surtout chez l’insuffisant rénal dialysé.',
+      conseil: 'Prendre de préférence entre les repas ou un peu avant ; diluer le sachet dans un demi-verre d’eau ou mélanger à une compote/purée.',
+      source: 'Vidal — BEDELIX',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/bedelix-961.html'
+    };
+  }
+
+  if (same('ATRACURIUM BESYLATE', 'ATRACURIUM BESILATE') && injectable) {
+    return {
+      voie: 'Voie IV (bolus puis éventuellement perfusion continue)',
+      standard: 'Curare d’anesthésie titré au poids avec monitorage neuromusculaire.',
+      adulte: 'Bolus initial : 0,3 à 0,6 mg/kg IV ; entretien : 0,1 à 0,2 mg/kg en IV intermittente ou 0,3 à 0,6 mg/kg/heure en perfusion continue.',
+      enfant: 'Après 1 mois : schéma comparable à l’adulte sur base pondérale avec monitorage ; non recommandé chez le nouveau-né faute de données suffisantes.',
+      adaptation: 'Chez le sujet âgé, débuter au bas de la fourchette et injecter lentement. Pas d’ajustement spécifique requis en insuffisance rénale ou hépatique selon le SmPC consulté.',
+      conseil: 'Utilisation réservée à l’anesthésie/réanimation avec ventilation et surveillance adaptées.',
+      source: 'eMC SmPC — Atracurium Besilate injection/infusion',
+      source_url: 'https://www.medicines.org.uk/emc/product/3785/smpc'
+    };
+  }
+
+  if (same('CHLORHYDRATE DE DOPAMINE', 'DOPAMINE HYDROCHLORIDE') && injectable) {
+    return {
+      voie: 'Perfusion intraveineuse après dilution',
+      standard: 'Amine vasopressive/inotrope débutée à faible débit puis titrée selon la réponse hémodynamique.',
+      adulte: 'Dose initiale : 2 à 5 microgrammes/kg/min ; augmentation progressive par paliers de 5 à 10 microgrammes/kg/min jusqu’à l’effet recherché. Des doses jusqu’à 50 microgrammes/kg/min peuvent être nécessaires.',
+      enfant: 'La source consultée ne détaillait pas de schéma pédiatrique utilisable dans cette application ; administration spécialisée uniquement.',
+      adaptation: 'Corriger l’hypovolémie avant perfusion ; réduire fortement la dose initiale chez les patients traités récemment par IMAO (environ un dixième de la dose usuelle).',
+      conseil: 'Toujours diluer, administrer de préférence dans une grosse veine avec dispositif de contrôle du débit et surveillance cardiovasculaire/rénale continue ; extravasation à éviter.',
+      source: 'eMC SmPC — Dopamine Hydrochloride 40 mg/ml',
+      source_url: 'https://www.medicines.org.uk/emc/product/6619/smpc'
+    };
+  }
+
+  if (same('THIAMINE CHLORHYDRATE', 'CHLORHYDRATE DE THIAMINE') && injectable) {
+    return {
+      voie: 'Voie IM ou IV lente selon l’indication',
+      standard: 'Vitamine B1 injectable dont la dose dépend fortement du contexte clinique (carence simple, béribéri, encéphalopathie de Wernicke, renutrition).',
+      adulte: 'Béribéri : 10 à 25 mg/j IM ou en perfusion IV lente pendant 2 semaines ; cas sévères : jusqu’à 100 mg/j ou davantage. Encéphalopathie de Wernicke : 500 mg IV 3 fois/j pendant au moins 2 jours puis 250 mg IM/IV 1 fois/j pendant 5 jours si amélioration.',
+      enfant: 'Pas de données pédiatriques détaillées dans le SmPC consulté.',
+      adaptation: 'La voie parentérale expose à des réactions d’hypersensibilité, y compris anaphylaxie ; matériel de réanimation nécessaire.',
+      conseil: 'En IV, diluer dans 50 à 100 ml de sérum physiologique et administrer sur 30 minutes lorsque ce schéma est indiqué.',
+      source: 'eMC SmPC — Thiamine Hydrochloride 50 mg/ml',
+      source_url: 'https://www.medicines.org.uk/emc/product/100206/smpc'
+    };
+  }
+
+  if (same('ARTESUNATE + CHLORHYDRATE D AMODIAQUINE', 'ARTESUNATE + AMODIAQUINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Association antipaludique en 1 prise quotidienne pendant 3 jours consécutifs, avec adaptation au poids chez l’enfant.',
+      adulte: 'Adulte : 2 comprimés du dosage 100 mg/300 mg par jour pendant 3 jours.',
+      enfant: 'Enfant de plus de 6 mois et > 5 kg : 4 mg/kg/j d’artésunate et 10 mg/kg/j d’amodiaquine pendant 3 jours, en arrondissant à la présentation disponible ; le poids prime sur l’âge.',
+      adaptation: 'Respecter strictement la durée de 3 jours ; si vomissement précoce ou doute sur l’observance, une réévaluation clinique est nécessaire.',
+      conseil: 'Administrer une prise quotidienne pendant 3 jours consécutifs ; utiliser la présentation la plus proche du poids corporel.',
+      source: 'Rwanda FDA SmPC — Artesunate + Amodiaquine tablets',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2025/04//Artesunate&AmodiaquineTablets50mg135mg-Artesunate50mg&Amodiaquine135mg-SmPC.pdf'
+    };
+  }
+
+  if (same('ARTICAINE CHLORHYDRATE + EPINEPHRINE', 'ARTICAINE + EPINEPHRINE') && injectable) {
+    return {
+      voie: 'Injection locale/sous-muqueuse intra-buccale',
+      standard: 'Anesthésique dentaire local dont le volume dépend du geste et du nombre de dents traitées.',
+      adulte: 'Extraction simple d’une dent maxillaire : 1,8 ml (1 cartouche) par dent ; si besoin, injection complémentaire de 1 à 1,8 ml. Préparation cavitaire ou moignon de couronne : 0,5 à 1,8 ml par dent selon l’étendue du geste.',
+      enfant: 'Pas de schéma chiffré pédiatrique exploitable dans la source consultée ; utiliser la dose minimale efficace en pratique odontologique spécialisée.',
+      adaptation: 'Éviter tout surdosage et ne pas répéter deux doses maximales rapprochées ; tenir compte du terrain cardiovasculaire et du geste réalisé.',
+      conseil: 'Réservé à l’usage odontologique par professionnel entraîné ; utiliser le plus petit volume permettant une anesthésie correcte.',
+      source: 'SmPC — Articaine 4% with epinephrine (Orabloc)',
+      source_url: 'https://www.orabloc.com/wp-content/uploads/SmPC-1-100_1-200-002.pdf'
+    };
+  }
+
+  if (same('CHARBON ACTIF', 'ACTIVATED CHARCOAL')) {
+    return {
+      voie: 'Voie orale',
+      standard: oralSolid
+        ? 'Adsorbant intestinal utilisé en traitement symptomatique digestif en plusieurs prises quotidiennes ; en toxicologie aiguë, les doses sont beaucoup plus élevées et relèvent d’un protocole spécialisé.'
+        : 'Adsorbant intestinal / antidote digestif, avec doses très variables selon l’indication.',
+      adulte: oralSolid
+        ? 'Troubles digestifs/ballonnements : repère Vidal avec charbon activé oral = 2 capsules, 2 à 3 fois/j chez l’adulte et l’adolescent > 15 ans. Pour comprimés à 500 mg : le SmPC consulté mentionne 0,975 à 3,9 g trois fois/j pour les troubles gastro-intestinaux.'
+        : 'Intoxication aiguë : 25 à 100 g en dose unique ; traitement digestif symptomatique : 0,975 à 3,9 g trois fois/j selon le SmPC consulté.',
+      enfant: 'Ballonnements : source Vidal limitée à > 15 ans. Intoxication aiguë : < 1 an 1 g/kg/dose ; 1 à 12 ans 25 à 50 g/dose selon le SmPC Agocarb.',
+      adaptation: 'Espacer d’au moins 2 heures avec les autres médicaments ; éviter avec lait, glace ou cacao ; contre-indiqué ou peu utile dans certaines intoxications (corrosifs, hydrocarbures, métaux, etc.).',
+      conseil: 'Prendre avec beaucoup d’eau, de préférence à jeun pour les formes comprimés du SmPC Agocarb ; selles noires attendues.',
+      source: oralSolid ? 'Vidal — CHARBON DE BELLOC + Rwanda FDA SmPC — AGOCARB-500' : 'Rwanda FDA SmPC — AGOCARB-500',
+      source_url: oralSolid ? 'https://www.vidal.fr/medicaments/gammes/charbon-de-belloc-30905.html' : 'https://rwandafda.gov.rw/wp-content/uploads/2024/04/Agocarb_500_Tablet%20Activated%20charcoal_500mg_SmPC.pdf'
+    };
+  }
+
+  if (same('NITRATE DE MICONAZOLE', 'MICONAZOLE NITRATE')) {
+    if (topical) {
+      return {
+        voie: 'Voie cutanée',
+        standard: 'Antifongique local en application régulière sur peau propre et sèche.',
+        adulte: 'Adulte : 1 application en fine couche 2 fois par jour.',
+        enfant: 'Enfant : même schéma, 2 applications par jour sur peau propre et sèche.',
+        adaptation: 'Durée habituelle : candidoses cutanées 2 à 4 semaines, balanite candidosique 1 semaine, dermatophytoses peu étendues 2 à 3 semaines.',
+        conseil: 'Appliquer sur peau propre et sèche ; en cas d’atteinte génitale, avertir que certains excipients gras peuvent altérer les préservatifs/diaphragmes en latex.',
+        source: 'MSF Medical Guidelines — Miconazole crème 2%',
+        source_url: 'https://medicalguidelines.msf.org/fr/viewport/EssDr/francais/miconazole-creme-16688900.html'
+      };
+    }
+    if (vaginal) {
+      return {
+        voie: 'Voie vaginale',
+        standard: 'Antifongique local administré le soir au coucher pendant une courte cure.',
+        adulte: 'Ovule 400 mg : 1 ovule intravaginal chaque soir pendant 3 nuits consécutives.',
+        enfant: 'Pas de schéma pédiatrique usuel retenu dans cette application.',
+        adaptation: 'Réévaluer si les symptômes persistent ou récidivent rapidement ; traitement local uniquement.',
+        conseil: 'Introduire l’ovule profondément dans le vagin, de préférence le soir ; éviter tampons/douches vaginales pendant le traitement si possible.',
+        source: 'Product monograph — MONISTAT 400 mg vaginal ovule',
+        source_url: 'https://pdf.hres.ca/dpd_pm/00014889.PDF'
+      };
+    }
+  }
+
+  if (same('PHOSPHATE D ALUMINIUM', 'ALUMINIUM PHOSPHATE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antiacide/pansement gastrique généralement administré après les repas ou au moment des douleurs.',
+      adulte: 'Adulte : 1 à 2 sachets, 2 ou 3 fois par jour.',
+      enfant: 'Schéma pédiatrique non détaillé dans la source consultée ; usage à individualiser selon l’avis médical.',
+      adaptation: 'Limiter la dose journalière et la durée du traitement, surtout pendant grossesse/allaitement ; prudence en insuffisance rénale chronique avancée.',
+      conseil: 'Prendre après les repas ou lors des douleurs/brûlures ; surveiller une constipation si les doses sont élevées.',
+      source: 'Vidal — PHOSPHALUGEL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/phosphalugel-7756.html'
+    };
+  }
+
+  if (same('TRAMADOL', 'TRAMADOL CHLORHYDRATE', 'CHLORHYDRATE DE TRAMADOL')) {
+    if (injectable) {
+      return {
+        voie: 'Voie IV lente, IM ou perfusion',
+        standard: 'Antalgique opioïde palier 2 en doses fractionnées selon la douleur, sans dépasser la dose quotidienne habituelle.',
+        adulte: '50 à 100 mg toutes les 4 à 6 heures ; en IV, injection lente sur 2 à 3 minutes. Douleur postopératoire : bolus initial 100 mg puis 50 mg toutes les 10 à 20 minutes pendant 1 heure si besoin, dans la limite de 250 mg sur cette phase.',
+        enfant: 'Adolescent > 12 ans : même repère que l’adulte. Pas d’utilisation standard retenue avant 12 ans dans cette application.',
+        adaptation: 'Dose usuelle maximale : 400 mg/j, sauf circonstances cliniques particulières ; espacer les prises en cas d’insuffisance rénale ou hépatique.',
+        conseil: 'Surveiller somnolence, dépression respiratoire, risque convulsif et interactions sérotoninergiques/sédatives.',
+        source: 'eMC SmPC — Tramadol 50 mg/ml injection/infusion',
+        source_url: 'https://www.medicines.org.uk/emc/product/13177/smpc'
+      };
+    }
+    if (oralSolid) {
+      return {
+        voie: 'Voie orale',
+        standard: 'Antalgique opioïde palier 2 en prises unitaires de 50 à 100 mg selon l’intensité douloureuse.',
+        adulte: 'Adulte et adolescent ≥ 12 ans : 50 mg en prise initiale pour douleur modérée ; possibilité d’une seconde prise de 50 mg après 30 à 60 minutes si nécessaire. Douleur sévère : 100 mg en prise unique.',
+        enfant: 'Pas d’utilisation standard retenue avant 12 ans pour cette forme dans l’application.',
+        adaptation: 'Ne pas dépasser habituellement 400 mg/j ; prudence en cas d’épilepsie, insuffisance respiratoire, traumatisme crânien, dépendance opioïde, insuffisance hépatique ou rénale.',
+        conseil: 'Prendre la dose minimale efficace ; attention à la somnolence et aux interactions avec alcool, benzodiazépines et autres dépresseurs du SNC.',
+        source: 'SmPC — Tramadol Denk 50 mg comprimé effervescent',
+        source_url: 'https://mpc-pharma.com/admin/images/TRAMADOL_DENK_50_TABLETS.pdf'
+      };
+    }
+  }
+
   return null;
 }
 
 function buildStandardPosology(m = {}) {
-  return buildPriorityPosology(m) || buildGenericStandardPosology(m);
+  return buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
 }
 
 function buildStandardPosologyHtml(m = {}) {
@@ -13613,15 +13989,17 @@ window.switchTab = function(name, btn) {
 
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js')
-      .then(function(reg) { console.log('[PWA] Service Worker enregistré:', reg.scope); })
-      .catch(function(err) { console.log('[PWA] Erreur Service Worker:', err); });
+      .then(r => console.log('[PWA] SW:', r.scope))
+      .catch(e => console.log('[PWA] Erreur:', e));
   });
 }
-</script>
-</body>
+</script></body>
 </html>

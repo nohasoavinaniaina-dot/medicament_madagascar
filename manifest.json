@@ -1,7 +1,7 @@
 {
   "name": "Médicaments & Pharmacies — Madagascar",
   "short_name": "Ny Aina Med's",
-  "description": "Catalogue des médicaments enregistrés à Madagascar, annuaire des pharmacies et hôpitaux, outil d'ordonnance et de certificats médicaux.",
+  "description": "Catalogue des médicaments enregistrés à Madagascar.",
   "start_url": "/medicament_madagascar/",
   "scope": "/medicament_madagascar/",
   "display": "standalone",
@@ -9,7 +9,6 @@
   "theme_color": "#061F16",
   "orientation": "portrait-primary",
   "lang": "fr",
-  "categories": ["medical", "health"],
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -27,20 +26,6 @@
       "src": "icons/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Pharmacies de garde",
-      "short_name": "Garde",
-      "description": "Voir les pharmacies de garde",
-      "url": "/medicament_madagascar/#garde"
-    },
-    {
-      "name": "Ordonnance",
-      "short_name": "Ordonnance",
-      "description": "Créer une ordonnance",
-      "url": "/medicament_madagascar/#ordonnance"
     }
   ]
 }

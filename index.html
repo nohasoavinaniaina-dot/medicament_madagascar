@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#061F16">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments & Pharmacies — Madagascar — v57 ✅</title>
+<title>Médicaments & Pharmacies — Madagascar — v62 ✅</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -3267,6 +3267,7 @@
 
 </style>
 
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -3348,7 +3349,7 @@
         <div class="search-row">
           <div class="search-wrap">
             <span class="search-icon">🔍</span>
-            <input class="search-input" id="pharm-search" type="search" placeholder="Rechercher une pharmacie, une ville ou un quartier…" oninput="pharmSearch=this.value.trim();renderPharm();">
+            <input class="search-input" id="pharm-search" type="search" placeholder="Rechercher une pharmacie, une ville ou un quartier…">
           </div>
           <button type="button" class="garde-btn" id="gardeBtn" onclick="openGardeModal()" title="Pharmacies de garde — données intégrées">
             <span class="btn-pulse"></span>
@@ -3469,7 +3470,7 @@
         <div class="med-toolbar">
           <div class="med-search-wrap">
             <span class="search-icon">🔍</span>
-            <input class="med-search-input" id="med-search" type="search" placeholder="Rechercher par nom, DCI, code produit, laboratoire…" oninput="searchQ=this.value.trim().toLowerCase();currentPage=1;applyMedFilters();">
+            <input class="med-search-input" id="med-search" type="search" placeholder="Rechercher par nom, DCI, code produit, laboratoire…">
           </div>
           <select class="toolbar-select" id="formeFilter" onchange="onFormeChange()">
             <option value="">Toutes les formes</option>
@@ -4673,6 +4674,19 @@ const PRIORITY_DCI_ALIASES = {
   "MEMBEDAZOLE": "MEBENDAZOLE",
   "ROSYVASTATINE CALCIUM": "ROSUVASTATINE",
   "CHLORTETRACYCLINE HCL": "CHLORTETRACYCLINE CHLORHYDRATE",
+  "AMOXICILLINE TRIHYDRATE + ACIDE CLAVULANIQUE": "AMOXICILLINE + ACIDE CLAVULANIQUE",
+  "AMOXICILLINE TRIHYDRATE + CLAVULANATE DE POTASSIUM DILUE": "AMOXICILLINE + ACIDE CLAVULANIQUE",
+  "CEFIXIME TRIHYDRATE USP": "CEFIXIME ANHYDRE",
+  "TRAMADOL HYDROCHLORIDE": "TRAMADOL",
+  "PARACETAMOL + PHOSPHATE DE CODEINE HEMIHYDRATE": "PARACETAMOL + CODEINE",
+  "PHOSPHATE DE CODEINE HEMIHYDRATE + PARACETAMOL": "PARACETAMOL + CODEINE",
+  "IBUPROFENE + PHOSPHATE DE CODEINE HEMIHYDRATE": "IBUPROFENE + CODEINE",
+  "CHLORHYDRATE DE LEVOFLOXACINE": "LEVOFLOXACINE",
+  "HEMIHYDRATE DE LEVOFLOXACINE": "LEVOFLOXACINE",
+  "LEVOFLOXACINE HEMIHYDRATEE": "LEVOFLOXACINE",
+  "SECNIDAZOLE ANHYDRE": "SECNIDAZOLE",
+  "CEFTRIAXONE": "CEFTRIAXONE ANHYDRE",
+  "CEFTRIAXONE SODIUM": "CEFTRIAXONE ANHYDRE",
 };
 
 function buildPriorityPosology(m = {}) {
@@ -10404,6 +10418,7 @@ function buildPriorityPosology(m = {}) {
 function buildContinuedPosology(m = {}) {
   const rawDci = canonicalizeDci(m.dci);
   const dci = PRIORITY_DCI_ALIASES[rawDci] || rawDci;
+  const name = canonicalizeDci(m.nom);
   const forme = canonicalizeDci(m.forme);
   const presentation = canonicalizeDci(m.presentation);
   const route = `${forme} ${presentation}`;
@@ -10615,11 +10630,739 @@ function buildContinuedPosology(m = {}) {
     }
   }
 
+  if (name.includes('FERVEX')) {
+    if (name.includes('ENFANT')) {
+      return {
+        voie: 'Voie orale après dilution complète du sachet dans un verre d’eau',
+        standard: 'Antalgique/antihistaminique pédiatrique réservé à l’enfant à partir de 21 kg (environ 6 ans), à adapter strictement au poids.',
+        adulte: 'Pas d’indication adulte pour cette présentation enfant.',
+        enfant: 'Enfant 21–25 kg (≈ 6–10 ans) : 1 sachet par prise, 2 prises/j maximum, espacées d’au moins 12 h ; enfant 26–40 kg (≈ 10–12 ans) : 1 sachet par prise, jusqu’à 3 prises/j, espacées d’au moins 8 h ; enfant 41–50 kg (≈ 12–15 ans) : 1 sachet par prise, jusqu’à 4 prises/j, espacées d’au moins 6 h.',
+        adaptation: 'Contre-indiqué avant 6 ans / avant 21 kg ; ne pas associer à un autre médicament contenant du paracétamol ; prudence en insuffisance rénale, déficit en G6PD, glaucome à angle fermé ou risque de rétention urinaire ; usage déconseillé pendant grossesse/allaitement.',
+        conseil: 'Diluer le sachet dans de l’eau froide ou chaude ; arrêter et réévaluer si la fièvre, la douleur ou les symptômes ORL persistent au-delà de quelques jours.',
+        source: 'Base de données publique des médicaments — FERVEX ENFANTS SANS SUCRE',
+        source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/66418648/extrait'
+      };
+    }
+    return {
+      voie: 'Voie orale après dilution complète du sachet dans un verre d’eau',
+      standard: 'Association paracétamol + antihistaminique + vitamine C pour rhume/état grippal, avec intervalle minimal de 4 h entre les prises.',
+      adulte: 'Adulte et adolescent de plus de 15 ans (à partir de 50 kg) : 1 sachet par prise, 1 à 3 fois/j ; espacer les prises d’au moins 4 h (8 h en cas d’insuffisance rénale).',
+      enfant: 'Pas d’utilisation standard retenue dans cette application avant 15 ans pour les présentations adultes ; utiliser la présentation enfant adaptée au poids si besoin.',
+      adaptation: 'Ne pas dépasser 3 sachets/j ni 3 g/j de paracétamol au total ; contre-indiqué en insuffisance hépatique grave, glaucome à angle fermé, risque de rétention urinaire, et chez l’enfant < 15 ans ; prudence en déficit en G6PD.',
+      conseil: 'La durée du traitement ne doit pas dépasser 5 jours ; éviter alcool et autres sédatifs, ainsi que toute autre spécialité contenant du paracétamol.',
+      source: 'Vidal — FERVEX ADULTES',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/fervex-3687.html'
+    };
+  }
+
+  if (name.includes('ACTISOUFRE')) {
+    return {
+      voie: 'Voie nasale, buccale ou orale selon la présentation',
+      standard: 'Médicament soufré utilisé en traitement d’appoint des rhinites et rhinopharyngites chroniques ; la forme pressurisée s’emploie après un mouchage soigneux.',
+      adulte: 'Adulte et enfant > 5 ans : par voie orale 2 ampoules/j ou 1 pulvérisation 3 fois/j ; par voie nasale 1 ampoule dans chaque narine 2 fois/j ou 1 pulvérisation prolongée dans chaque narine 3 fois/j, tête penchée en arrière.',
+      enfant: 'Enfant < 5 ans : 1/2 à 1 ampoule/j par voie orale ou 1 pulvérisation 3 fois/j. Nourrisson : 1 pulvérisation dans chaque narine 2 fois/j, en position couchée ou assise avec la tête inclinée sur le côté.',
+      adaptation: 'Contre-indiqué en cas d’intolérance au soufre ; usage déconseillé pendant grossesse/allaitement faute de données suffisantes.',
+      conseil: 'Avec le flacon pressurisé, pulvériser 2 à 3 secondes dans chaque narine ; l’administration buccale peut se faire directement dans la bouche puis être avalée.',
+      source: 'Vidal — ACTISOUFRE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/actisoufre-107.html'
+    };
+  }
+
+  if (name.includes('ALVITYL')) {
+    if (/SIROP|SP /i.test(m.nom) || /SIROP/.test(route)) {
+      return {
+        voie: 'Voie orale',
+        standard: 'Complément multivitaminé à prise quotidienne unique.',
+        adulte: 'Adulte, adolescent et enfant de plus de 6 ans : 2 cuillères à café par jour (10 ml/j).',
+        enfant: 'Enfant de 3 à 6 ans : 1 cuillère à café par jour (5 ml/j).',
+        adaptation: 'Ne remplace pas une alimentation équilibrée ni un mode de vie sain ; éviter les excès, la solution pouvant avoir un effet laxatif en cas de surconsommation.',
+        conseil: 'Utiliser la mesure la plus régulière possible chaque jour ; vérifier la teneur en vitamines si d’autres compléments sont pris simultanément.',
+        source: 'Vidal Parapharmacie — ALVITYL VITALITÉ solution buvable multivitaminée',
+        source_url: 'https://www.vidal.fr/parapharmacie/alvityl-vitalite-sol-buv-multivitaminee-132091.html'
+      };
+    }
+    return {
+      voie: 'Voie orale',
+      standard: 'Complément multivitaminé à croquer, en prise quotidienne unique.',
+      adulte: 'Adulte, adolescent et enfant de plus de 6 ans : 1 comprimé à croquer par jour.',
+      enfant: 'Enfant de 4 à 6 ans : 1/2 comprimé à croquer par jour.',
+      adaptation: 'Ne remplace pas une alimentation équilibrée ni un mode de vie sain ; éviter le cumul avec d’autres compléments riches en vitamines sans conseil professionnel.',
+      conseil: 'Prendre de préférence au cours d’un repas ; réservé à l’enfant ayant une mastication correcte pour la forme à croquer.',
+      source: 'Vidal Parapharmacie — ALVITYL VITALITÉ',
+      source_url: 'https://www.vidal.fr/parapharmacie/alvityl-vitalite-sol-buv-multivitaminee-132091.html'
+    };
+  }
+
+  if (name.includes('ANTARENE CODEINE')) {
+    if (name.includes('400MG/60MG') || name.includes('400 MG/60 MG') || name.includes('400MG 60MG') || name.includes('400 MG 60 MG')) {
+      return {
+        voie: 'Voie orale, de préférence au milieu des repas',
+        standard: 'Antalgique de palier 2 réservé au traitement de courte durée des douleurs insuffisamment soulagées par un antalgique non opioïde seul.',
+        adulte: 'Adulte : 1 comprimé lors de la première prise, puis 1 comprimé toutes les 6 à 8 heures si besoin, sans dépasser 3 comprimés/j.',
+        enfant: 'Contre-indiqué chez l’enfant de moins de 15 ans ; pas de schéma pédiatrique retenu dans l’application.',
+        adaptation: 'Éviter en cas d’ulcère, d’antécédent d’asthme déclenché par AINS, d’insuffisance respiratoire, hépatique, rénale ou cardiaque sévère, ainsi qu’en cas de grossesse à partir du 6e mois ou d’allaitement.',
+        conseil: 'Traitement le plus court possible ; éviter alcool, conduite et autres sédatifs/opioïdes en raison du risque de somnolence et de dépendance.',
+        source: 'Vidal — ANTARÈNE CODÉINE',
+        source_url: 'https://www.vidal.fr/medicaments/gammes/antarene-codeine-44132.html'
+      };
+    }
+    return {
+      voie: 'Voie orale, de préférence au milieu des repas',
+      standard: 'Antalgique de palier 2 réservé au traitement de courte durée des douleurs insuffisamment soulagées par un antalgique non opioïde seul.',
+      adulte: 'Adulte : 1 ou 2 comprimés lors de la première prise, puis 1 comprimé toutes les 4 à 6 heures si besoin, sans dépasser 6 comprimés/j.',
+      enfant: 'Contre-indiqué chez l’enfant de moins de 15 ans ; pas de schéma pédiatrique retenu dans l’application.',
+      adaptation: 'Éviter en cas d’ulcère, d’antécédent d’asthme déclenché par AINS, d’insuffisance respiratoire, hépatique, rénale ou cardiaque sévère, ainsi qu’en cas de grossesse à partir du 6e mois ou d’allaitement.',
+      conseil: 'Traitement le plus court possible ; éviter alcool, conduite et autres sédatifs/opioïdes en raison du risque de somnolence et de dépendance.',
+      source: 'Vidal — ANTARÈNE CODÉINE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/antarene-codeine-44132.html'
+    };
+  }
+
+  if (name.includes('AFTAGEL')) {
+    return {
+      voie: 'Application buccale locale',
+      standard: 'Gel buccal antalgique à appliquer localement sur la lésion douloureuse.',
+      adulte: 'Adulte : 1 application, 4 à 6 fois par jour.',
+      enfant: 'Pas de schéma pédiatrique standard explicite retenu dans cette application ; demander un avis médical ou pharmaceutique pour l’enfant.',
+      adaptation: 'Contre-indiqué en cas d’allergie aux anesthésiques locaux ; réévaluer si absence d’amélioration après 5 jours.',
+      conseil: 'Déposer l’équivalent d’un petit pois de gel et masser doucement ; éviter de boire ou de manger juste après l’application et se laver les mains après usage.',
+      source: 'Vidal — AFTAGEL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/aftagel-185.html'
+    };
+  }
+
+  if (name.includes('ALGESAL SURACTIV')) {
+    return {
+      voie: 'Voie cutanée locale',
+      standard: 'Crème antalgique locale à masser jusqu’à pénétration complète sur la zone douloureuse.',
+      adulte: 'Adulte et enfant de plus de 7 ans : 2 à 3 applications par jour.',
+      enfant: 'Pas d’usage standard retenu avant 7 ans dans l’application ; éviter chez le jeune enfant sans avis médical.',
+      adaptation: 'Contre-indiqué en cas d’allergie aux salicylés ; ne pas appliquer sur les muqueuses, les yeux, une plaie, un eczéma, une lésion infectée ou sous pansement occlusif ; éviter l’allaitement et limiter en grossesse à un traitement unique, bref et sur petite surface.',
+      conseil: 'Se laver les mains après application ; ne pas étendre le traitement sur de grandes surfaces et prudence si antécédent d’épilepsie à cause des dérivés terpéniques.',
+      source: 'Vidal — ALGESAL SURACTIVE crème',
+      source_url: 'https://www.vidal.fr/medicaments/algesal-suractive-creme-518.html'
+    };
+  }
+
+  if (same('PAPAVERINE CHLORHYDRATE + CHARBON ACTIVE') || (dci.includes('PAPAVERINE') && dci.includes('CHARBON')) || name.includes('ACTICARBINE')) {
+    return {
+      voie: 'Voie orale, avant les repas',
+      standard: 'Antispasmodique/adsorbant intestinal utilisé en traitement symptomatique des troubles du transit avec ballonnements.',
+      adulte: 'Adulte : 1 à 2 comprimés, 3 fois/j avant les repas, à avaler tels quels avec un peu d’eau.',
+      enfant: 'Pas de schéma pédiatrique chiffré consolidé ici ; demander un avis médical pour l’enfant, même si certaines notices anciennes mentionnent un usage après 6 ans.',
+      adaptation: 'Respecter un intervalle d’au moins 2 heures avec les autres médicaments à cause du charbon activé. Ne pas utiliser de façon prolongée sans avis médical.',
+      conseil: 'Réévaluer en cas de diarrhée importante, persistante ou associée à des signes de déshydratation ; une alimentation trop riche en fibres peut majorer les fermentations et les ballonnements.',
+      source: 'Vidal — ACTICARBINE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/acticarbine-82.html'
+    };
+  }
+
+  if ((same('PIDOLATE DE MAGNESIUM') || dci.includes('PIDOLATE DE MAGNESIUM')) && (/SOLUTION ORALE|SOL OR/.test(route))) {
+    return {
+      voie: 'Voie orale, de préférence au cours des repas',
+      standard: 'Supplémentation en magnésium par solution orale, généralement en 2 prises/j.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 5 mL, 2 fois/j ; augmentation possible sur avis médical en cas de carence importante.',
+      enfant: 'Pas d’utilisation standard retenue avant 12 ans dans cette application.',
+      adaptation: 'Utiliser le dispositif de mesure adapté si disponible et surveiller la tolérance digestive ; demander un avis médical en cas d’insuffisance rénale ou de carence sévère présumée.',
+      conseil: 'Pour l’application, retenir le repère simple : 5 mL matin et soir avec les repas chez l’adulte et l’adolescent > 12 ans.',
+      source: 'CIMA / AEMPS — ACTIMAG 400 mg/mL solution orale',
+      source_url: 'https://cima.aemps.es/cima/dochtml/ft/56322/FT_56322.html'
+    };
+  }
+
+  if (same('ADENOSINE TRIPHOSPHATE DISODIQUE', 'ADENOSINE TRIPHOSPHATE DISODIQUE TRIHYDRATE') || dci.includes('ADENOSINE TRIPHOSPHATE DISODIQUE') || name.includes('ATEPADENE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Myorelaxant d’appoint des dorsalgies, en prises réparties dans la journée.',
+      adulte: 'Adulte : 2 à 3 gélules/j réparties dans la journée.',
+      enfant: 'Pas de repère pédiatrique standard repris dans les sources consultées.',
+      adaptation: 'Durée maximale recommandée : 1 mois. Réévaluer si la douleur persiste, s’aggrave ou si le traitement semble insuffisant.',
+      conseil: 'Avaler les gélules avec un verre d’eau et rappeler que les mesures posturales/exercices du dos restent importantes en complément.',
+      source: 'ANSM — Notice ATÉPADÈNE 30 mg, gélule',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0366790.htm'
+    };
+  }
+
+  if ((same('LACTOBACILLUS CASEI') || dci.includes('LACTOBACILLUS CASEI')) && (oralSolid || /GELULE/.test(route))) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antidiarrhéique microbien d’appoint en complément de la réhydratation et des mesures diététiques.',
+      adulte: 'Adulte : 2 à 8 gélules/j, à avaler sans les ouvrir avec un verre d’eau.',
+      enfant: 'Gélule contre-indiquée avant 6 ans à cause du risque de fausse route ; utiliser la forme sachet chez l’enfant si nécessaire.',
+      adaptation: 'Réévaluer rapidement en cas de fièvre, vomissements, sang/glaires dans les selles ou absence d’amélioration après 2 jours.',
+      conseil: 'Insister sur la réhydratation orale et le régime adapté ; ce traitement reste un appoint et ne remplace pas une prise en charge de la déshydratation.',
+      source: 'ANSM — Notice BACILOR, gélule',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0230001.htm'
+    };
+  }
+
+  if ((same('LACTOBACILLUS CASEI') || dci.includes('LACTOBACILLUS CASEI')) && (/POUDRE|SACHET|SUSPENSION BUVABLE/.test(route) || /SACH/.test(name))) {
+    return {
+      voie: 'Voie orale, en dehors des repas',
+      standard: 'Antidiarrhéique microbien pédiatrique d’appoint en complément de la réhydratation.',
+      adulte: 'Pas de repère adulte principal retenu pour cette présentation sachet dans l’application.',
+      enfant: 'Enfant de plus de 2 ans : 1 à 4 sachets-dose/j ; avaler le contenu du sachet dans de l’eau sucrée ou du lait, en dehors des repas.',
+      adaptation: 'Pas d’utilisation standard avant 2 ans. Chez l’enfant de 2 à 6 ans, avis médical rapide si diarrhée > 24 h, > 6 selles liquides/j, perte de poids, fièvre, vomissements ou sang/glaires.',
+      conseil: 'Toujours associer la réhydratation orale ; chez l’enfant, le traitement médicamenteux ne remplace jamais les mesures de réhydratation.',
+      source: 'ANSM — Notice BACILOR, poudre pour suspension buvable en sachet-dose',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0298435.htm'
+    };
+  }
+
+  if ((same('BEVACIZUMAB') || dci.includes('BEVACIZUMAB')) && injectable) {
+    return {
+      voie: 'Perfusion intraveineuse uniquement',
+      standard: 'Anticorps monoclonal anticancéreux administré sous contrôle spécialisé, avec dose en mg/kg dépendant strictement de l’indication et du protocole associé.',
+      adulte: 'Repères adultes : 5 ou 10 mg/kg toutes les 2 semaines, ou 7,5 à 15 mg/kg toutes les 3 semaines selon l’indication ; cancer du rein : 10 mg/kg/2 semaines ; col de l’utérus et plusieurs schémas en gynécologie : 15 mg/kg/3 semaines.',
+      enfant: 'Sécurité et efficacité non établies chez les moins de 18 ans ; pas de schéma pédiatrique standard retenu.',
+      adaptation: 'Première perfusion en 90 min, puis 60 min si bien tolérée, puis 30 min pour les suivantes. Ne jamais administrer en bolus IV ni mélanger avec des solutions de glucose ; dilution dans du NaCl 0,9 % uniquement.',
+      conseil: 'Pour l’application, retenir surtout la structure de dose par kg et le rythme q2w/q3w ; la sélection du schéma exact relève impérativement du protocole oncologique prescrit.',
+      source: 'Roche — RCP AVASTIN 25 mg/mL solution à diluer pour perfusion',
+      source_url: 'https://assets.roche.com/f/173873/x/64ababceca/avastin-25mg-ml-solution-diluer-perfusion-rcp-22122025.pdf'
+    };
+  }
+
+  if ((same('PEROXYDE D HYDROGENE') || (dci.includes('PEROXYDE') && dci.includes('HYDROGENE')) || name.includes('EAU OXYGENEE')) && /10 VOLUMES|3 %|3G POUR 100 ML/.test(`${name} ${route}`)) {
+    return {
+      voie: 'Voie cutanée locale',
+      standard: 'Antiseptique léger et hémostatique local à 10 volumes, appliqué pur sur plaies ou brûlures superficielles peu étendues.',
+      adulte: 'Appliquer la solution pure à l’aide d’une compresse ou d’un morceau de coton ; pas de fréquence chiffrée standard reprise dans la source consultée.',
+      enfant: 'Même mode d’application locale sur petites lésions superficielles, avec prudence accrue et sans contact avec les muqueuses.',
+      adaptation: 'Utiliser uniquement la dilution à 10 volumes pour l’usage antiseptique. Ne pas appliquer dans les yeux, sur les muqueuses, avant une piqûre, ni pour désinfecter du matériel.',
+      conseil: 'Le moussage au contact du sang est habituel. Conserver le flacon peu de temps après ouverture, à l’abri de la lumière et de la chaleur, sans associer d’autres antiseptiques.',
+      source: 'Vidal — EAU OXYGÉNÉE GIFRER',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/eau-oxygenee-gifrer-3158.html'
+    };
+  }
+
+  return null;
+}
+
+function buildSupplementalBrandPosology(m = {}) {
+  const rawDci = canonicalizeDci(m.dci);
+  const dci = PRIORITY_DCI_ALIASES[rawDci] || rawDci;
+  const name = canonicalizeDci(m.nom);
+  const forme = canonicalizeDci(m.forme);
+  const presentation = canonicalizeDci(m.presentation);
+  const route = `${forme} ${presentation}`;
+  const same = (...names) => names.includes(dci);
+  const contains = (...fragments) => fragments.some(f => dci.includes(f));
+  const sameName = (...names) => names.includes(name);
+  const containsName = (...fragments) => fragments.some(f => name.includes(f));
+  const oralSolid = /COMPRIME|GELULE|CAPSULE/.test(route);
+  const oralLiquid = /SIROP|SUSPENSION|SOLUTION ORALE|BUVABLE/.test(route);
+  const orale = oralSolid || oralLiquid;
+  const injectable = /INJECT|PERFUSION|PARENTERAL|PSI|SC\/IM|SC\/IV|SC|IM\/IV| IV | IM /.test(` ${route} `);
+  const topical = /CREME|POMMADE|GEL|CUTAN|LOCALE|BAUME/.test(route);
+  const vaginal = /VAG/.test(route);
+  const ocular = /COLLYRE|OCULAIRE|OPHT/.test(route);
+  const nasal = /NASAL|NARINE|PULVERISATION NASALE|GOUTTES NASALES/.test(route);
+  const inhaled = /INHAL|AEROSOL|SPRAY|SUSP INH|POUDRE POUR INHALATION|DOSES/.test(route);
+  const rectal = /RECT|SUPPOSITOIRE/.test(route);
+  const prolonged = /LIBERATION PROLONGEE|LIBERATION CONTROLEE| LP /.test(` ${route} `);
+
+  if (name.includes('FERVEX')) {
+    if (name.includes('ENFANT')) {
+      return {
+        voie: 'Voie orale après dilution complète du sachet dans un verre d’eau',
+        standard: 'Antalgique/antihistaminique pédiatrique réservé à l’enfant à partir de 21 kg (environ 6 ans), à adapter strictement au poids.',
+        adulte: 'Pas d’indication adulte pour cette présentation enfant.',
+        enfant: 'Enfant 21–25 kg (≈ 6–10 ans) : 1 sachet par prise, 2 prises/j maximum, espacées d’au moins 12 h ; enfant 26–40 kg (≈ 10–12 ans) : 1 sachet par prise, jusqu’à 3 prises/j, espacées d’au moins 8 h ; enfant 41–50 kg (≈ 12–15 ans) : 1 sachet par prise, jusqu’à 4 prises/j, espacées d’au moins 6 h.',
+        adaptation: 'Contre-indiqué avant 6 ans / avant 21 kg ; ne pas associer à un autre médicament contenant du paracétamol ; prudence en insuffisance rénale, déficit en G6PD, glaucome à angle fermé ou risque de rétention urinaire ; usage déconseillé pendant grossesse/allaitement.',
+        conseil: 'Diluer le sachet dans de l’eau froide ou chaude ; arrêter et réévaluer si la fièvre, la douleur ou les symptômes ORL persistent au-delà de quelques jours.',
+        source: 'Base de données publique des médicaments — FERVEX ENFANTS SANS SUCRE',
+        source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/66418648/extrait'
+      };
+    }
+    return {
+      voie: 'Voie orale après dilution complète du sachet dans un verre d’eau',
+      standard: 'Association paracétamol + antihistaminique + vitamine C pour rhume/état grippal, avec intervalle minimal de 4 h entre les prises.',
+      adulte: 'Adulte et adolescent de plus de 15 ans (à partir de 50 kg) : 1 sachet par prise, 1 à 3 fois/j ; espacer les prises d’au moins 4 h (8 h en cas d’insuffisance rénale).',
+      enfant: 'Pas d’utilisation standard retenue dans cette application avant 15 ans pour les présentations adultes ; utiliser la présentation enfant adaptée au poids si besoin.',
+      adaptation: 'Ne pas dépasser 3 sachets/j ni 3 g/j de paracétamol au total ; contre-indiqué en insuffisance hépatique grave, glaucome à angle fermé, risque de rétention urinaire, et chez l’enfant < 15 ans ; prudence en déficit en G6PD.',
+      conseil: 'La durée du traitement ne doit pas dépasser 5 jours ; éviter alcool et autres sédatifs, ainsi que toute autre spécialité contenant du paracétamol.',
+      source: 'Vidal — FERVEX ADULTES',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/fervex-3687.html'
+    };
+  }
+
+  if (name.includes('ACTISOUFRE')) {
+    return {
+      voie: 'Voie nasale, buccale ou orale selon la présentation',
+      standard: 'Médicament soufré utilisé en traitement d’appoint des rhinites et rhinopharyngites chroniques ; la forme pressurisée s’emploie après un mouchage soigneux.',
+      adulte: 'Adulte et enfant > 5 ans : par voie orale 2 ampoules/j ou 1 pulvérisation 3 fois/j ; par voie nasale 1 ampoule dans chaque narine 2 fois/j ou 1 pulvérisation prolongée dans chaque narine 3 fois/j, tête penchée en arrière.',
+      enfant: 'Enfant < 5 ans : 1/2 à 1 ampoule/j par voie orale ou 1 pulvérisation 3 fois/j. Nourrisson : 1 pulvérisation dans chaque narine 2 fois/j, en position couchée ou assise avec la tête inclinée sur le côté.',
+      adaptation: 'Contre-indiqué en cas d’intolérance au soufre ; usage déconseillé pendant grossesse/allaitement faute de données suffisantes.',
+      conseil: 'Avec le flacon pressurisé, pulvériser 2 à 3 secondes dans chaque narine ; l’administration buccale peut se faire directement dans la bouche puis être avalée.',
+      source: 'Vidal — ACTISOUFRE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/actisoufre-107.html'
+    };
+  }
+
+  if (name.includes('ALVITYL')) {
+    if (/SIROP|SP /i.test(m.nom) || /SIROP/.test(route)) {
+      return {
+        voie: 'Voie orale',
+        standard: 'Complément multivitaminé à prise quotidienne unique.',
+        adulte: 'Adulte, adolescent et enfant de plus de 6 ans : 2 cuillères à café par jour (10 ml/j).',
+        enfant: 'Enfant de 3 à 6 ans : 1 cuillère à café par jour (5 ml/j).',
+        adaptation: 'Ne remplace pas une alimentation équilibrée ni un mode de vie sain ; éviter les excès, la solution pouvant avoir un effet laxatif en cas de surconsommation.',
+        conseil: 'Utiliser la mesure la plus régulière possible chaque jour ; vérifier la teneur en vitamines si d’autres compléments sont pris simultanément.',
+        source: 'Vidal Parapharmacie — ALVITYL VITALITÉ solution buvable multivitaminée',
+        source_url: 'https://www.vidal.fr/parapharmacie/alvityl-vitalite-sol-buv-multivitaminee-132091.html'
+      };
+    }
+    return {
+      voie: 'Voie orale',
+      standard: 'Complément multivitaminé à croquer, en prise quotidienne unique.',
+      adulte: 'Adulte, adolescent et enfant de plus de 6 ans : 1 comprimé à croquer par jour.',
+      enfant: 'Enfant de 4 à 6 ans : 1/2 comprimé à croquer par jour.',
+      adaptation: 'Ne remplace pas une alimentation équilibrée ni un mode de vie sain ; éviter le cumul avec d’autres compléments riches en vitamines sans conseil professionnel.',
+      conseil: 'Prendre de préférence au cours d’un repas ; réservé à l’enfant ayant une mastication correcte pour la forme à croquer.',
+      source: 'Vidal Parapharmacie — ALVITYL VITALITÉ',
+      source_url: 'https://www.vidal.fr/parapharmacie/alvityl-vitalite-sol-buv-multivitaminee-132091.html'
+    };
+  }
+
+  if (name.includes('ANTARENE CODEINE')) {
+    if (name.includes('400MG/60MG') || name.includes('400 MG/60 MG') || name.includes('400MG 60MG') || name.includes('400 MG 60 MG')) {
+      return {
+        voie: 'Voie orale, de préférence au milieu des repas',
+        standard: 'Antalgique de palier 2 réservé au traitement de courte durée des douleurs insuffisamment soulagées par un antalgique non opioïde seul.',
+        adulte: 'Adulte : 1 comprimé lors de la première prise, puis 1 comprimé toutes les 6 à 8 heures si besoin, sans dépasser 3 comprimés/j.',
+        enfant: 'Contre-indiqué chez l’enfant de moins de 15 ans ; pas de schéma pédiatrique retenu dans l’application.',
+        adaptation: 'Éviter en cas d’ulcère, d’antécédent d’asthme déclenché par AINS, d’insuffisance respiratoire, hépatique, rénale ou cardiaque sévère, ainsi qu’en cas de grossesse à partir du 6e mois ou d’allaitement.',
+        conseil: 'Traitement le plus court possible ; éviter alcool, conduite et autres sédatifs/opioïdes en raison du risque de somnolence et de dépendance.',
+        source: 'Vidal — ANTARÈNE CODÉINE',
+        source_url: 'https://www.vidal.fr/medicaments/gammes/antarene-codeine-44132.html'
+      };
+    }
+    return {
+      voie: 'Voie orale, de préférence au milieu des repas',
+      standard: 'Antalgique de palier 2 réservé au traitement de courte durée des douleurs insuffisamment soulagées par un antalgique non opioïde seul.',
+      adulte: 'Adulte : 1 ou 2 comprimés lors de la première prise, puis 1 comprimé toutes les 4 à 6 heures si besoin, sans dépasser 6 comprimés/j.',
+      enfant: 'Contre-indiqué chez l’enfant de moins de 15 ans ; pas de schéma pédiatrique retenu dans l’application.',
+      adaptation: 'Éviter en cas d’ulcère, d’antécédent d’asthme déclenché par AINS, d’insuffisance respiratoire, hépatique, rénale ou cardiaque sévère, ainsi qu’en cas de grossesse à partir du 6e mois ou d’allaitement.',
+      conseil: 'Traitement le plus court possible ; éviter alcool, conduite et autres sédatifs/opioïdes en raison du risque de somnolence et de dépendance.',
+      source: 'Vidal — ANTARÈNE CODÉINE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/antarene-codeine-44132.html'
+    };
+  }
+
+  if (name.includes('AFTAGEL')) {
+    return {
+      voie: 'Application buccale locale',
+      standard: 'Gel buccal antalgique à appliquer localement sur la lésion douloureuse.',
+      adulte: 'Adulte : 1 application, 4 à 6 fois par jour.',
+      enfant: 'Pas de schéma pédiatrique standard explicite retenu dans cette application ; demander un avis médical ou pharmaceutique pour l’enfant.',
+      adaptation: 'Contre-indiqué en cas d’allergie aux anesthésiques locaux ; réévaluer si absence d’amélioration après 5 jours.',
+      conseil: 'Déposer l’équivalent d’un petit pois de gel et masser doucement ; éviter de boire ou de manger juste après l’application et se laver les mains après usage.',
+      source: 'Vidal — AFTAGEL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/aftagel-185.html'
+    };
+  }
+
+  if (name.includes('ALGESAL SURACTIV')) {
+    return {
+      voie: 'Voie cutanée locale',
+      standard: 'Crème antalgique locale à masser jusqu’à pénétration complète sur la zone douloureuse.',
+      adulte: 'Adulte et enfant de plus de 7 ans : 2 à 3 applications par jour.',
+      enfant: 'Pas d’usage standard retenu avant 7 ans dans l’application ; éviter chez le jeune enfant sans avis médical.',
+      adaptation: 'Contre-indiqué en cas d’allergie aux salicylés ; ne pas appliquer sur les muqueuses, les yeux, une plaie, un eczéma, une lésion infectée ou sous pansement occlusif ; éviter l’allaitement et limiter en grossesse à un traitement unique, bref et sur petite surface.',
+      conseil: 'Se laver les mains après application ; ne pas étendre le traitement sur de grandes surfaces et prudence si antécédent d’épilepsie à cause des dérivés terpéniques.',
+      source: 'Vidal — ALGESAL SURACTIVE crème',
+      source_url: 'https://www.vidal.fr/medicaments/algesal-suractive-creme-518.html'
+    };
+  }
+
+
+
+  if (name.includes('GYNANFORT')) {
+    return {
+      voie: 'Voie vaginale',
+      standard: 'Association anti-infectieuse gynécologique utilisée en traitement local des infections vaginales fongiques et bactériennes.',
+      adulte: 'Adulte : 1 à 2 ovules le soir, pendant 10 jours maximum, ou selon prescription médicale.',
+      enfant: 'Pas d’utilisation retenue chez le jeune enfant ; la source consultée déconseille l’emploi chez les enfants en bas âge.',
+      adaptation: 'Un traitement contenant du métronidazole ne doit pas dépasser 10 jours et ne doit pas être répété plus de 2 à 3 fois par an ; réévaluer en cas de persistance des symptômes.',
+      conseil: 'Laver les mains, insérer l’ovule profondément dans le vagin de préférence au coucher ; si l’ovule est ramolli, le refroidir quelques minutes avant emploi.',
+      source: 'IMEX PHARMA — GYNANFORT',
+      source_url: 'https://imex-pharma.com/produit/gynanfort-2/'
+    };
+  }
+
+  if (name.includes('GYNOFAST')) {
+    return {
+      voie: 'Voie vaginale',
+      standard: 'Association gynécologique antibactérienne et antifongique utilisée en traitement local de la vaginose et d’infections sensibles, ou en préparation des voies génitales avant geste vaginal.',
+      adulte: 'Adulte : 1 suppositoire vaginal, de préférence au coucher, pendant 3 jours.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans l’application.',
+      adaptation: 'Réévaluer si les symptômes persistent après la cure ; respecter strictement la durée prescrite sans multiplier les traitements locaux associés sans avis médical.',
+      conseil: 'Laver les mains puis introduire le suppositoire profondément dans le vagin ; s’il est mou, le raffermir quelques minutes au froid avant ouverture.',
+      source: 'IMEX PHARMA — GYNOFAST',
+      source_url: 'https://imex-pharma.com/produit/gynofast-2/'
+    };
+  }
+
+  if (name.includes('UNIVAGIL')) {
+    return {
+      voie: 'Voie vaginale uniquement',
+      standard: 'Antifongique local à action prolongée, administré en prise généralement unique au coucher.',
+      adulte: 'Dans la majorité des cas : 1 ovule le soir au coucher en administration unique ; dans certains cas, un second ovule le lendemain matin peut être prescrit.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans cette application.',
+      adaptation: 'Se conformer strictement à l’ordonnance ; ne pas avaler l’ovule ; éviter les tampons périodiques et les douches vaginales pendant le traitement.',
+      conseil: 'Introduire profondément l’ovule de préférence en position allongée ; lavage soigneux des mains avant et après, sous-vêtements en coton, savon à pH neutre ou alcalin.',
+      source: 'ANSM — UNIVAGIL LP 150 mg ovule',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0442902.htm'
+    };
+  }
+
+  if (name.includes('FLUOMIZIN') || name.includes('VABLYS')) {
+    return {
+      voie: 'Voie vaginale',
+      standard: 'Antiseptique anti-infectieux local administré quotidiennement pendant 6 jours complets.',
+      adulte: 'Adulte : 1 comprimé vaginal par jour pendant 6 jours, à utiliser chaque soir avant le coucher.',
+      enfant: 'Expérience insuffisante avant 18 ans ; pas de schéma pédiatrique standard retenu.',
+      adaptation: 'Ne pas interrompre le traitement trop tôt même si les symptômes s’améliorent ; suspendre pendant les saignements menstruels abondants puis reprendre ensuite ; humidifier le comprimé avec une goutte d’eau si le vagin est très sec.',
+      conseil: 'Insérer profondément en position allongée ; éviter savons intravaginaux, douches vaginales, spermicides et rapports non protégés pendant le traitement.',
+      source: 'electronic medicines compendium — Fluomizin 10 mg vaginal tablets',
+      source_url: 'https://www.medicines.org.uk/emc/files/pil.1997.pdf'
+    };
+  }
+
+  if (name.includes('PHARMATEX') && /OVULE|PESSAIRE|MINI OVULE/.test(`${name} ${route}`)) {
+    return {
+      voie: 'Voie vaginale',
+      standard: 'Contraceptif local spermicidе à utiliser avant chaque rapport sexuel.',
+      adulte: 'Introduire 1 ovule haut dans le vagin 5 minutes avant chaque rapport ; en cas de rapports répétés, utiliser un nouvel ovule avant chaque nouvel acte.',
+      enfant: 'Sans objet pour cette spécialité contraceptive.',
+      adaptation: 'La protection dure environ 4 heures ; ne protège pas contre les IST/VIH ; arrêter et demander un avis médical en cas d’irritation ou lésion génitale.',
+      conseil: 'Ne pas utiliser de savon pour la toilette intime dans les 2 heures avant et après le rapport ; éviter bain, piscine, mer et douche vaginale précoce car cela réduit l’efficacité.',
+      source: 'Rwanda FDA — Pharmatex 18.9 mg pessaries PIL',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2024/07/Pharmatex_18%209_mg%20pessaries_Benzalkonium%20Chloride_PIL.pdf'
+    };
+  }
+
+  if (name.includes('DACRYOSERUM')) {
+    return {
+      voie: 'Voie locale en lavage oculaire',
+      standard: 'Solution antiseptique pour lavage ophtalmique unidose.',
+      adulte: 'Adulte : 1 à 3 lavages oculaires par jour.',
+      enfant: 'Même rythme usuel possible selon l’indication et l’avis du professionnel de santé ; utiliser unidose sans contact avec l’œil.',
+      adaptation: 'Ne pas mettre l’embout au contact de la surface oculaire ; jeter l’unidose après usage.',
+      conseil: 'Retourner le récipient et exercer une légère pression pour réaliser le lavage ; respecter l’hygiène des mains avant et après.',
+      source: 'Base de données publique des médicaments — DACRYOSERUM',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/69667569/extrait'
+    };
+  }
+
+  if (name.includes('LIPOSIC')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Gel lubrifiant ophtalmique pour sécheresse oculaire, avec application répétée dans la journée.',
+      adulte: 'Instiller 1 goutte de gel dans le coin de l’œil, près du nez, 3 à 5 fois par jour et environ 30 minutes avant le coucher.',
+      enfant: 'Pas de schéma pédiatrique standard spécifique retenu dans la notice consultée.',
+      adaptation: 'Respecter un intervalle d’environ 15 minutes avec tout autre collyre ou pommade ; retirer les lentilles avant application et attendre 30 minutes avant de les remettre.',
+      conseil: 'Regarder vers le haut, tirer doucement la paupière inférieure puis déposer le gel sans toucher l’œil avec l’embout.',
+      source: 'ANSM — LIPOSIC 2 mg/g gel ophtalmique',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0414194.htm'
+    };
+  }
+
+  if (name.includes('UNIBROM')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'AINS ophtalmique postopératoire après chirurgie de la cataracte.',
+      adulte: '1 goutte dans l’œil atteint, 2 fois par jour, en commençant le lendemain de la chirurgie de la cataracte puis pendant les 2 premières semaines postopératoires.',
+      enfant: 'Pas de schéma pédiatrique standard retenu.',
+      adaptation: 'Ne pas dépasser 2 semaines de traitement selon le RCP consulté.',
+      conseil: 'Éviter le contact de l’embout avec l’œil ; respecter les consignes postopératoires de l’ophtalmologiste.',
+      source: 'Pharmacy and Poisons Board Kenya — Unibrom RCP',
+      source_url: 'https://products.pharmacyboardkenya.org/uploads/Unibrom.pdf'
+    };
+  }
+
+  if (name.includes('MYDRIATICUM')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Mydriatique utilisé avant examen du fond d’œil ou dilatation préopératoire, sous contrôle professionnel.',
+      adulte: 'Fond d’œil : 1 à 2 gouttes environ 15 minutes avant l’examen. Dilatation préopératoire pour cataracte/photocoagulation : 1 à 2 gouttes dans les 15 minutes précédant l’intervention.',
+      enfant: 'Schéma pédiatrique individualisé ; pour la skiascopie sous cycloplégie, la notice décrit 4 à 6 gouttes à raison d’1 goutte toutes les 5 minutes sous surveillance spécialisée.',
+      adaptation: 'Utilisation réservée à l’indication ophtalmologique ; surveiller les sujets sensibles au glaucome à angle fermé.',
+      conseil: 'Après instillation, comprimer l’angle interne de l’œil environ 1 minute pour limiter le passage systémique lorsque cela est recommandé par l’ophtalmologiste.',
+      source: 'Base de données publique des médicaments — MYDRIATICUM 2 mg/0,4 ml',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/64029712/extrait'
+    };
+  }
+
+  if (name.includes('CERULYSE')) {
+    return {
+      voie: 'Voie auriculaire',
+      standard: 'Céruménolytique en bain d’oreille avant extraction d’un bouchon de cérumen.',
+      adulte: 'Bouchon mou : instiller quelques gouttes environ 10 minutes avant le lavage d’oreille. Bouchon dur : bain d’oreille 3 fois par jour pendant les 3 à 4 jours précédant l’extraction.',
+      enfant: 'Même mode d’emploi auriculaire si prescrit, après vérification de l’intégrité du tympan par un professionnel.',
+      adaptation: 'Contre-indiqué en cas de perforation tympanique ; réchauffer le flacon dans la main avant utilisation pour limiter l’inconfort.',
+      conseil: 'Avant toute administration, faire vérifier l’intégrité du tympan ; noter la date d’ouverture et utiliser le flacon dans les 30 jours.',
+      source: 'Base de données publique des médicaments — CERULYSE 5 g/100 g',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/69170503/extrait'
+    };
+  }
+
+  if (name.includes('RHINOFLUIMUCIL')) {
+    return {
+      voie: 'Voie nasale',
+      standard: 'Décongestionnant nasal de courte durée pour rhume avec sécrétions abondantes chez l’adulte.',
+      adulte: 'Adulte et adolescent de plus de 15 ans : 2 pulvérisations dans chaque narine, 3 à 4 fois par jour.',
+      enfant: 'Contre-indiqué avant 15 ans.',
+      adaptation: 'La durée du traitement ne doit pas dépasser 3 à 5 jours ; ne pas associer à un autre vasoconstricteur décongestionnant.',
+      conseil: 'Pulvériser lors d’une brève inspiration en tenant le flacon vertical et la tête légèrement penchée en avant ; ne pas dépasser les doses prescrites.',
+      source: 'Vidal — RHINOFLUIMUCIL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/rhinofluimucil-8790.html'
+    };
+  }
+
+  if (name.includes('OTIPAX')) {
+    return {
+      voie: 'Voie auriculaire',
+      standard: 'Solution auriculaire antalgique en bain d’oreille pour certaines otites douloureuses.',
+      adulte: '4 gouttes dans l’oreille à traiter, 2 à 3 fois par jour.',
+      enfant: 'Même posologie usuelle auriculaire possible selon avis médical, en l’absence de perforation tympanique.',
+      adaptation: 'Contre-indiqué en cas de perforation du tympan ; consulter si les troubles persistent au-delà de 10 jours.',
+      conseil: 'Réchauffer le flacon entre les mains, pencher la tête, instiller puis garder la tête inclinée 10 à 15 minutes.',
+      source: 'Vidal — OTIPAX',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/otipax-7282.html'
+    };
+  }
+
+  if (name.includes('OTOFA')) {
+    return {
+      voie: 'Voie auriculaire',
+      standard: 'Antibiotique auriculaire local utilisé dans certains écoulements purulents de l’oreille.',
+      adulte: 'Adulte : 5 gouttes dans l’oreille, matin et soir.',
+      enfant: 'Enfant : 3 gouttes dans l’oreille, matin et soir.',
+      adaptation: 'Durée habituelle du traitement : 7 jours ; demander une réévaluation si les symptômes persistent au-delà de 10 jours ou en cas de réaction allergique.',
+      conseil: 'Pencher la tête, tirer plusieurs fois sur le pavillon de l’oreille puis garder la tête inclinée environ 5 minutes ; réchauffer le flacon entre les mains avant emploi.',
+      source: 'Vidal — OTOFA',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/otofa-7285.html'
+    };
+  }
+
+  if (name.includes('ORCHAZID')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Antiallergique ophtalmique pour conjonctivite allergique saisonnière.',
+      adulte: 'Adulte et sujet âgé : 1 goutte dans le sac conjonctival, 2 fois par jour.',
+      enfant: 'Enfant à partir de 3 ans : 1 goutte, 2 fois par jour ; sécurité non établie avant 3 ans.',
+      adaptation: 'Si d’autres médicaments ophtalmiques sont utilisés, respecter un intervalle d’au moins 5 minutes entre les instillations.',
+      conseil: 'Ne toucher aucune surface avec l’embout pour éviter toute contamination.',
+      source: 'Rwanda FDA — Orchazid SDU SmPC',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2024/03/Orchazid%20SDU%20Ketotifen%20fumarate_025mg%20per%20ml%20Solution%20Ophtalmique%20Sterile_SmPC.pdf'
+    };
+  }
+
+  if (name.includes('LOTEMAX')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Corticoïde ophtalmique postopératoire débuté le lendemain d’une chirurgie oculaire.',
+      adulte: '1 à 2 gouttes dans le sac conjonctival de l’œil atteint, 4 fois par jour, du lendemain de l’intervention jusqu’aux 2 premières semaines postopératoires.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans la source consultée.',
+      adaptation: 'Réévaluer rapidement si douleur, rougeur ou baisse visuelle persistent ; usage conforme à la prescription postopératoire.',
+      conseil: 'Retourner le flacon fermé puis le secouer une fois avant l’instillation afin d’amorcer l’embout.',
+      source: 'FDA — LOTEMAX ophthalmic gel label',
+      source_url: 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/202872lbl.pdf'
+    };
+  }
+
+  if (name.includes('OCUCYCLINE') || ((name.includes('TETRACYCLINE') || name.includes('CHLORTETRACYCLINE')) && /OPHT|POM/.test(route))) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Pommade antibiotique ophtalmique à appliquer dans le sac conjonctival.',
+      adulte: 'Conjonctivite bactérienne : 1 application dans les deux yeux, 2 fois par jour pendant 7 jours. Trachome : 1 application 2 fois par jour pendant 6 semaines.',
+      enfant: 'Nouveau-né : prévention de la conjonctivite néonatale par application unique immédiatement après la naissance ; en cas de conjonctivite néonatale, traitement systémique requis et pommade oculaire répétée en attendant si nécessaire.',
+      adaptation: 'Nettoyer l’œil avant chaque application ; n’utiliser qu’une pommade ophtalmique et jamais une pommade cutanée dans l’œil.',
+      conseil: 'Utiliser du sérum physiologique stérile à 0,9 % chez le nouveau-né pour le nettoyage préalable.',
+      source: 'MSF Medical Guidelines — Tetracycline eye ointment',
+      source_url: 'https://medicalguidelines.msf.org/en/viewport/EssDr/english/tetracycline-eye-ointment-16687976.html'
+    };
+  }
+
+  if (name.includes('DUOTRAV')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Association antiglaucomateuse à instillation unique quotidienne.',
+      adulte: '1 goutte dans l’œil atteint une fois par jour, de préférence à heure fixe.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans cette application.',
+      adaptation: 'Ne pas utiliser deux prostaglandines topiques simultanément ; surveiller les patients à risque respiratoire, cardiovasculaire ou cornéen.',
+      conseil: 'Retirer les lentilles avant instillation et attendre 15 minutes avant de les remettre ; comprimer légèrement l’angle interne de l’œil après instillation pour limiter le passage systémique.',
+      source: 'Vidal — DUOTRAV 40 µg/mL + 5 mg/mL collyre',
+      source_url: 'https://www.vidal.fr/medicaments/duotrav-40-mcg-ml-5-mg-ml-collyre-sol-74320.html'
+    };
+  }
+
+  if (name.includes('CARTEOL')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Bêta-bloquant ophtalmique hypotonisant à instillation quotidienne.',
+      adulte: 'Posologie usuelle : 1 goutte dans l’œil atteint, une fois par jour, généralement le matin.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans l’application.',
+      adaptation: 'Surveiller surtout chez les patients recevant déjà un bêta-bloquant, porteurs de BPCO/asthme, sujets bradycardes ou ayant une cornée fragile.',
+      conseil: 'Retirer les lentilles avant instillation et attendre au moins 15 minutes avant de les remettre ; en traitement prolongé, faire réévaluer régulièrement l’efficacité.',
+      source: 'Vidal — CARTEOL L.P. 2 % collyre LP',
+      source_url: 'https://www.vidal.fr/medicaments/carteol-lp-2-collyre-lp-180166.html'
+    };
+  }
+
+  if ((name.includes('SERUM PHYSIOLOGIQUE') || name.includes('PHYSIODOSE')) && /NAS|OPHT|UNIDOSE/.test(`${name} ${route}`)) {
+    return {
+      voie: 'Voie nasale et/ou ophtalmique locale selon l’usage',
+      standard: 'Sérum physiologique en unidoses pour lavage/instillation locale des yeux et des fosses nasales.',
+      adulte: 'Utilisation locale à la demande selon le besoin de lavage, d’humidification ou de rinçage ; pas de dose chiffrée unique standard dans la source consultée.',
+      enfant: 'Utilisation locale possible chez le nourrisson, l’enfant et l’adulte selon le besoin, avec une unidose propre à chaque soin.',
+      adaptation: 'Produit d’hygiène/soin ; jeter l’unidose après ouverture et ne pas partager la même unidose entre plusieurs personnes.',
+      conseil: 'Pour le nez, administrer avec la tête inclinée sur le côté ; pour l’œil, instiller sans contact avec l’embout.',
+      source: 'Vidal Parapharmacie — PHYSIODOSE sérum physiologique',
+      source_url: 'https://www.vidal.fr/parapharmacie/physiodose-sol-serum-physiologique-66767.html'
+    };
+  }
+
+  if (same('ACECLOFENAC + PARACETAMOL')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Association antalgique/anti-inflammatoire réservée à l’adulte, en 2 prises par jour, en cure la plus courte possible.',
+      adulte: 'Adulte : 1 comprimé 2 fois/j (matin et soir) selon la spécialité.',
+      enfant: 'Pas de schéma pédiatrique retenu ; cette association est destinée à l’adulte.',
+      adaptation: 'Éviter l’association avec d’autres AINS ou d’autres médicaments contenant du paracétamol ; prudence en cas d’ulcère, d’insuffisance rénale, hépatique, de grossesse avancée ou d’anticoagulants.',
+      conseil: 'Prendre de préférence après un repas ou selon la notice de la spécialité ; vérifier la quantité totale quotidienne de paracétamol.',
+      source: 'NAFDAC — Acel Plus (acéclofénac + paracétamol)',
+      source_url: 'https://www.nafdac.gov.ng/wp-content/uploads/Files/SMPC/November_2022_Revised/Acel-Plus-Tablets.pdf'
+    };
+  }
+
+  if (same('IBUPROFENE + CODEINE')) {
+    return {
+      voie: 'Voie orale, de préférence au milieu des repas',
+      standard: 'Association antalgique de palier 2 réservée au traitement de courte durée des douleurs insuffisamment soulagées par un antalgique non opioïde seul ; la dose dépend du dosage de la spécialité.',
+      adulte: 'Repères Vidal : spécialité 200 mg/30 mg = 1 ou 2 comprimés à la première prise puis 1 comprimé toutes les 4 à 6 h, max 6 comprimés/j ; spécialité 400 mg/60 mg = 1 comprimé à la première prise puis 1 comprimé toutes les 6 à 8 h, max 3 comprimés/j.',
+      enfant: 'Contre-indiqué avant 15 ans pour les spécialités Antarène Codéine ; ne pas utiliser chez l’enfant/adolescent après amygdalectomie ou adénoïdectomie pour syndrome d’apnées du sommeil.',
+      adaptation: 'Éviter les autres AINS, l’alcool et les médicaments sédatifs ; prudence en cas d’asthme, d’ulcère, d’insuffisance rénale ou de risque de dépression respiratoire.',
+      conseil: 'Utiliser la dose minimale efficace pendant la durée la plus courte ; réévaluer rapidement si la douleur persiste.',
+      source: 'Vidal — ANTARÈNE CODÉINE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/antarene-codeine-44132.html'
+    };
+  }
+
+  if (same('SECNIDAZOLE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Nitro-imidazolé pouvant être administré en prise unique dans plusieurs indications ; prise au début du repas.',
+      adulte: 'Infections génitales à trichomonas / vaginoses bactériennes : 1 sachet de 2 g en prise unique. Amibiase intestinale aiguë symptomatique : 1 sachet de 2 g en prise unique. Amibiase asymptomatique : même dose quotidienne pendant 3 jours. Amibiase hépatique : 1,5 g/j pendant 5 jours.',
+      enfant: 'Amibiase intestinale aiguë symptomatique ou giardiase : 30 mg/kg/j en 1 prise unique ; amibiase asymptomatique : même dose pendant 3 jours ; amibiase hépatique : 30 mg/kg/j pendant 5 jours.',
+      adaptation: 'Éviter l’alcool pendant le traitement et dans les jours qui suivent ; prudence en cas d’antécédent d’anomalie de la numération sanguine.',
+      conseil: 'Verser les granulés sur la langue ou les mélanger à un aliment semi-solide ; ne pas croquer les granulés et ne pas les diluer avant administration.',
+      source: 'Vidal — SECNOL ; Base de données publique des médicaments — SECNOL 2 g',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/63820798/extrait'
+    };
+  }
+
+  if (same('CEFOPERAZONE + SULBACTAM')) {
+    return {
+      voie: 'Voie IV ou IM usuelle',
+      standard: 'Association injectable d’une céphalosporine et d’un inhibiteur de bêta-lactamase, le plus souvent en 2 administrations/j espacées de 12 heures.',
+      adulte: 'Posologie usuelle : 2 à 4 g/j en doses divisées toutes les 12 h. En cas d’infection sévère ou réfractaire, la dose totale peut être augmentée jusqu’à 8 g/j de l’association 1:1.',
+      enfant: 'Usuel : 40 à 80 mg/kg/j en 2 à 4 doses. Dans les infections graves, augmentation possible jusqu’à 160 mg/kg/j pour le ratio 1:1.',
+      adaptation: 'La dose quotidienne maximale recommandée de sulbactam est de 4 g chez l’adulte et 80 mg/kg/j chez l’enfant ; surveiller la fonction hépatique et rénale.',
+      conseil: 'Vérifier le ratio exact de la spécialité, la dilution et la voie d’administration avant préparation.',
+      source: 'Pfizer labeling — MAGNEX (sulbactam/céfopérazone)',
+      source_url: 'https://labeling.pfizer.com/ShowLabeling.aspx?id=14800'
+    };
+  }
+
+  if (same('METHOCARBAMOL + IBUPROFENE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Association myorelaxante/antalgique utilisée à court terme dans les douleurs musculaires, avec prises espacées de 4 à 6 heures selon le besoin.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 1 à 2 comprimés/caplets toutes les 4 à 6 h si besoin ; maximum 6 comprimés/24 h.',
+      enfant: 'Pas de schéma simplifié retenu avant 12 ans dans cette application.',
+      adaptation: 'Éviter l’alcool, les autres AINS et les activités nécessitant une vigilance soutenue en cas de somnolence ; prudence si ulcère, insuffisance rénale ou traitement anticoagulant.',
+      conseil: 'Utiliser la dose minimale efficace et réévaluer si les douleurs musculaires persistent.',
+      source: 'Monographie officielle — méthocarbamol 500 mg + ibuprofène 200 mg',
+      source_url: 'https://pdf.hres.ca/dpd_pm/00020441.PDF'
+    };
+  }
+
+  if (same('PROGESTERONE')) {
+    return {
+      voie: vaginal ? 'Voie vaginale usuelle' : 'Voie orale usuelle',
+      standard: vaginal
+        ? 'Capsule introduite profondément dans le vagin ; les doses varient selon fertilité, insuffisance lutéale ou menace de fausse couche.'
+        : 'Progestatif naturel à prendre à distance des repas, de préférence le soir au coucher, avec posologie cyclique ou substitutive selon l’indication.',
+      adulte: vaginal
+        ? 'Voie vaginale : 200 à 600 mg/j en plusieurs prises selon l’indication.'
+        : 'Insuffisance en progestérone : 200 mg/j en 1 prise ou 300 mg/j en 2 prises pendant 10 jours/mois (habituellement du 17e au 26e jour du cycle). THS : 100 mg 2 fois/j ou 200 mg 1 fois/j pendant 12 à 14 jours en association avec un estrogène.',
+      enfant: 'Pas d’indication pédiatrique standard retenue dans cette application.',
+      adaptation: 'Ne pas dépasser 200 mg par prise ; éviter en cas d’atteinte hépatique sévère et tenir compte du risque de somnolence/vertiges par voie orale.',
+      conseil: vaginal ? 'Introduire la capsule profondément dans le vagin ; en cas de somnolence gênante par voie orale, la voie vaginale peut être une alternative selon la prescription.' : 'Prendre à distance des repas ; la voie vaginale peut être préférée si la somnolence est gênante par voie orale.',
+      source: 'Vidal — PROGESTÉRONE VIATRIS / UTROGESTAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/progesterone-viatris-42214.html'
+    };
+  }
+
+  if (same('NEOMYCINE SULFATE + POLYMYXINE B SULFATE + NYSTATINE', 'NEOMYCINE SULFATE + POLYMYXINE B SULFATE + NYSTATINE + DIMETHYLPOLYSILOXANE') || name.includes('POLYGYNAX')) {
+    return {
+      voie: 'Voie vaginale locale',
+      standard: 'Traitement local des infections vaginales ; administration le soir au coucher.',
+      adulte: 'POLYGYNAX : 1 capsule vaginale le soir au coucher pendant 12 jours.',
+      enfant: 'POLYGYNAX VIRGO (petite fille/adolescente) : 1 instillation vulvo-vaginale le soir au coucher pendant 6 jours.',
+      adaptation: 'Introduire la capsule au fond du vagin en position couchée ; pour la forme Virgo, presser doucement la capsule pour instiller la suspension. Éviter les tampons et ne pas interrompre pendant les règles sauf avis contraire.',
+      conseil: 'Avec la capsule adulte, rester allongée 5 à 10 minutes après la mise en place ; l’utilisation de certains dispositifs contraceptifs locaux peut être déconseillée pendant le traitement.',
+      source: 'Vidal — POLYGYNAX / POLYGYNAX VIRGO ; Rwanda FDA — Polygynax Virgo SmPC',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/polygynax-polygynax-virgo-8127.html'
+    };
+  }
+
+  if (same('TRIAMCINOLONE ACETONIDE + NEOMYCINE SULFATE + NYSTATINE')) {
+    return {
+      voie: 'Application cutanée locale',
+      standard: 'Association corticoïde + antibiotique + antifongique à appliquer en couche mince sur les lésions, sur durée limitée.',
+      adulte: 'Repère pratique : 2 applications/j (matin et soir). Certaines informations produit mentionnent 2 à 3 applications/j selon l’intensité et la zone.',
+      enfant: 'Utilisation pédiatrique seulement sur avis médical, en évitant les grandes surfaces, les plis et les pansements occlusifs.',
+      adaptation: 'Réévaluer rapidement en l’absence d’amélioration ; éviter le contact avec les yeux et les muqueuses et ne pas prolonger inutilement la corticothérapie locale.',
+      conseil: 'Appliquer en fine couche après toilette douce et se laver les mains après usage.',
+      source: 'Drugs.com — Nystatin / Triamcinolone topical dosage guide',
+      source_url: 'https://www.drugs.com/dosage/nystatin-triamcinolone-topical.html'
+    };
+  }
+
+  if (same('BETAMETHASONE DIPROPIONATE + ACIDE SALICYLIQUE')) {
+    return {
+      voie: 'Application cutanée locale',
+      standard: 'Dermocorticoïde kératolytique à appliquer en couche fine, avec arrêt progressif dès amélioration.',
+      adulte: '1 à 2 applications/j, suivies d’un léger massage ; ne pas augmenter le nombre d’applications.',
+      enfant: 'Éviter chez l’enfant sans avis spécialisé, en particulier sur grandes surfaces ou sous occlusion.',
+      adaptation: 'À l’amélioration, arrêter progressivement en espaçant les applications et/ou en relayant par un corticoïde moins fort.',
+      conseil: 'Ne pas appliquer sur le visage, les muqueuses, les plaies ou une infection non traitée sans avis médical.',
+      source: 'ANSM — Notice DIPROSALIC',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0229280.htm'
+    };
+  }
+
+  if (same('NAPROXENE + ESOMEPRAZOLE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Association AINS + IPP surtout utilisée dans les rhumatismes inflammatoires ou dégénératifs, en 2 prises/j.',
+      adulte: '1 comprimé 2 fois/j (20/375 mg ou 20/500 mg selon la spécialité).',
+      enfant: 'À partir de 12 ans et ≥38 kg : 1 comprimé 20/375 mg 2 fois/j ; si >50 kg, certaines spécialités permettent aussi 20/500 mg 2 fois/j.',
+      adaptation: 'Non recommandé si clairance de la créatinine <30 mL/min ; prudence chez la personne âgée et utiliser la dose efficace la plus faible.',
+      conseil: 'Prendre au moins 30 minutes avant un repas ; avaler entier sans croquer ni écraser. Cette association n’est pas destinée au traitement initial de la douleur aiguë.',
+      source: 'Drugs.com — Esomeprazole / Naproxen dosage guide',
+      source_url: 'https://www.drugs.com/dosage/esomeprazole-naproxen.html'
+    };
+  }
+
   return null;
 }
 
 function buildStandardPosology(m = {}) {
-  return buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
+  return buildSupplementalBrandPosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
 }
 
 function buildStandardPosologyHtml(m = {}) {
@@ -11233,7 +11976,7 @@ function renderHopDirectory() {
 }
 
 (function init() {
-  console.log('[MedMada] v57 — corrections bugs appliquées');
+  console.log('[MedMada] v63 — corrections bugs critiques chargement sections');
   var _sm = document.getElementById('statMeds'); if (_sm) _sm.textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
   var _sp = document.getElementById('statPharms'); if (_sp) _sp.textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
 
@@ -11273,15 +12016,15 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat d\'Inaptitude</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie que <span class="cp-field">${d['cert-pat-nom'] || 'M. XX'}</span>, ${d['cert-pat-age'] || '…'}, domicilié ${d['cert-pat-dom'] || '…'}, ne peut maintenir une station debout prolongée en raison de son état de santé.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie que <span class="cp-field">${esc(d['cert-pat-nom']) || 'M. XX'}</span>, ${esc(d['cert-pat-age']) || '…'}, domicilié ${esc(d['cert-pat-dom']) || '…'}, ne peut maintenir une station debout prolongée en raison de son état de santé.</p>
         <br>
         <p>Certificat remis en mains propres pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature</div>
       </div>`
   },
@@ -11297,15 +12040,15 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat d\'Aptitude</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie qu\'à l\'examen de ce jour, ${d['cert-pat-sexe'] || 'l\'enfant'} <span class="cp-field">${d['cert-pat-nom'] || 'XX'}</span>, ${d['cert-pat-age'] || '…'}, ne présente aucune manifestation pathologique qui pourrait contre-indiquer la pratique de ${d['cert-activite'] || '…'}.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie qu\'à l\'examen de ce jour, ${esc(d['cert-pat-sexe']) || 'l\'enfant'} <span class="cp-field">${esc(d['cert-pat-nom']) || 'XX'}</span>, ${esc(d['cert-pat-age']) || '…'}, ne présente aucune manifestation pathologique qui pourrait contre-indiquer la pratique de ${esc(d['cert-activite']) || '…'}.</p>
         <br>
-        <p>Certificat remis à ${d['cert-remis-a'] || '…'} pour servir et faire valoir ce que de droit.</p>
+        <p>Certificat remis à ${esc(d['cert-remis-a']) || '…'} pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature</div>
       </div>`
   },
@@ -11324,22 +12067,22 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat de Décès</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie que la mort de la personne sous-nommée est réelle et constante.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie que la mort de la personne sous-nommée est réelle et constante.</p>
         <br>
-        <p><span class="cp-field">Nom :</span> ${d['cert-dec-nom'] || '…'}</p>
-        <p><span class="cp-field">Prénom :</span> ${d['cert-dec-prenom'] || '…'}</p>
-        <p><span class="cp-field">Date et lieu de naissance :</span> ${d['cert-dec-ddn'] || '…'}</p>
-        <p><span class="cp-field">Fils de :</span> ${d['cert-dec-fils'] || '…'}</p>
-        <p><span class="cp-field">Et de :</span> ${d['cert-dec-et'] || '…'}</p>
-        <p><span class="cp-field">Adresse :</span> ${d['cert-dec-adresse'] || '…'}</p>
-        <p><span class="cp-field">Date et heure du décès :</span> ${d['cert-dec-datetps'] || '…'}</p>
-        <p><span class="cp-field">Cause du décès :</span> ${d['cert-dec-cause'] || '…'}</p>
+        <p><span class="cp-field">Nom :</span> ${esc(d['cert-dec-nom']) || '…'}</p>
+        <p><span class="cp-field">Prénom :</span> ${esc(d['cert-dec-prenom']) || '…'}</p>
+        <p><span class="cp-field">Date et lieu de naissance :</span> ${esc(d['cert-dec-ddn']) || '…'}</p>
+        <p><span class="cp-field">Fils de :</span> ${esc(d['cert-dec-fils']) || '…'}</p>
+        <p><span class="cp-field">Et de :</span> ${esc(d['cert-dec-et']) || '…'}</p>
+        <p><span class="cp-field">Adresse :</span> ${esc(d['cert-dec-adresse']) || '…'}</p>
+        <p><span class="cp-field">Date et heure du décès :</span> ${esc(d['cert-dec-datetps']) || '…'}</p>
+        <p><span class="cp-field">Cause du décès :</span> ${esc(d['cert-dec-cause']) || '…'}</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature</div>
       </div>
       <div class="cp-nb"><strong>NB :</strong> Le certificat doit être adressé sous pli fermé au <strong>Médecin Chef du BMH</strong> pour ceux qui exercent dans une commune urbaine et au <strong>Médecin Chef du CSB2</strong> pour ceux des communes rurales avec la mention <strong>SECRET MÉDICAL</strong>. Ne jamais délivrer de certificat en cas de doute sur la cause du décès. Laisser ce soin aux autorités.</div>`
@@ -11356,15 +12099,15 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Reprise Scolaire</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie que l\'enfant <span class="cp-field">${d['cert-pat-nom'] || 'XX'}</span>, ${d['cert-pat-age'] || '…'}, a dû garder la chambre du ${d['cert-rep-du'] || '…'} au ${d['cert-rep-au'] || '…'}. Il peut dorénavant reprendre sa classe à compter de ce jour sans aucune restriction.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie que l\'enfant <span class="cp-field">${esc(d['cert-pat-nom']) || 'XX'}</span>, ${esc(d['cert-pat-age']) || '…'}, a dû garder la chambre du ${esc(d['cert-rep-du']) || '…'} au ${esc(d['cert-rep-au']) || '…'}. Il peut dorénavant reprendre sa classe à compter de ce jour sans aucune restriction.</p>
         <br>
-        <p>Certificat remis à ${d['cert-remis-a'] || '…'} pour servir et faire valoir ce que de droit.</p>
+        <p>Certificat remis à ${esc(d['cert-remis-a']) || '…'} pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature</div>
       </div>`
   },
@@ -11385,22 +12128,22 @@ const CERT_TYPES = {
       return `
       <div class="cp-header">
         <div class="cp-title">Coups et Blessures</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir examiné ce ${d.dateStr || '…'} à ${d['cert-exam-heure'] || '…'} une personne qui m\'a déclaré se nommer <span class="cp-field">${d['cert-vict-nom'] || '…'}</span>, être âgée de ${d['cert-vict-age'] || '…'} et domiciliée ${d['cert-vict-dom'] || '…'}.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir examiné ce ${esc(d.dateStr) || '…'} à ${esc(d['cert-exam-heure']) || '…'} une personne qui m\'a déclaré se nommer <span class="cp-field">${esc(d['cert-vict-nom']) || '…'}</span>, être âgée de ${esc(d['cert-vict-age']) || '…'} et domiciliée ${esc(d['cert-vict-dom']) || '…'}.</p>
         <br>
-        <p>Elle me dit : ${d['cert-circonstances'] || '…'}</p>
+        <p>Elle me dit : ${esc(d['cert-circonstances']) || '…'}</p>
         <br>
         <p>À l\'examen, je constate :</p>
         <ul>${lesions.length ? lesions.map(l => `<li>${l}</li>`).join('') : '<li>…</li>'}</ul>
         <br>
-        <p>Son état de santé nécessite la prise ${d['cert-traitement'] || 'd\'antalgiques'} ainsi qu\'une ITT de <strong>${d['cert-itt'] || '…'}</strong> jours sauf complications éventuelles.</p>
+        <p>Son état de santé nécessite la prise ${esc(d['cert-traitement']) || 'd\'antalgiques'} ainsi qu\'une ITT de <strong>${esc(d['cert-itt']) || '…'}</strong> jours sauf complications éventuelles.</p>
         <br>
         <p>Certificat remis en mains propres pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature</div>
       </div>`;
     }
@@ -11425,16 +12168,16 @@ const CERT_TYPES = {
       return `
       <div class="cp-header">
         <div class="cp-title">Certificat Médical pour Viol</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || 'Docteur X'}</span>, certifie avoir examiné ce jour à … heures une personne qui m\'a déclaré se nommer <span class="cp-field">${d['cert-vict-nom'] || 'Y…R'}</span> et être âgée de ${d['cert-vict-age'] || '…'} ans.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || 'Docteur X'}</span>, certifie avoir examiné ce jour à … heures une personne qui m\'a déclaré se nommer <span class="cp-field">${esc(d['cert-vict-nom']) || 'Y…R'}</span> et être âgée de ${esc(d['cert-vict-age']) || '…'} ans.</p>
         <br>
-        <p>Elle me dit avoir été victime d\'une agression sexuelle, le ${d['cert-agr-date'] || '…'}, à ${d['cert-agr-heure'] || '…'}, à ${d['cert-agr-lieu'] || '…'}, de la part d\'un individu (ne jamais citer de noms).</p>
+        <p>Elle me dit avoir été victime d\'une agression sexuelle, le ${esc(d['cert-agr-date']) || '…'}, à ${esc(d['cert-agr-heure']) || '…'}, à ${esc(d['cert-agr-lieu']) || '…'}, de la part d\'un individu (ne jamais citer de noms).</p>
         <br>
-        <p>Elle se plaint de : ${d['cert-plaintes'] || '…'}</p>
+        <p>Elle se plaint de : ${esc(d['cert-plaintes']) || '…'}</p>
         <br>
-        <p>Elle présente un état général de : ${d['cert-etat-gen'] || '…'}</p>
+        <p>Elle présente un état général de : ${esc(d['cert-etat-gen']) || '…'}</p>
         <br>
         <p>À l\'examen physique, je constate :</p>
         <ul>${lPhys.length ? lPhys.map(l => `<li>${l}</li>`).join('') : '<li>…</li>'}</ul>
@@ -11443,14 +12186,14 @@ const CERT_TYPES = {
         <ul>${lGyn.length ? lGyn.map(l => `<li>${l}</li>`).join('') : '<li>…</li>'}</ul>
         <br>
         <p>Des prélèvements vaginaux ont été effectués à la recherche de spermatozoïdes et de MST.</p>
-        <p>En l\'absence de contraception orale, elle a reçu une contraception d\'urgence : ${d['cert-contraception'] || '…'}.</p>
+        <p>En l\'absence de contraception orale, elle a reçu une contraception d\'urgence : ${esc(d['cert-contraception']) || '…'}.</p>
         <br>
-        <p>En conclusion, <span class="cp-field">${d['cert-vict-nom'] || 'Madame Y…'}</span> présente des traces de violences récentes et une réaction psychique à l\'agression qu\'elle dit avoir subie.</p>
+        <p>En conclusion, <span class="cp-field">${esc(d['cert-vict-nom']) || 'Madame Y…'}</span> présente des traces de violences récentes et une réaction psychique à l\'agression qu\'elle dit avoir subie.</p>
         <br>
         <p>Certificat établi à la demande de l\'intéressée et remis en mains propres pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature</div>
       </div>`;
     }
@@ -11475,32 +12218,32 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Rapport d\'Expertise Médico-Légale</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc} — ${d['cert-doc-service'] || '…'}</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)} — ${esc(d['cert-doc-service']) || '…'}</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je, soussigné(e), Dr <span class="cp-field">${d.doc || '…'}</span> dans le Service <span class="cp-field">${d['cert-doc-service'] || '…'}</span>, prête serment d\'apporter mon concours à la justice en mon honneur et conscience.</p>
+        <p>Je, soussigné(e), Dr <span class="cp-field">${esc(d.doc) || '…'}</span> dans le Service <span class="cp-field">${esc(d['cert-doc-service']) || '…'}</span>, prête serment d\'apporter mon concours à la justice en mon honneur et conscience.</p>
         <br>
-        <p>Et certifie avoir examiné ce ${d['cert-exam-date'] || '…'} à ${d['cert-exam-heure'] || '…'}</p>
-        <p><span class="cp-field">M …</span> ${d['cert-subj-nom'] || '…'}, né(e) le ${d['cert-subj-ddn'] || '…'}</p>
-        <p>Sur réquisition de ${d['cert-opm'] || '…'}, Officier de Police Judiciaire.</p>
+        <p>Et certifie avoir examiné ce ${esc(d['cert-exam-date']) || '…'} à ${esc(d['cert-exam-heure']) || '…'}</p>
+        <p><span class="cp-field">M …</span> ${esc(d['cert-subj-nom']) || '…'}, né(e) le ${esc(d['cert-subj-ddn']) || '…'}</p>
+        <p>Sur réquisition de ${esc(d['cert-opm']) || '…'}, Officier de Police Judiciaire.</p>
         <br>
-        <p><strong>À l\'anamnèse :</strong> ${d['cert-anamnese'] || '…'}</p>
+        <p><strong>À l\'anamnèse :</strong> ${esc(d['cert-anamnese']) || '…'}</p>
         <br>
-        <p><strong>Examen somatique :</strong> ${d['cert-exam-som'] || '…'}</p>
+        <p><strong>Examen somatique :</strong> ${esc(d['cert-exam-som']) || '…'}</p>
         <br>
-        <p><strong>Examen physique :</strong> ${d['cert-exam-phys'] || '…'}</p>
+        <p><strong>Examen physique :</strong> ${esc(d['cert-exam-phys']) || '…'}</p>
         <br>
-        <p><strong>Examen génital :</strong> ${d['cert-exam-gen'] || '…'}</p>
+        <p><strong>Examen génital :</strong> ${esc(d['cert-exam-gen']) || '…'}</p>
         <br>
-        <p><strong>Examen anal :</strong> ${d['cert-exam-anal'] || '…'}</p>
+        <p><strong>Examen anal :</strong> ${esc(d['cert-exam-anal']) || '…'}</p>
         <br>
-        <p><strong>Prélèvements :</strong> ${d['cert-prelevements'] || '…'}</p>
+        <p><strong>Prélèvements :</strong> ${esc(d['cert-prelevements']) || '…'}</p>
         <br>
-        <p><strong>Conclusion :</strong> ${d['cert-conclusion'] || '…'}</p>
+        <p><strong>Conclusion :</strong> ${esc(d['cert-conclusion']) || '…'}</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait le ${d.dateStr || '…'}</div>
-        <div class="cp-sign-label">Dr ${d.doc || '…'}</div>
+        <div class="cp-sign-lieu">Fait le ${esc(d.dateStr) || '…'}</div>
+        <div class="cp-sign-label">Dr ${esc(d.doc) || '…'}</div>
       </div>
       <div class="cp-nb">Rapport d\'expertise médico-légale établi et remis aux autorités requérantes.</div>`
   },
@@ -11525,23 +12268,23 @@ const CERT_TYPES = {
     render: (d) => {
       const lieuType = d['cert-lieu-type'] || 'cabinet';
       const lieuText = lieuType === 'domicile'
-        ? `au domicile des parents — <strong>${d['cert-lieu-domicile'] || '…'}</strong>`
-        : `au cabinet / centre médical — <strong>${d['cert-lieu-cabinet'] || '…'}</strong>`;
+        ? `au domicile des parents — <strong>${esc(d['cert-lieu-domicile']) || '…'}</strong>`
+        : `au cabinet / centre médical — <strong>${esc(d['cert-lieu-cabinet']) || '…'}</strong>`;
       return `
       <div class="cp-header">
         <div class="cp-title">Attestation de Présence — Circoncision</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">Dr ${d.doc || '…'}</span>, docteur en médecine, certifie que :</p>
+        <p>Je soussigné, <span class="cp-field">Dr ${esc(d.doc) || '…'}</span>, docteur en médecine, certifie que :</p>
         <br>
-        <p><span class="cp-field">${d['cert-par-nom'] || '…'}</span><br>
-        <em>Qualité : ${d['cert-par-lien'] || 'Père / Mère / Tuteur(trice)'}</em></p>
+        <p><span class="cp-field">${esc(d['cert-par-nom']) || '…'}</span><br>
+        <em>Qualité : ${esc(d['cert-par-lien']) || 'Père / Mère / Tuteur(trice)'}</em></p>
         <br>
         <p>a assisté à la circoncision de son fils :</p>
         <br>
-        <p><span class="cp-field">${d['cert-enf-nom'] || '…'}</span>, âgé de ${d['cert-enf-age'] || '…'},<br>
-        le <strong>${d.dateStr || '…'}</strong>, de <strong>${d['cert-heure-debut'] || '…'}</strong> à <strong>${d['cert-heure-fin'] || '…'}</strong>.</p>
+        <p><span class="cp-field">${esc(d['cert-enf-nom']) || '…'}</span>, âgé de ${esc(d['cert-enf-age']) || '…'},<br>
+        le <strong>${esc(d.dateStr) || '…'}</strong>, de <strong>${esc(d['cert-heure-debut']) || '…'}</strong> à <strong>${esc(d['cert-heure-fin']) || '…'}</strong>.</p>
         <br>
         <p>L\'acte a été réalisé ${lieuText}.</p>
         <br>
@@ -11550,7 +12293,7 @@ const CERT_TYPES = {
         <p><em>Le médecin décline toute responsabilité quant à l\'usage qui sera fait de ce document.</em></p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`;
     }
@@ -11570,19 +12313,19 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat d\'Arrêt de Travail</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour :</p>
         <br>
-        <p><strong>M./Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'}, exerçant la profession de / employé(e) au : <em>${d['cert-pat-prof'] || '…'}</em>.</p>
+        <p><strong>M./Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}, exerçant la profession de / employé(e) au : <em>${esc(d['cert-pat-prof']) || '…'}</em>.</p>
         <br>
-        <p>L\'état de santé de cette personne${d['cert-arret-diag'] ? ` (${d['cert-arret-diag']})` : ''} nécessite un <strong>arrêt de travail</strong> et un <strong>${d['cert-arret-repos'] || 'repos à domicile'}</strong> du <span class="cp-field">${d['cert-arret-du'] || '…'}</span> au <span class="cp-field">${d['cert-arret-au'] || '…'}</span> inclus, soit une durée de <strong>${d['cert-arret-duree'] || '…'} jour(s)</strong>.</p>
+        <p>L\'état de santé de cette personne${d['cert-arret-diag'] ? ` (${esc(d['cert-arret-diag'])})` : ''} nécessite un <strong>arrêt de travail</strong> et un <strong>${esc(d['cert-arret-repos']) || 'repos à domicile'}</strong> du <span class="cp-field">${esc(d['cert-arret-du']) || '…'}</span> au <span class="cp-field">${esc(d['cert-arret-au']) || '…'}</span> inclus, soit une durée de <strong>${esc(d['cert-arret-duree']) || '…'} jour(s)</strong>.</p>
         <br>
         <p>Certificat établi à la demande de l\'intéressé(e) et remis en mains propres pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11600,19 +12343,19 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat de Reprise du Travail</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie que :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie que :</p>
         <br>
-        <p><strong>M./Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'}, employé(e) au : <em>${d['cert-pat-prof'] || '…'}</em>,</p>
+        <p><strong>M./Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}, employé(e) au : <em>${esc(d['cert-pat-prof']) || '…'}</em>,</p>
         <br>
-        <p>a été en arrêt de travail pour ${d['cert-rep-motif'] || 'raison médicale'} du <span class="cp-field">${d['cert-rep-du'] || '…'}</span> au <span class="cp-field">${d['cert-rep-au'] || '…'}</span>, et peut désormais <strong>reprendre son activité professionnelle</strong> à compter de ce jour avec ${d['cert-rep-restriction'] || 'aucune restriction'}.</p>
+        <p>a été en arrêt de travail pour ${esc(d['cert-rep-motif']) || 'raison médicale'} du <span class="cp-field">${esc(d['cert-rep-du']) || '…'}</span> au <span class="cp-field">${esc(d['cert-rep-au']) || '…'}</span>, et peut désormais <strong>reprendre son activité professionnelle</strong> à compter de ce jour avec ${esc(d['cert-rep-restriction']) || 'aucune restriction'}.</p>
         <br>
         <p>Certificat établi à la demande de l\'intéressé(e) et remis en mains propres pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11631,21 +12374,21 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Attestation d\'Hospitalisation</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine au sein du <em>${d['cert-hospit-service'] || '…'}</em>, certifie que :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine au sein du <em>${esc(d['cert-hospit-service']) || '…'}</em>, certifie que :</p>
         <br>
-        <p><strong>M./Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'},</p>
+        <p><strong>M./Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'},</p>
         <br>
-        <p>a été hospitalisé(e) dans notre établissement${d['cert-hospit-motif'] ? ` pour <em>${d['cert-hospit-motif']}</em>` : ''} du <span class="cp-field">${d['cert-hospit-du'] || '…'}</span> au <span class="cp-field">${d['cert-hospit-au'] || '…'}</span>.</p>
+        <p>a été hospitalisé(e) dans notre établissement${d['cert-hospit-motif'] ? ` pour <em>${esc(d['cert-hospit-motif'])}</em>` : ''} du <span class="cp-field">${esc(d['cert-hospit-du']) || '…'}</span> au <span class="cp-field">${esc(d['cert-hospit-au']) || '…'}</span>.</p>
         <br>
-        <p>${d['cert-hospit-suite'] || 'Le patient est sorti avec autorisation médicale.'}.</p>
+        <p>${esc(d['cert-hospit-suite']) || 'Le patient est sorti avec autorisation médicale.'}.</p>
         <br>
-        <p>Certificat établi à la demande de l\'intéressé(e) et remis à ${d['cert-remis-a'] || '…'} pour servir et faire valoir ce que de droit.</p>
+        <p>Certificat établi à la demande de l\'intéressé(e) et remis à ${esc(d['cert-remis-a']) || '…'} pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11662,19 +12405,19 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat de Non-contagiosité</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour l\'enfant <span class="cp-field">${d['cert-pat-nom'] || 'XX'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'}.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour l\'enfant <span class="cp-field">${esc(d['cert-pat-nom']) || 'XX'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}.</p>
         <br>
-        <p>Cet enfant a présenté une <strong>${d['cert-nc-maladie'] || '…'}</strong> du ${d['cert-nc-du'] || '…'} au ${d['cert-nc-au'] || '…'}.</p>
+        <p>Cet enfant a présenté une <strong>${esc(d['cert-nc-maladie']) || '…'}</strong> du ${esc(d['cert-nc-du']) || '…'} au ${esc(d['cert-nc-au']) || '…'}.</p>
         <br>
         <p>À l\'examen de ce jour, il/elle est <strong>guéri(e)</strong> et ne présente plus aucun signe de contagiosité. Il/elle peut <strong>réintégrer l\'établissement scolaire</strong> sans restriction.</p>
         <br>
-        <p>Certificat remis à ${d['cert-remis-a'] || '…'} pour servir et faire valoir ce que de droit.</p>
+        <p>Certificat remis à ${esc(d['cert-remis-a']) || '…'} pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11692,17 +12435,17 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Dispense de Sport Scolaire</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour l\'enfant <span class="cp-field">${d['cert-pat-nom'] || 'XX'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'}.</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour l\'enfant <span class="cp-field">${esc(d['cert-pat-nom']) || 'XX'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}.</p>
         <br>
-        <p>Son état de santé${d['cert-ds-motif'] ? ` (${d['cert-ds-motif']})` : ''} nécessite une <strong>dispense ${d['cert-ds-type'] || 'totale'} d\'éducation physique et sportive</strong> du <span class="cp-field">${d['cert-ds-du'] || '…'}</span> au <span class="cp-field">${d['cert-ds-au'] || '…'}</span>.</p>
+        <p>Son état de santé${d['cert-ds-motif'] ? ` (${esc(d['cert-ds-motif'])})` : ''} nécessite une <strong>dispense ${esc(d['cert-ds-type']) || 'totale'} d\'éducation physique et sportive</strong> du <span class="cp-field">${esc(d['cert-ds-du']) || '…'}</span> au <span class="cp-field">${esc(d['cert-ds-au']) || '…'}</span>.</p>
         <br>
-        <p>Certificat remis à ${d['cert-remis-a'] || '…'} pour servir et faire valoir ce que de droit, notamment auprès de l\'établissement scolaire.</p>
+        <p>Certificat remis à ${esc(d['cert-remis-a']) || '…'} pour servir et faire valoir ce que de droit, notamment auprès de l\'établissement scolaire.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11731,22 +12474,22 @@ const CERT_TYPES = {
       return `
       <div class="cp-header">
         <div class="cp-title">Compatibilité avec la Garde à Vue</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, requis par ${d['cert-gv-requerant'] || '…'}, certifie avoir examiné ce ${d.dateStr || '…'} à ${d['cert-gv-exam-heure'] || '…'} :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, requis par ${esc(d['cert-gv-requerant']) || '…'}, certifie avoir examiné ce ${esc(d.dateStr) || '…'} à ${esc(d['cert-gv-exam-heure']) || '…'} :</p>
         <br>
-        <p><strong>M./Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'}.</p>
+        <p><strong>M./Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}.</p>
         <br>
-        <p><strong>État général :</strong> ${d['cert-gv-etat'] || '…'}</p>
-        <p><strong>Antécédents déclarés :</strong> ${d['cert-gv-atcd'] || '…'}</p>
+        <p><strong>État général :</strong> ${esc(d['cert-gv-etat']) || '…'}</p>
+        <p><strong>Antécédents déclarés :</strong> ${esc(d['cert-gv-atcd']) || '…'}</p>
         <br>
-        <p>Au vu de l\'examen clinique, l\'état de santé de cette personne est ${compatText}.${d['cert-gv-reserve'] ? ` <em>${d['cert-gv-reserve']}.</em>` : ''}</p>
+        <p>Au vu de l\'examen clinique, l\'état de santé de cette personne est ${compatText}.${d['cert-gv-reserve'] ? ` <em>${esc(d['cert-gv-reserve'])}.</em>` : ''}</p>
         <br>
         <p>Certificat établi sur réquisition et remis aux autorités pour servir et faire valoir ce que de droit.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`;
     }
@@ -11765,21 +12508,21 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat de Grossesse</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir examiné ce jour :</p>
         <br>
-        <p><strong>Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, âgée de ${d['cert-pat-age'] || '…'}.</p>
+        <p><strong>Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, âgée de ${esc(d['cert-pat-age']) || '…'}.</p>
         <br>
-        <p>L\'examen clinique et paraclinique confirme l\'existence d\'une <strong>grossesse ${d['cert-gr-grossesse'] || 'évolutive'}</strong> à <strong>${d['cert-gr-sa'] || '…'}</strong>.</p>
-        ${d['cert-gr-ddr'] ? `<p><strong>Date des dernières règles :</strong> ${d['cert-gr-ddr']}</p>` : ''}
-        ${d['cert-gr-dpa'] ? `<p><strong>Date présumée d\'accouchement :</strong> ${d['cert-gr-dpa']}</p>` : ''}
+        <p>L\'examen clinique et paraclinique confirme l\'existence d\'une <strong>grossesse ${esc(d['cert-gr-grossesse']) || 'évolutive'}</strong> à <strong>${esc(d['cert-gr-sa']) || '…'}</strong>.</p>
+        ${d['cert-gr-ddr'] ? `<p><strong>Date des dernières règles :</strong> ${esc(d['cert-gr-ddr'])}</p>` : ''}
+        ${d['cert-gr-dpa'] ? `<p><strong>Date présumée d\'accouchement :</strong> ${esc(d['cert-gr-dpa'])}</p>` : ''}
         <br>
-        <p>Certificat établi à la demande de l\'intéressée pour ${d['cert-gr-destination'] || 'servir et faire valoir ce que de droit'}.</p>
+        <p>Certificat établi à la demande de l\'intéressée pour ${esc(d['cert-gr-destination']) || 'servir et faire valoir ce que de droit'}.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11795,17 +12538,17 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat de Vie</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir vu et reconnu vivant(e) ce jour :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir vu et reconnu vivant(e) ce jour :</p>
         <br>
-        <p><strong>M./Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, né(e) le <strong>${d['cert-vie-ddn'] || '…'}</strong>, âgé(e) de ${d['cert-pat-age'] || '…'}, domicilié(e) ${d['cert-vie-domicile'] || '…'}.</p>
+        <p><strong>M./Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, né(e) le <strong>${esc(d['cert-vie-ddn']) || '…'}</strong>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}, domicilié(e) ${esc(d['cert-vie-domicile']) || '…'}.</p>
         <br>
-        <p>Certificat établi à la demande de l\'intéressé(e) pour ${d['cert-vie-objet'] || 'servir et faire valoir ce que de droit'}.</p>
+        <p>Certificat établi à la demande de l\'intéressé(e) pour ${esc(d['cert-vie-objet']) || 'servir et faire valoir ce que de droit'}.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   },
@@ -11825,28 +12568,28 @@ const CERT_TYPES = {
     render: (d) => `
       <div class="cp-header">
         <div class="cp-title">Certificat pour Évacuation Sanitaire (EVASAN)</div>
-        ${d.doc ? `<div class="cp-doc-line">Dr ${d.doc}, docteur en médecine</div>` : ''}
+        ${d.doc ? `<div class="cp-doc-line">Dr ${esc(d.doc)}, docteur en médecine</div>` : ''}
       </div>
       <div class="cp-body">
-        <p>Je soussigné, <span class="cp-field">${d.doc || '…'}</span>, docteur en médecine, certifie avoir pris en charge :</p>
+        <p>Je soussigné, <span class="cp-field">${esc(d.doc) || '…'}</span>, docteur en médecine, certifie avoir pris en charge :</p>
         <br>
-        <p><strong>M./Mme</strong> <span class="cp-field">${d['cert-pat-nom'] || '…'}</span>, âgé(e) de ${d['cert-pat-age'] || '…'}.</p>
+        <p><strong>M./Mme</strong> <span class="cp-field">${esc(d['cert-pat-nom']) || '…'}</span>, âgé(e) de ${esc(d['cert-pat-age']) || '…'}.</p>
         <br>
-        <p><strong>Diagnostic :</strong> ${d['cert-ev-diag'] || '…'}</p>
+        <p><strong>Diagnostic :</strong> ${esc(d['cert-ev-diag']) || '…'}</p>
         <br>
-        <p><strong>État clinique :</strong> ${d['cert-ev-etat'] || '…'}</p>
+        <p><strong>État clinique :</strong> ${esc(d['cert-ev-etat']) || '…'}</p>
         <br>
-        <p><strong>Bilan et traitements réalisés :</strong> ${d['cert-ev-examens'] || '…'}</p>
+        <p><strong>Bilan et traitements réalisés :</strong> ${esc(d['cert-ev-examens']) || '…'}</p>
         <br>
-        <p>En raison de ${d['cert-ev-motif'] || '…'}, le transfert de ce patient vers <strong>${d['cert-ev-destination'] || '…'}</strong> est <strong>médicalement nécessaire et urgent</strong>.</p>
+        <p>En raison de ${esc(d['cert-ev-motif']) || '…'}, le transfert de ce patient vers <strong>${esc(d['cert-ev-destination']) || '…'}</strong> est <strong>médicalement nécessaire et urgent</strong>.</p>
         <br>
-        <p><strong>Mode de transport recommandé :</strong> ${d['cert-ev-mode'] || '…'}</p>
-        <p><strong>Accompagnement médical :</strong> ${d['cert-ev-accomp'] || '…'}</p>
+        <p><strong>Mode de transport recommandé :</strong> ${esc(d['cert-ev-mode']) || '…'}</p>
+        <p><strong>Accompagnement médical :</strong> ${esc(d['cert-ev-accomp']) || '…'}</p>
         <br>
         <p>Certificat établi pour servir et faire valoir ce que de droit auprès des autorités sanitaires et administratives compétentes.</p>
       </div>
       <div class="cp-sign">
-        <div class="cp-sign-lieu">Fait à ${d.lieu || 'Antananarivo'} le ${d.dateStr || '…'}</div>
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
         <div class="cp-sign-label">Signature et cachet</div>
       </div>`
   }
@@ -11884,8 +12627,13 @@ let currentCertType = 'inaptitude';
 
 function switchCert(type, btn) {
   currentCertType = type;
-  document.querySelectorAll('.cert-type-btn').forEach(b => b.classList.remove('active'));
+  // Marquer l'item dropdown actif (le sélecteur .cert-type-btn n'existe plus - utiliser .cert-dropdown-item)
+  document.querySelectorAll('.cert-dropdown-item').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  else {
+    const activeItem = document.querySelector('.cert-dropdown-item[onclick*=\'' + type + '\']');
+    if (activeItem) activeItem.classList.add('active');
+  }
   const cfg = CERT_TYPES[type];
   if (!cfg) return; // type invalide, on s'arrête proprement
   var _cft = document.getElementById('cert-form-title'); if (_cft) _cft.textContent = cfg.title;
@@ -11895,6 +12643,7 @@ function switchCert(type, btn) {
 
 function renderCertFields(fields) {
   const container = document.getElementById('cert-dynamic-fields');
+  if (!container) return;
   container.innerHTML = fields.map(f => {
     let tag = '';
     if (f.type === 'textarea') {
@@ -12102,7 +12851,6 @@ function printCertificat() {
   .doc-header-left .doc-name {
     font-size: 12.5pt;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.06em;
     color: #0d2a18;
   }
@@ -12333,6 +13081,12 @@ function switchTab(name, btn) {
   if (btn) btn.classList.add('active');
   else { const tb = document.querySelector('.tab-btn[data-tab="' + name + '"]'); if (tb) tb.classList.add('active'); }
   // Re-render after panel is visible (needed for panels that were display:none)
+  if (name === 'pharmacies') {
+    // BUG FIX: forcer le re-rendu des pharmacies à chaque switch
+    var _ps = document.getElementById('pharm-search');
+    if (_ps) pharmSearch = _ps.value.trim();
+    requestAnimationFrame(function() { renderPharm(); });
+  }
   if (name === 'hopitaux') {
     const hopInput = document.getElementById('hopSearch');
     if (hopInput) {
@@ -12359,6 +13113,23 @@ function switchTab(name, btn) {
       ambInput.addEventListener('keyup', onAmbulanceSearch);
       ambInput.addEventListener('change', onAmbulanceSearch);
     }
+  }
+  if (name === 'medicaments') {
+    // Re-render après affichage du panel (Android WebView ne met pas à jour les éléments display:none)
+    var _medInput = document.getElementById('med-search');
+    if (_medInput) searchQ = _medInput.value.trim().toLowerCase();
+    currentPage = 1;
+    // BUG FIX: resynchroniser l'état Tableau/Cartes (currentView peut être 'cards' sur mobile)
+    var _btnT = document.getElementById('btnTable');
+    var _btnC = document.getElementById('btnCards');
+    var _tvEl = document.getElementById('tableView');
+    var _cvEl = document.getElementById('cardsView');
+    if (_btnT) _btnT.classList.toggle('active', currentView === 'table');
+    if (_btnC) _btnC.classList.toggle('active', currentView === 'cards');
+    if (_tvEl) _tvEl.style.display = currentView === 'table' ? '' : 'none';
+    if (_cvEl) _cvEl.style.display = currentView === 'cards' ? 'grid' : 'none';
+    // Forcer le rendu dans un requestAnimationFrame pour s'assurer que le panel est bien visible
+    requestAnimationFrame(function() { applyMedFilters(); });
   }
   if (name === 'ordonnance') {
     if (typeof window.ordoInit === 'function') window.ordoInit();
@@ -12452,6 +13223,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ── 4. Rendu initial ambulance ──
   renderAmbulanceDirectory();
+
+  // ── 5. BUG FIX: Rendus initiaux manquants — garantir le chargement sur Android WebView ──
+  // Resynchroniser l'état Tableau/Cartes selon currentView (mobile = cards, desktop = table)
+  var _btnTinit = document.getElementById('btnTable');
+  var _btnCinit = document.getElementById('btnCards');
+  var _tvInit   = document.getElementById('tableView');
+  var _cvInit   = document.getElementById('cardsView');
+  if (_btnTinit) _btnTinit.classList.toggle('active', currentView === 'table');
+  if (_btnCinit) _btnCinit.classList.toggle('active', currentView === 'cards');
+  if (_tvInit)   _tvInit.style.display   = currentView === 'table' ? '' : 'none';
+  if (_cvInit)   _cvInit.style.display   = currentView === 'cards' ? 'grid' : 'none';
+  // Forcer le rendu du panneau actif (pharmacies) et des médicaments en différé
+  renderPharm();
+  // Différer applyMedFilters pour ne pas bloquer le thread principal au chargement
+  setTimeout(function() { applyMedFilters(); }, 100);
 });
 
 // ====================
@@ -12521,6 +13307,7 @@ function renderPharm() {
   const allGroupCities = Object.keys(groups).sort((a, b) => a.localeCompare(b, 'fr'));
   const order = [...priorityOrder, ...allGroupCities.filter(c => !priorityOrder.includes(c))];
   const container = document.getElementById('pharmacies-list');
+  if (!container) return;
 
   if (!Object.keys(groups).length) {
     container.innerHTML = `<div class="empty-state"><span class="emoji">🔍</span>Aucune pharmacie trouvée.</div>`;

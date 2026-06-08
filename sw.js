@@ -1,5 +1,5 @@
 // Service Worker — Médicaments Madagascar PWA v52
-const CACHE_NAME = 'medicaments-mada-v57';
+const CACHE_NAME = 'medicaments-mada-v63';
 const BASE = '/medicament_madagascar';
 
 const ASSETS_TO_CACHE = [

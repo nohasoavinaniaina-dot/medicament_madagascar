@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Catalogue des médicaments enregistrés à Madagascar, annuaire des pharmacies et hôpitaux, outil d'ordonnance et de certificats médicaux.">
 <meta name="theme-color" content="#061F16">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Médicaments & Pharmacies — Madagascar — v62 ✅</title>
@@ -14679,12 +14681,6 @@ window.switchTab = function(name, btn) {
 <!-- Cloudflare beacon supprimé — incompatible mode offline/local -->
 
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js')
-      .then(function(r){ console.log('[PWA] SW:', r.scope); })
-      .catch(function(e){ console.log('[PWA] Erreur:', e); });
-  });
-}
+if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js");});}
 </script></body>
 </html>

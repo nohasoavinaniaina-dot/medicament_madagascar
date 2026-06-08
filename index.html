@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#061F16">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments & Pharmacies — Madagascar — v54 ✅</title>
+<title>Médicaments & Pharmacies — Madagascar — v57 ✅</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -2624,7 +2624,7 @@
     letter-spacing: 0.06em;
   }
 
-  .ordo-med-search-wrap { position: relative; }
+  .ordo-med-search-wrap { position: relative; padding-right: 36px; }
 
   .ordo-med-search {
     width: 100%;
@@ -2684,8 +2684,9 @@
   .ordo-med-remove {
     position: absolute;
     top: 10px; right: 10px;
+    z-index: 10;
     border: none;
-    background: none;
+    background: var(--surface-2);
     cursor: pointer;
     color: var(--text-muted);
     font-size: 1rem;
@@ -3266,13 +3267,8 @@
 
 </style>
 
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
-
-
-
 
 
 <header>
@@ -10659,6 +10655,8 @@ let careSearchQ = '';
 let careTypeFilter = 'all';
 let ambulanceSearchQ = '';
 let gardeSearchQ = '';
+let gardeActiveTab = 'opham';
+let gardeActiveVille = 'all';
 let hopSearchQ = '';
 let hopTypeFilter = 'all';
 
@@ -11235,25 +11233,27 @@ function renderHopDirectory() {
 }
 
 (function init() {
-  console.log('[MedMada] v50 — corrections appliquées');
-  document.getElementById('statMeds').textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
-  document.getElementById('statPharms').textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
+  console.log('[MedMada] v57 — corrections bugs appliquées');
+  var _sm = document.getElementById('statMeds'); if (_sm) _sm.textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
+  var _sp = document.getElementById('statPharms'); if (_sp) _sp.textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
 
   const formes = [...new Set(ALL_MEDICINES.map(m => (m.forme || '').trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr'));
   const sel = document.getElementById('formeFilter');
-  formes.forEach(f => {
-    const opt = document.createElement('option');
-    opt.value = f;
-    opt.textContent = f;
-    sel.appendChild(opt);
-  });
+  if (sel) {
+    formes.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f;
+      opt.textContent = f;
+      sel.appendChild(opt);
+    });
+  }
 
   renderPharm();
   // Synchronise les boutons Tableau/Cartes avec le mode par défaut (cartes sur mobile)
-  document.getElementById('btnTable').classList.toggle('active', currentView === 'table');
-  document.getElementById('btnCards').classList.toggle('active', currentView === 'cards');
-  document.getElementById('tableView').style.display = currentView === 'table' ? '' : 'none';
-  document.getElementById('cardsView').style.display = currentView === 'cards' ? 'grid' : 'none';
+  var _bt = document.getElementById('btnTable'); if (_bt) _bt.classList.toggle('active', currentView === 'table');
+  var _bc = document.getElementById('btnCards'); if (_bc) _bc.classList.toggle('active', currentView === 'cards');
+  var _tv = document.getElementById('tableView'); if (_tv) _tv.style.display = currentView === 'table' ? '' : 'none';
+  var _cv = document.getElementById('cardsView'); if (_cv) _cv.style.display = currentView === 'cards' ? 'grid' : 'none';
   applyMedFilters();
 })();
 
@@ -11863,9 +11863,9 @@ function toggleCertDropdown() {
 function selectCertType(type, label, el) {
   document.querySelectorAll('.cert-dropdown-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('cert-dropdown-text').textContent = label;
-  document.getElementById('cert-dropdown-menu').classList.remove('open');
-  document.getElementById('cert-dropdown-arrow').classList.remove('open');
+  var _cdt = document.getElementById('cert-dropdown-text'); if (_cdt) _cdt.textContent = label;
+  var _cdm = document.getElementById('cert-dropdown-menu'); if (_cdm) _cdm.classList.remove('open');
+  var _cda = document.getElementById('cert-dropdown-arrow'); if (_cda) _cda.classList.remove('open');
   switchCert(type, null);
 }
 
@@ -11888,7 +11888,7 @@ function switchCert(type, btn) {
   if (btn) btn.classList.add('active');
   const cfg = CERT_TYPES[type];
   if (!cfg) return; // type invalide, on s'arrête proprement
-  document.getElementById('cert-form-title').textContent = cfg.title;
+  var _cft = document.getElementById('cert-form-title'); if (_cft) _cft.textContent = cfg.title;
   renderCertFields(cfg.fields);
   updateCertPreview();
 }
@@ -11965,13 +11965,13 @@ function updateCertPreview() {
   const data = getCertData();
   const cfg = CERT_TYPES[currentCertType];
   if (!cfg) return;
-  document.getElementById('cert-preview').innerHTML = cfg.render(data);
+  var _cp = document.getElementById('cert-preview'); if (_cp) _cp.innerHTML = cfg.render(data);
 }
 
 function resetCert() {
-  document.getElementById('cert-doc-nom').value = '';
-  document.getElementById('cert-lieu').value = '';
-  document.getElementById('cert-date').value = '';
+  var _cdn = document.getElementById('cert-doc-nom'); if (_cdn) _cdn.value = '';
+  var _cl = document.getElementById('cert-lieu'); if (_cl) _cl.value = '';
+  var _cd = document.getElementById('cert-date'); if (_cd) _cd.value = '';
   const ordreEl = document.getElementById('cert-doc-ordre'); if (ordreEl) ordreEl.value = '';
   const telEl = document.getElementById('cert-doc-tel'); if (telEl) telEl.value = '';
   const cabEl = document.getElementById('cert-doc-cabinet'); if (cabEl) cabEl.value = '';
@@ -12307,17 +12307,7 @@ function printCertificat() {
   }
 }
 // Initialise le panneau certificat avec le premier type
-document.addEventListener('DOMContentLoaded', function() {
-  switchCert('inaptitude', null);
-  // Pré-remplir la date d\'aujourd\'hui
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth()+1).padStart(2,'0');
-  const dd = String(today.getDate()).padStart(2,'0');
-  const certDateEl = document.getElementById('cert-date');
-  if (certDateEl) certDateEl.value = `${yyyy}-${mm}-${dd}`;
-  updateCertPreview();
-});
+// (appelé dans le bloc DOMContentLoaded unifié ci-dessous)
 
 // ====================
 // TABS
@@ -12385,25 +12375,6 @@ function switchTab(name, btn) {
 }
 window.switchTab = switchTab;
 
-// Liaison robuste des onglets + initialisation display au chargement
-// (fix Android WebView sur fichiers locaux content://)
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialiser display:none sur tous les panels sauf le premier actif
-  document.querySelectorAll('.panel').forEach(function(p) {
-    if (p.classList.contains('active')) {
-      p.style.cssText = 'display:block !important; visibility:visible !important; overflow:visible !important;';
-      var strips = p.querySelectorAll('.sticky-strip');
-      strips.forEach(function(s) { s.style.position = 'sticky'; });
-    } else {
-      p.style.cssText = 'display:none !important; visibility:hidden !important; overflow:hidden !important;';
-      var strips = p.querySelectorAll('.sticky-strip');
-      strips.forEach(function(s) { s.style.position = 'relative'; });
-    }
-  });
-
-  // Note: tab clicks handled by onclick inline attributes on .tab-btn elements
-});
-
 // Named handler for hopSearch (allows removeEventListener in switchTab)
 function _hopInputHandler() {
   var hopInput = document.getElementById('hopSearch');
@@ -12413,10 +12384,34 @@ function _hopInputHandler() {
   }
 }
 
-// Attach search listeners robustly after DOM ready
+// ====================
+// BLOC DOMContentLoaded UNIFIÉ
+// Fusionné pour éviter les race conditions sur Android WebView
+// ====================
 document.addEventListener('DOMContentLoaded', function() {
-  // hopInput listeners are managed by switchTab (add/remove on tab switch)
-  // Initial hop directory render triggered by init()
+  // ── 1. Initialiser display panels (fix Android WebView content://) ──
+  document.querySelectorAll('.panel').forEach(function(p) {
+    if (p.classList.contains('active')) {
+      p.style.cssText = 'display:block !important; visibility:visible !important; overflow:visible !important;';
+      p.querySelectorAll('.sticky-strip').forEach(function(s) { s.style.position = 'sticky'; });
+    } else {
+      p.style.cssText = 'display:none !important; visibility:hidden !important; overflow:hidden !important;';
+      p.querySelectorAll('.sticky-strip').forEach(function(s) { s.style.position = 'relative'; });
+    }
+  });
+
+  // ── 2. Initialiser le certificat par défaut ──
+  switchCert('inaptitude', null);
+  var certDateEl = document.getElementById('cert-date');
+  if (certDateEl) {
+    var today = new Date();
+    certDateEl.value = today.getFullYear() + '-'
+      + String(today.getMonth()+1).padStart(2,'0') + '-'
+      + String(today.getDate()).padStart(2,'0');
+  }
+  updateCertPreview();
+
+  // ── 3. Attacher les listeners de recherche ──
   var pharmInput = document.getElementById('pharm-search');
   if (pharmInput) {
     ['input','keyup','change','search'].forEach(function(ev) {
@@ -12454,7 +12449,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-  // Initial render after DOM ready (datasets are global, safe to call here)
+
+  // ── 4. Rendu initial ambulance ──
   renderAmbulanceDirectory();
 });
 
@@ -12462,7 +12458,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // PHARMACIES
 // ====================
 function filterPharm() {
-  pharmSearch = document.getElementById('pharm-search').value.trim();
+  var _ps = document.getElementById('pharm-search');
+  if (_ps) pharmSearch = _ps.value.trim();
   renderPharm();
 }
 
@@ -12565,19 +12562,21 @@ function renderPharm() {
 // MEDICAMENTS FILTERS
 // ====================
 function onMedSearch() {
-  searchQ = document.getElementById('med-search').value.toLowerCase().trim();
+  var _ms = document.getElementById('med-search'); if (_ms) searchQ = _ms.value.toLowerCase().trim();
   currentPage = 1;
   applyMedFilters();
 }
 
 function onFormeChange() {
-  formeQ = document.getElementById('formeFilter').value;
+  var _ff = document.getElementById('formeFilter'); if (_ff) formeQ = _ff.value;
   currentPage = 1;
   applyMedFilters();
 }
 
 function onSortChange() {
-  const v = document.getElementById('sortSelect').value;
+  var _ss = document.getElementById('sortSelect');
+  if (!_ss) return;
+  const v = _ss.value;
   if (v === 'nom') { currentSort = 'nom'; sortAsc = true; }
   else if (v === 'nom_desc') { currentSort = 'nom'; sortAsc = false; }
   else if (v === 'dci') { currentSort = 'dci'; sortAsc = true; }
@@ -12624,10 +12623,10 @@ function applyMedFilters() {
 
 function setView(v) {
   currentView = v;
-  document.getElementById('tableView').style.display = v === 'table' ? '' : 'none';
-  document.getElementById('cardsView').style.display = v === 'cards' ? 'grid' : 'none';
-  document.getElementById('btnTable').classList.toggle('active', v === 'table');
-  document.getElementById('btnCards').classList.toggle('active', v === 'cards');
+  var _stv = document.getElementById('tableView'); if (_stv) _stv.style.display = v === 'table' ? '' : 'none';
+  var _scv = document.getElementById('cardsView'); if (_scv) _scv.style.display = v === 'cards' ? 'grid' : 'none';
+  var _sbt = document.getElementById('btnTable'); if (_sbt) _sbt.classList.toggle('active', v === 'table');
+  var _sbc = document.getElementById('btnCards'); if (_sbc) _sbc.classList.toggle('active', v === 'cards');
   renderMedications();
 }
 
@@ -12638,11 +12637,11 @@ function renderMedications() {
   const start = (currentPage - 1) * PER_PAGE;
   const page = filteredMeds.slice(start, start + PER_PAGE);
 
-  document.getElementById('resultsCount').innerHTML = `<strong>${total.toLocaleString('fr-FR')}</strong> médicament${total !== 1 ? 's' : ''}${total < MEDICINES_WITH_NOTICE.length ? ` sur ${MEDICINES_WITH_NOTICE.length.toLocaleString('fr-FR')}` : ''}`;
-  document.getElementById('emptyState').style.display = total === 0 ? '' : 'none';
+  var _rc = document.getElementById('resultsCount'); if (_rc) _rc.innerHTML = `<strong>${total.toLocaleString('fr-FR')}</strong> médicament${total !== 1 ? 's' : ''}${total < MEDICINES_WITH_NOTICE.length ? ` sur ${MEDICINES_WITH_NOTICE.length.toLocaleString('fr-FR')}` : ''}`;
+  var _es = document.getElementById('emptyState'); if (_es) _es.style.display = total === 0 ? '' : 'none';
 
   if (currentView === 'table') {
-    document.getElementById('tableBody').innerHTML = page.map((m, i) => `
+    var _tb = document.getElementById('tableBody'); if (_tb) _tb.innerHTML = page.map((m, i) => `
       <tr onclick="openModal(${start + i})">
         <td class="col-nom" style="white-space:nowrap;"><button class="tbl-star-btn${catalogIsFavori(m.nom) ? ' starred' : ''}" onclick="event.stopPropagation();catalogToggleFavori(m.nom, m.dci||'', m.presentation||'', this)" title="${catalogIsFavori(m.nom) ? 'Désépingler' : 'Épingler'}">${catalogIsFavori(m.nom) ? '★' : '☆'}</button> ${hl(m.nom, searchQ)}</td>
         <td class="col-dci">${hl(m.dci, searchQ)}</td>
@@ -12655,7 +12654,7 @@ function renderMedications() {
   }
 
   if (currentView === 'cards') {
-    document.getElementById('cardsView').innerHTML = page.map((m, i) => `
+    var _cvr = document.getElementById('cardsView'); if (_cvr) _cvr.innerHTML = page.map((m, i) => `
       <div class="med-card" style="position:relative;" onclick="openModal(${start + i})">
         <button class="med-star-btn${catalogIsFavori(m.nom) ? ' starred' : ''}" onclick="event.stopPropagation();catalogToggleFavori(m.nom, m.dci||'', m.presentation||'', this)" title="${catalogIsFavori(m.nom) ? 'Désépingler' : 'Épingler dans mes favoris'}">${catalogIsFavori(m.nom) ? '★' : '☆'}</button>
         <div class="med-card-title">${hl(m.nom, searchQ)}</div>
@@ -12672,23 +12671,23 @@ function renderMedications() {
 
 function renderPagination(totalPages) {
   const html = buildPaginationHTML(totalPages);
-  document.getElementById('paginationTop').innerHTML = html;
-  document.getElementById('paginationBottom').innerHTML = totalPages > 1 ? `<div class="pagination">${html}</div>` : '';
+  var _pt = document.getElementById('paginationTop'); if (_pt) _pt.innerHTML = html;
+  var _pb = document.getElementById('paginationBottom'); if (_pb) _pb.innerHTML = totalPages > 1 ? `<div class="pagination">${html}</div>` : '';
 
   // Progress bar
   const wrap = document.getElementById('catalogProgressWrap');
   const fill = document.getElementById('catalogProgressFill');
   const label = document.getElementById('catalogProgressLabel');
   if (totalPages > 1) {
-    wrap.style.display = '';
+    if (wrap) wrap.style.display = '';
     const pct = Math.round((currentPage / totalPages) * 100);
     // Use rAF to ensure CSS transition fires after paint
     requestAnimationFrame(() => {
-      fill.style.width = pct + '%';
+      if (fill) fill.style.width = pct + '%';
     });
-    label.innerHTML = `<span>${currentPage}</span>/${totalPages}`;
+    if (label) label.innerHTML = `<span>${currentPage}</span>/${totalPages}`;
   } else {
-    wrap.style.display = 'none';
+    if (wrap) wrap.style.display = 'none';
   }
 }
 
@@ -12785,9 +12784,9 @@ function openModal(idx) {
   if (!m) return;
   _modalCurrentMed = m;
   const posologyHtml = buildStandardPosologyHtml(m);
-  document.getElementById('modalTitle').textContent = m.nom || '';
-  document.getElementById('modalDci').textContent = m.dci ? `DCI : ${m.dci}` : 'DCI non renseignée';
-  document.getElementById('modalInfoGrid').innerHTML = `
+  var _mt = document.getElementById('modalTitle'); if (_mt) _mt.textContent = m.nom || '';
+  var _md = document.getElementById('modalDci'); if (_md) _md.textContent = m.dci ? `DCI : ${m.dci}` : 'DCI non renseignée';
+  var _mig = document.getElementById('modalInfoGrid'); if (_mig) _mig.innerHTML = `
     <div class="info-card">
       <div class="info-card-label">Forme</div>
       <div class="info-card-value"><span class="forme-badge ${formeBadgeClass(m.forme)}">${esc(m.forme)}</span></div>
@@ -12801,24 +12800,22 @@ function openModal(idx) {
       <div class="info-card-value">${posologyHtml}</div>
     </div>
   `;
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  var _mo = document.getElementById('modalOverlay');
+  if (_mo) { _mo.classList.add('open'); document.body.style.overflow = 'hidden'; }
   _updateModalStar();
 }
 
 function closeModal(event) {
-  if (event.target === document.getElementById('modalOverlay')) closeModalBtn();
+  var _mo = document.getElementById('modalOverlay');
+  if (_mo && event.target === _mo) closeModalBtn();
 }
 
 function closeModalBtn() {
-  document.getElementById('modalOverlay').classList.remove('open');
+  var _mo = document.getElementById('modalOverlay');
+  if (_mo) _mo.classList.remove('open');
   document.body.style.overflow = '';
   _modalCurrentMed = null;
 }
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModalBtn();
-});
 
 // ====================
 // PHARMACIES DE GARDE — OPHAM.COM (synchronisation intégrée)
@@ -12981,7 +12978,7 @@ const AMBULANCE_DIRECTORY = [
 
 
 function onCareSearch() {
-  careSearchQ = document.getElementById('careSearch').value.trim().toLowerCase();
+  var _cs = document.getElementById('careSearch'); if (_cs) careSearchQ = _cs.value.trim().toLowerCase();
   renderCareDirectory();
 }
 
@@ -13074,15 +13071,12 @@ function renderAmbulanceDirectory() {
 // ====================
 // GARDE — ONGLETS
 // ====================
-let gardeActiveTab = 'opham';
-let gardeActiveVille = 'all';
-
 function switchGardeTab(tab) {
   gardeActiveTab = tab;
-  document.getElementById('gardeTabOpham').classList.toggle('active', tab === 'opham');
-  document.getElementById('gardeTabProvinces').classList.toggle('active', tab === 'provinces');
-  document.getElementById('gardeModalBody').style.display = tab === 'opham' ? '' : 'none';
-  document.getElementById('gardeModalBodyProvinces').style.display = tab === 'provinces' ? '' : 'none';
+  var _gto = document.getElementById('gardeTabOpham'); if (_gto) _gto.classList.toggle('active', tab === 'opham');
+  var _gtp = document.getElementById('gardeTabProvinces'); if (_gtp) _gtp.classList.toggle('active', tab === 'provinces');
+  var _gmb = document.getElementById('gardeModalBody'); if (_gmb) _gmb.style.display = tab === 'opham' ? '' : 'none';
+  var _gmbp = document.getElementById('gardeModalBodyProvinces'); if (_gmbp) _gmbp.style.display = tab === 'provinces' ? '' : 'none';
   if (tab === 'provinces') renderProvincesPanel();
 }
 
@@ -13203,18 +13197,19 @@ function openGardeModal() {
   gardeActiveTab = 'opham';
   const searchEl = document.getElementById('gardeSearch');
   if (searchEl) searchEl.value = '';
-  document.getElementById('gardeOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  var _go = document.getElementById('gardeOverlay');
+  if (_go) { _go.classList.add('open'); document.body.style.overflow = 'hidden'; }
   // Reset tabs
-  document.getElementById('gardeTabOpham').classList.add('active');
-  document.getElementById('gardeTabProvinces').classList.remove('active');
-  document.getElementById('gardeModalBody').style.display = '';
-  document.getElementById('gardeModalBodyProvinces').style.display = 'none';
+  var _ogto = document.getElementById('gardeTabOpham'); if (_ogto) _ogto.classList.add('active');
+  var _ogtp = document.getElementById('gardeTabProvinces'); if (_ogtp) _ogtp.classList.remove('active');
+  var _ogmb = document.getElementById('gardeModalBody'); if (_ogmb) _ogmb.style.display = '';
+  var _ogmbp = document.getElementById('gardeModalBodyProvinces'); if (_ogmbp) _ogmbp.style.display = 'none';
   renderGardeData();
 }
 
 function closeGardeModal() {
-  document.getElementById('gardeOverlay').classList.remove('open');
+  var _go2 = document.getElementById('gardeOverlay');
+  if (_go2) _go2.classList.remove('open');
   document.body.style.overflow = '';
 }
 
@@ -13231,7 +13226,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 function onGardeSearch() {
-  gardeSearchQ = document.getElementById('gardeSearch').value.trim().toLowerCase();
+  var _gs = document.getElementById('gardeSearch'); if (_gs) gardeSearchQ = _gs.value.trim().toLowerCase();
   renderGardeData();
 }
 
@@ -13323,10 +13318,6 @@ function renderGardeData() {
 
 let ordoMeds = [];
 let ordoMedCounter = 0;
-
-function esc2(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
 
 function ordoAddMed() {
   const id = ++ordoMedCounter;
@@ -13808,15 +13799,19 @@ function renderOrdoFavoris() {
 window.renderOrdoFavoris = renderOrdoFavoris;
 window.renderOrdoMeds = renderOrdoMeds;
 
-// Init favoris au chargement
-document.addEventListener('DOMContentLoaded', function() {
+// Init favoris au chargement (readyState guard : évite le manque de déclenchement si DOM déjà chargé)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() { renderOrdoFavoris(); });
+} else {
   renderOrdoFavoris();
-});
-// Re-render quand l'onglet ordonnance est ouvert
+}
+// Re-render favoris quand l'onglet ordonnance est ouvert
+// Note: ordoInit() appelé par switchTab appelle déjà renderOrdoFavoris()
+// Ce wrapper n'ajoute plus de double-appel
 const _origSwitchTab = window.switchTab;
 window.switchTab = function(name, btn) {
   if (typeof _origSwitchTab === 'function') _origSwitchTab(name, btn);
-  if (name === 'ordonnance') renderOrdoFavoris();
+  // renderOrdoFavoris déjà appelé dans ordoInit — pas de double appel
 };
 
 })(); // end IIFE
@@ -13891,81 +13886,19 @@ window.switchTab = function(name, btn) {
 
 
 
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+
+
+
+<!-- Cloudflare beacon supprimé — incompatible mode offline/local -->
 
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js')
-      .then(r => console.log('[PWA] SW:', r.scope))
-      .catch(e => console.log('[PWA] Erreur:', e));
+      .then(function(r){ console.log('[PWA] SW:', r.scope); })
+      .catch(function(e){ console.log('[PWA] Erreur:', e); });
   });
 }
-</script>
-<!-- LICENSE SYSTEM -->
-<div id="nyaina-lic-screen" style="position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;z-index:2147483647!important;background:linear-gradient(135deg,#061F16,#0a3d26)!important;display:flex!important;align-items:center!important;justify-content:center!important;font-family:system-ui,sans-serif!important">
-  <div style="background:#fff!important;border-radius:20px!important;padding:36px 28px!important;width:90%!important;max-width:380px!important;text-align:center!important;box-shadow:0 20px 60px rgba(0,0,0,.4)!important">
-    <div style="font-size:48px!important">💊</div>
-    <h2 style="font-size:20px!important;font-weight:700!important;color:#061F16!important;margin:8px 0 4px!important">Ny Aina Med's</h2>
-    <p style="font-size:13px!important;color:#666!important;margin:0 0 20px!important">Entrez votre clé de licence pour activer l'application</p>
-    <input id="nyaina-lic-input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="width:100%!important;box-sizing:border-box!important;border:2px solid #ccc!important;border-radius:10px!important;padding:12px!important;font-size:16px!important;text-align:center!important;font-family:monospace!important;letter-spacing:2px!important;text-transform:uppercase!important;outline:none!important">
-    <button id="nyaina-lic-btn" style="display:block!important;width:100%!important;margin-top:14px!important;background:#061F16!important;color:#fff!important;border:none!important;border-radius:10px!important;padding:14px!important;font-size:16px!important;font-weight:600!important;cursor:pointer!important">Activer</button>
-    <div id="nyaina-lic-err" style="color:#e53e3e!important;font-size:13px!important;margin-top:10px!important;min-height:20px!important"></div>
-    <div style="font-size:11px!important;color:#aaa!important;margin-top:16px!important">© 2025 RANDRIAMBOLOLONIAINA N.T.C.<br>Tous droits réservés</div>
-  </div>
-</div>
-<script>
-window.addEventListener('load', function() {
-  var screen = document.getElementById('nyaina-lic-screen');
-  if (!screen) return;
-  if (localStorage.getItem('nyaina_lic_v2') === '1') {
-    screen.parentNode.removeChild(screen);
-    return;
-  }
-  var HASHES = ["f55239537ecd2492952b6fe986bd25363356f5e6d42d29482fb6716f50510643", "02911412953e7645868ecb539dc34136c236aadacfc9d6bbfecd6de8758e827d", "f5edb19bebb9762958a2387c1aa249fe41195ff11ad8d5f3bf8a1bfebfc0046e", "a7e95de2f921c71f4454ac611f8a72d8afefd526358bd1742b0ce862dd733b65", "9ea19bbc7b2c1aa0bd25c78daa4ed59a9cc035cffcf590c35995026efdfec301", "59767baecc8f4f1975244a34d78ef84df26261285e23d4cab5dfbbf4e149c61c", "4e753d0a34546dc36a24c5693a71df4ae2446dbd2522f049bf2e54a53886eea2", "ead551319aa4e9056fdac76544e78dd8bd872efe1fc9d1496b74c93cf49f7f72", "b790ea313773028defaed45fc9b318d27d74f4afb850c02f022f3dc53037a31b", "1a66c5784c768c398ddc922eef1b2e2b6a81f6228c81a374405ac2d218fd46ac", "27712700a92af8a954369471c26d44508bb44a45638aff9759f22ff88fe4ae60", "e96904ea67297e8bce091738757ff73c7f283857dedad113d3a772f6967fe884", "cf07b52d7272e1586e595af2efa53716edd5634272304704a74b6c6441b6e215", "54b3bb4222a42a095a497ecb84dcc027f5a21e983e110a098aca0d700c72e337", "285b1c8bf47f3a3d2976b75c3f459b9fd59d61c218a02930b7c20657a1e557b1", "226cb569cc04360820ee72124f4d7682a1de290efa8a811f38407f9d219780ff", "8f0ba34c3a9bc23abb78773b21135fc54828af3ae53a046dda8f01ce18a6a783", "35cd68822f798bce2f1eb1467f2940b9437117949479c11cbc03eaf2d90aa865", "eec7c26f87de68fe6b41373c84d51f0d0585cc7fd60e827071497f96ba2090d2", "b75836f3cc236a543ecd2ea13b831a4f17d3868f84fa42b8e0fe66e553f5b306", "69a9d9a81f22c932a9bab7dc7831024336ae349341e910d25dedc478973a9125", "49850a1313d2d33a4ccf6a411f83160f2914e5450be713e3485e4c8446582a7f", "be9240cab14404ed3ee6c6f42ac1d8a673e94f0e56de60d81bcbe12bb7cd4396", "fd1a3eaf7e67354edcce3ba74dd52fbeca1b60827751a6f731603175805b9243", "0caba73928e19c62a8ee0db04777ba1933d73be95c5a5409b1fdf4a870c10795", "602c2e3f1ac6eb5b2feec23ca977bb5adc576412a14431f60b55e10abfb13204", "90e370d6fa57181f6e8c708ad8073b9d475e9673619cb9442c24a96825ab0f48", "2538fd2dfa656b6d36c36a6591fb9bcbfaec7365052e795347170bb6cc12eee5", "a7e18d89e5014b575cd6982bdd0bc8fdd1cf1ce59d73d26c94b48bfcd981be15", "d1c2ab87b6156e0adb58fd3ebbaab7400b56b2002d7e5904bb37e65da743ce07", "a2255803544462f84624ed6224099d7c104ead42dcb4f3426bdd88343ccb3de2", "4341b2557b28efc7447ccbbca00cc1d500bcfd31c2c6ac6b21aa0b984d4e4a45", "c0e4bbc7952565b6a8d7c8d5d9ad5cb372283618b498019d2063f2227701f72a", "87ac5223680de47c9cdbc32c05c566b67066dad4dbb1b4c1d459834842df1bcf", "8a3bad92fdcb08e0792850f83ee5824d6ffa2ad9b47b63118c23722ae4a1d3dd", "3e2a6c847c760ed0324401f66fb185a927396e0e2b60ed0b60a105741608b7e9", "523736c6b94acf9b4fd861b6d17b4a291661298ecd4a933e67f978ebc03fc57f", "6b706c514cff00d0b8ef9f9fe5631ebd052ff9ea0e366b4b837b0a23a5ed110c", "f19d67394b3d6ee2cd1c43ea31c40ce04b50c0d6765c052714ed5e95ed25d480", "b66f907d6d3221fac058e04ab1036e05ec5899f5ecfda25fae66758e1d4fed33", "1047002beb2da16e7b45084b334737cccb16d88351ecdb581526eb15adc859fb", "1f5ee64d8eb6e1630a003f44e52c6b3bd568ea1eca19ca0d5e2c6e6cc8c52f4a", "80a007f43c72888056fceeb75f058feb493edb77420034ea24bab03a6616b92e", "800ccdf3f928024138dd9e9b6d6f3d62c5690954ef7fcd2b0b21a3b46a406dda", "55904b10dca87f4c2a893d5419b486cb2823da017b1fe1fb9b8a5b08aabd14f6", "e1475bd2bcc4d68b82b22e6ea387a882b5d66455b8762181866ebb8bc10d9cd7", "e27f9ae5a91a66672f97e51bbaae5d3716607c90e2a90f1829f19600ef03741c", "d450e462662f6dcc40a8a73097c044d61032a6c34e6ade8375f1200b5ee797c7", "c31770131fac50f19ee114a5aff2643e84e9571adde0c6d015a33b7a28de17c2", "a9dec78fc77ee9c31e3ff36388b26a8ccad681285a08ce6ed1898ae2661d97a3", "c27131d507748c56713398cf81a9069b9b157bfd3f263057ddca76c72e8ac312", "ad04e620416a1c8874efca8e75b0769d0519db65efe4fb9ac220f8fbeda99050", "fb591bc8eab05454bb77883272d5e808d9278d8bd0939747617ccc02dd21d50e", "aad1da0657e82f49bac83d59f71ee3e89c494e4ed657b37eebeb1697ce071b9c", "ae0d379c7994f35d138e9c2ba37a4b1825e693e2966146adf0a719a0c612de42", "3073775f698e2831c6163db1198a1acea716d545d3d776e6304a57ad1cf5a1a6", "b9f577b15240bc25df7a89ad69a88429515b3f8e451d485a15dda0b617c19b03", "be101743263028da17295b5a16dcb3d4812e9362854040a248081dccb7ca1887", "380f7d02db85f53d95ff52f457959449879283ab9696fe36a65eb40d45b14747", "5e98e3b76755d6e5bec787cd18ff8001599ae2975efd42d36bc83951af844d08", "6cb3a9e712357ffbdd909a40ffb6a66f753361c80b2bcff9c980251a0302dbfe", "133565e5ae0f7a75244763402b6fbabd63bd1d1c4cb7e67ac041a37c4fe8d243", "3a46013ecfc925a551a0287bd5ebd619d6bad924129563d8e1eecee2da36aea3", "aceb96a0bb5ccd76701a59c9f0f091aa0f30a2e32c930587cc456b1785d34550", "e0796396a0583d0bc39ccc791811405e03278bf2e20688ee37b154154eb3e744", "c0776b3f80961ea5e01b203c25838d5dbe591c314e615e51d72cb75a69ec1662", "af2fedc7d4accc0a148545a90df0ebdc82810706ee2e8455d41a3ec66106f7bc", "caf554c9a9c60abf6a2211340634b01d1139ad3a0b650dd87b05c2f382686333", "4194ee2d0e8243fb713ac71e1bb0923263543a8379c8f6de7a93375baaf7a300", "87bab58766bf9d4793e7dcb23af15f6a7d41e6bb898f1d685fcae99972063d37", "922b18ad853b8a3481629930f40f7236f48b639634d839d892518f4170065190", "e40d83d70d6cb1303d8ad18d8f4ebb4f75edb0c44b55434ca01d49590b047114", "34e24aa92dc787d1bd80fa8b6fa4ebb5b3e4df767d3da83c435dcf069d38781f", "f2a62e8f78c886fc176c135b03fa7f66b6e119b7dcd70ee6e5692e593b285235", "67c55a2d89aa5bbbab4376fc92a62786ab550111ff1d3e001b78c3cf322cd143", "04bea185507318b9dd7d5c80fb16d729bd03f0b954d2666f515fbc93225ebe5c", "8bffd1c8836bd6d522b569b6fafd57da2e276ec85908d93bb6e4685b167a398c", "58f7102709bac94e65c0d43fd05d56198d504b67cc8ff0d32fe862e82997c5dc", "a281f9e92955703860d717d95d798a36c5ffbe49cbdd1c08466fbf201e1f5aba", "1a59908c7ca88aa16ece64f94da74ee437244420aae4af01bd8d37d295a8c74e", "73425e8d139b531f8203e965e56f95a28074dfe7f8862b9d0d893bc780b5703f", "58beb80dd5cfdd2d548e05902978a49955e3c5fdda76f711fa217bb10ca972ac", "d5b9c6c0dcb86ee0f4217503ed49540e1e03a6ed5c3fb971893c5827f8156e21", "eaae5580ea872460dfebd02d540bb6b93a5bc91f7a6fa34e7a4389826160d038", "c4b82a35150b2031e1e4c352729ead4fabcd6e648a4b996bc72746eaf6eb857a", "2dd5f1d99884d38349c3dff101b46605984928b2b848aa0396c3076772f35fce", "cf1e73370d4ef5370335f4c5497a940533fe483378cbbd0cefa4e5311a4ffb28", "081eba9ea96cf4574364a8806890c7e5471ea7aefeb8bb726d568c8db4e58e19", "42e2e490306f0156a6bd49ee289f2a7c6a8fd80980bf74bba6067dcb765883df", "54d0cc96e2c882ab366a65e11ce2980fe24e26de5f1e4cfb94b12c922cce2691", "8aa597f77d11f5fc06e74b58a2b69266040f8f5af16a1bf845853207d0f05ed3", "a2668206e9bf492d1cd9936f362510cb9dccd28a6689d21c07c959aa34a3834e", "49b5201e060ed000e37490541cb0ec7973007eca8f7266539095b3146bc06947", "c002123c9306756bed318cf8516d850c9414492f41b042f45803af6d68ac9e38", "f311da46c977d207dd9aedf90c996c05a5678ced4e926fa50f97fbaee6903ae4", "f5d065e16bd2031d8b8e8674ecf6deeeb697e28c97e3bb6c0021e817f6fb8e1d", "c95cf985eb47bae50a29347926fcc2a126e8320c0b264afce2e37736a71f9480", "1c6b42a5498c92aed91909322c84c1c7f30fa774c0fa6417295ba59ca3e86747", "6d28e2f8e893a52a551292326698895ed331c098484430b6ba7f9e2a2f2e5ddc", "44f8f8abab1f30e3e6c533156712859c6f8760daa2a43928d4094617cd03e431"];
-  function sha256(msg) {
-    var buf = new TextEncoder().encode(msg);
-    return crypto.subtle.digest('SHA-256', buf).then(function(hash) {
-      return Array.from(new Uint8Array(hash)).map(function(b) { return b.toString(16).padStart(2,'0'); }).join('');
-    });
-  }
-  var input = document.getElementById('nyaina-lic-input');
-  var btn = document.getElementById('nyaina-lic-btn');
-  var err = document.getElementById('nyaina-lic-err');
-  input.addEventListener('input', function() {
-    var v = this.value.replace(/-/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'');
-    var out = '';
-    for (var i = 0; i < v.length && i < 16; i++) {
-      if (i > 0 && i % 4 === 0) out += '-';
-      out += v[i];
-    }
-    this.value = out;
-  });
-  function activate() {
-    var key = input.value.trim();
-    if (key.length < 19) { err.textContent = '⚠️ Format: XXXX-XXXX-XXXX-XXXX'; return; }
-    btn.textContent = 'Vérification...';
-    btn.disabled = true;
-    sha256(key).then(function(h) {
-      if (HASHES.indexOf(h) !== -1) {
-        localStorage.setItem('nyaina_lic_v2', '1');
-        screen.parentNode.removeChild(screen);
-      } else {
-        err.textContent = '❌ Clé invalide.';
-        btn.textContent = 'Activer';
-        btn.disabled = false;
-      }
-    }).catch(function(e) {
-      err.textContent = '⚠️ Erreur: ' + e.message;
-      btn.textContent = 'Activer';
-      btn.disabled = false;
-    });
-  }
-  btn.addEventListener('click', activate);
-  input.addEventListener('keypress', function(e) { if (e.key === 'Enter') activate(); });
-});
 </script></body>
 </html>

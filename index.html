@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments & Pharmacies — Madagascar — v62 ✅</title>
+<title>Médicaments &amp; Pharmacies — Madagascar — v68</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -2486,7 +2486,7 @@
   .cp-body { margin-bottom: 28px; line-height: 1.9; }
   .cp-body ul { margin: 10px 0 10px 28px; }
   .cp-body li { margin-bottom: 4px; }
-  .cp-field { font-weight: 700; }
+  .cp-field { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
   .cp-sign { text-align: right; margin-top: 40px; }
   .cp-sign-lieu { font-size: 0.95rem; }
   .cp-sign-label { margin-top: 50px; font-size: 0.95rem; letter-spacing: 0.04em; }
@@ -3269,6 +3269,673 @@
 
 </style>
 
+<!-- ═══════════════════════════════════════════════════════════
+     PROFESSIONAL DESIGN OVERRIDES v64
+     Signature: Clean medical authority — blanc clinique, vert précis
+═══════════════════════════════════════════════════════════ -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  /* ─── Refonte typographique ─── */
+  :root {
+    --font-body:    'Inter', system-ui, sans-serif;
+    --font-serif:   'Playfair Display', Georgia, serif;
+    --font-mono:    'IBM Plex Mono', 'JetBrains Mono', monospace;
+
+    /* Palette affinée — blanc médical + vert précis */
+    --bg:           #F8FAFB;
+    --bg-alt:       #F1F5F3;
+    --surface:      #FFFFFF;
+    --surface-2:    #FAFCFB;
+    --surface-3:    #F5F8F6;
+    --forest:       #0B4D33;
+    --forest-deep:  #072B1D;
+    --forest-mid:   #136842;
+    --forest-vivid: #198754;
+    --forest-light: #22A066;
+    --mint:         #34D399;
+    --mint-pale:    #A7F3D0;
+    --mint-ghost:   #ECFDF5;
+    --cream:        #F8FAFB;
+    --text:         #0D1F17;
+    --text-2:       #2D4438;
+    --text-muted:   #5F7A6C;
+    --text-faint:   #9DB5A7;
+    --border:       rgba(11,77,51,0.08);
+    --border-mid:   rgba(11,77,51,0.13);
+    --border-strong:rgba(11,77,51,0.22);
+    --shadow-xs:    0 1px 3px rgba(7,43,29,0.05), 0 1px 2px rgba(7,43,29,0.03);
+    --shadow-sm:    0 2px 8px rgba(7,43,29,0.07), 0 4px 12px rgba(7,43,29,0.04);
+    --shadow:       0 4px 24px rgba(7,43,29,0.09), 0 8px 32px rgba(7,43,29,0.05);
+    --shadow-lg:    0 12px 40px rgba(7,43,29,0.12), 0 20px 60px rgba(7,43,29,0.08);
+    --r-xs: 5px;
+    --r-sm: 8px;
+    --r:    12px;
+    --r-lg: 18px;
+    --r-xl: 24px;
+  }
+
+  html { font-size: 15px; }
+
+  body {
+    background: var(--bg);
+    background-image: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER : compact, clinique, autoritaire ─── */
+  header {
+    background: var(--forest-deep);
+    box-shadow: 0 1px 0 rgba(52,211,153,0.12), 0 4px 24px rgba(2,8,4,0.35);
+  }
+
+  header::before {
+    background:
+      radial-gradient(ellipse 50% 100% at 110% 50%, rgba(52,211,153,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 30% 80% at -10% 50%, rgba(11,77,51,0.5) 0%, transparent 50%);
+  }
+
+  header::after {
+    background: linear-gradient(to right,
+      transparent 0%,
+      rgba(52,211,153,0.35) 15%,
+      rgba(52,211,153,0.35) 85%,
+      transparent 100%);
+  }
+
+  .header-shell {
+    padding: 16px 36px 0;
+    max-width: 1520px;
+  }
+
+  .header-top {
+    gap: 16px;
+    margin-bottom: 0;
+    padding-bottom: 16px;
+    align-items: center;
+  }
+
+  /* Logo icon — plus sobre */
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--r-sm);
+    background: rgba(52,211,153,0.10);
+    border: 1px solid rgba(52,211,153,0.22);
+    font-size: 22px;
+    box-shadow: 0 0 0 4px rgba(52,211,153,0.06);
+  }
+
+  /* Title — Playfair pour autorité + Inter pour lisibilité */
+  .header-title {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    line-height: 1.2;
+  }
+
+  .header-subtitle {
+    display: block;
+    margin-top: 3px;
+    color: rgba(167,243,208,0.5);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Stats pills — plus minimalistes */
+  .header-stats { gap: 6px; }
+
+  .stat-pill {
+    border: 1px solid rgba(52,211,153,0.16);
+    background: rgba(52,211,153,0.05);
+    color: rgba(167,243,208,0.70);
+    padding: 5px 12px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+
+  .author-pill {
+    background: rgba(52,211,153,0.08) !important;
+    border-color: rgba(52,211,153,0.22) !important;
+    color: rgba(167,243,208,0.65) !important;
+  }
+
+  /* Garde button — couleur signature ambre, plus net */
+  .header-garde-btn {
+    padding: 8px 16px;
+    font-size: 0.73rem;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 1px solid rgba(201,146,42,0.45);
+    background: rgba(201,146,42,0.12);
+    box-shadow: none;
+    letter-spacing: 0.03em;
+  }
+
+  .header-garde-btn:hover {
+    background: rgba(201,146,42,0.22);
+    border-color: rgba(201,146,42,0.65);
+    box-shadow: 0 0 20px rgba(201,146,42,0.15);
+    transform: none;
+  }
+
+  /* ─── TABS : pill style, plus clair ─── */
+  .tabs {
+    border-top: 1px solid rgba(52,211,153,0.10);
+    padding: 0 4px;
+    gap: 2px;
+  }
+
+  .tab-btn {
+    min-width: 120px;
+    padding: 12px 18px;
+    font-size: 0.80rem;
+    font-weight: 600;
+    color: rgba(167,243,208,0.45);
+    letter-spacing: 0.01em;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    transition: color 0.18s ease, background 0.18s ease;
+  }
+
+  .tab-btn:hover {
+    color: rgba(167,243,208,0.80);
+    background: rgba(52,211,153,0.05);
+  }
+
+  .tab-btn.active {
+    color: #FFFFFF;
+    background: transparent;
+  }
+
+  .tab-btn::after {
+    background: linear-gradient(to right, #34D399, #22A066);
+    left: 15%;
+    right: 15%;
+    bottom: -1px;
+  }
+
+  /* ─── STICKY STRIP ─── */
+  .sticky-strip {
+    background: rgba(248,250,251,0.97);
+    border-bottom: 1px solid var(--border-mid);
+    box-shadow: 0 2px 16px rgba(7,43,29,0.05);
+    top: 124px;
+  }
+
+  .sticky-inner { padding: 14px 36px; }
+
+  /* ─── SEARCH INPUTS ─── */
+  .search-input, .med-search-input {
+    border: 1.5px solid var(--border-mid);
+    border-radius: var(--r-sm);
+    padding: 11px 16px 11px 44px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+
+  .search-input:focus, .med-search-input:focus {
+    border-color: var(--forest-light);
+    box-shadow: 0 0 0 3px rgba(26,128,102,0.10), var(--shadow-xs);
+  }
+
+  .toolbar-select {
+    border-radius: var(--r-sm);
+    border-color: var(--border-mid);
+    font-size: 0.86rem;
+    padding: 11px 14px;
+  }
+
+  /* ─── CITY CHIPS ─── */
+  .city-chip {
+    padding: 6px 14px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    border-radius: var(--r-full);
+    border: 1.5px solid var(--border-mid);
+    background: var(--surface);
+    color: var(--text-muted);
+    transition: all 0.15s ease;
+  }
+
+  .city-chip:hover {
+    border-color: var(--forest-light);
+    color: var(--forest);
+    background: var(--mint-ghost);
+  }
+
+  .city-chip.active {
+    background: var(--forest);
+    color: white;
+    border-color: var(--forest);
+    box-shadow: 0 2px 10px rgba(11,77,51,0.25);
+  }
+
+  /* ─── LAYOUT ─── */
+  main { max-width: 1520px; }
+
+  .pharmacies-list, .med-content, .urgences-wrap {
+    padding: 28px 36px;
+  }
+
+  /* ─── CITY HEADING ─── */
+  .city-heading {
+    font-size: 0.63rem;
+    letter-spacing: 0.14em;
+    color: var(--forest-mid);
+    border-bottom: 1px solid var(--border-mid);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  .city-heading::before {
+    width: 4px; height: 4px;
+    background: var(--mint);
+    box-shadow: 0 0 6px rgba(52,211,153,0.5);
+  }
+
+  /* ─── PHARMACY CARDS ─── */
+  .pharm-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  .pharm-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+  }
+
+  .pharm-card::before {
+    height: 2px;
+    background: linear-gradient(to right, #34D399, #22A066);
+  }
+
+  .pharm-card:hover {
+    border-color: rgba(52,211,153,0.25);
+    box-shadow: 0 4px 20px rgba(7,43,29,0.10), 0 8px 32px rgba(7,43,29,0.06);
+    transform: translateY(-3px);
+  }
+
+  .pharm-name {
+    font-size: 0.94rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+
+  .pharm-addr {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .pharm-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--r-sm);
+    background: var(--mint-ghost);
+  }
+
+  .pharm-icon.h24 { background: #FEF3C7; }
+
+  .badge-24h {
+    background: #FEF3C7;
+    color: #92400E;
+    border-color: rgba(146,64,14,0.18);
+    font-size: 0.60rem;
+  }
+
+  .contact-link {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--forest-mid);
+  }
+
+  .call-icon {
+    width: 28px; height: 28px;
+    background: var(--mint-ghost);
+    border-radius: var(--r-xs);
+  }
+
+  /* ─── MÉDICAMENTS TABLE ─── */
+  .table-wrap {
+    border-radius: var(--r);
+    border-color: var(--border-mid);
+    box-shadow: var(--shadow-sm);
+  }
+
+  thead tr {
+    background: linear-gradient(to right, #F0F9F4, #F8FAFB) !important;
+  }
+
+  th {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--forest-mid);
+    letter-spacing: 0.11em;
+    padding: 13px 20px;
+  }
+
+  td {
+    font-size: 0.86rem;
+    padding: 13px 20px;
+    border-bottom: 1px solid rgba(11,77,51,0.04);
+  }
+
+  td.col-nom {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  td.col-dci {
+    color: var(--forest-mid);
+    font-style: italic;
+    font-size: 0.82rem;
+    font-family: var(--font-serif);
+  }
+
+  tbody tr:hover { background: #F0FDF8; }
+
+  /* ─── FORME BADGES — plus nets ─── */
+  .forme-badge {
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── MED CARDS ─── */
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  .med-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px 20px 16px;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .med-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(52,211,153,0.22);
+  }
+
+  .med-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+
+  .med-card-dci {
+    font-size: 0.80rem;
+    color: var(--forest-mid);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
+  /* ─── PAGINATION ─── */
+  .pagination {
+    border-radius: var(--r);
+    border-color: var(--border-mid);
+    padding: 5px;
+  }
+
+  .page-btn.active {
+    background: var(--forest);
+    box-shadow: 0 2px 8px rgba(11,77,51,0.28);
+  }
+
+  /* ─── MODAL ─── */
+  .modal {
+    border-radius: var(--r-lg);
+    border-color: var(--border-mid);
+  }
+
+  .modal-head {
+    background: linear-gradient(to right, #EFF9F4, #F8FAFB);
+    border-bottom-color: var(--border-mid);
+  }
+
+  .modal-title {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+    letter-spacing: -0.025em;
+  }
+
+  .modal-subtitle {
+    font-family: var(--font-serif);
+    color: var(--forest-mid);
+    font-size: 0.88rem;
+  }
+
+  .modal-kicker {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    color: var(--forest-light);
+  }
+
+  .info-card {
+    border-radius: var(--r);
+    border-color: var(--border-mid);
+    background: #FAFCFB;
+  }
+
+  .info-card-label {
+    font-size: 0.60rem;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: var(--forest-light);
+  }
+
+  .info-card-value { font-size: 0.91rem; }
+
+  .posology-row {
+    background: rgba(52,211,153,0.04);
+    border-color: rgba(52,211,153,0.12);
+  }
+
+  /* ─── URGENCES CARDS ─── */
+  .urg-card {
+    border-radius: var(--r);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .urg-title { font-size: 0.98rem; font-weight: 700; }
+
+  .urg-num {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--forest);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── GARDE MODAL ─── */
+  .garde-modal { border-radius: var(--r-lg); border-color: var(--border-mid); }
+
+  .garde-modal-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--forest);
+    letter-spacing: -0.02em;
+  }
+
+  /* ─── BUTTONS ─── */
+  .garde-btn {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+    border-radius: var(--r-sm);
+    font-size: 0.84rem;
+    padding: 10px 18px;
+    box-shadow: 0 3px 12px rgba(11,77,51,0.28);
+  }
+
+  .garde-btn:hover {
+    box-shadow: 0 6px 20px rgba(11,77,51,0.36);
+  }
+
+  .btn-group { border-radius: var(--r-sm); }
+
+  .view-btn {
+    font-size: 0.81rem;
+    padding: 9px 14px;
+  }
+
+  .view-btn.active {
+    background: var(--forest);
+  }
+
+  /* ─── ONP BANNER ─── */
+  .onp-banner {
+    margin: 0 36px 36px;
+    border-radius: var(--r);
+  }
+
+  .onp-banner-title { font-weight: 700; color: var(--cobalt); }
+
+  /* ─── PROVINCE CARDS ─── */
+  .province-card {
+    border-radius: var(--r);
+    box-shadow: var(--shadow-xs);
+  }
+
+  /* ─── DIRECTORY ─── */
+  .directory-chip.active {
+    background: var(--forest-mid);
+    box-shadow: 0 4px 14px rgba(11,77,51,0.18);
+  }
+
+  /* ─── HÔPITAUX ─── */
+  .hop-card {
+    border-radius: var(--r);
+    box-shadow: var(--shadow-xs);
+  }
+
+  /* ─── ORDONNANCE ─── */
+  .ordo-section { border-radius: var(--r); box-shadow: var(--shadow-xs); }
+
+  .ordo-section-head {
+    background: linear-gradient(to right, #FEF3C7, #FBF4E4);
+    border-bottom: 1px solid rgba(201,146,42,0.15);
+  }
+
+  .ordo-input:focus, .ordo-textarea:focus, .ordo-select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,146,42,0.10);
+  }
+
+  /* ─── CERTIFICATS ─── */
+  .cert-form-header, .cert-dynamic-fields, .cert-preview-wrap {
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .cert-print-btn {
+    background: linear-gradient(135deg, var(--forest), var(--forest-vivid));
+    border-radius: var(--r-full);
+    box-shadow: 0 3px 14px rgba(11,77,51,0.28);
+  }
+
+  .cert-print-btn:hover {
+    box-shadow: 0 6px 22px rgba(11,77,51,0.36);
+  }
+
+  /* ─── RÉSULTATS BAR ─── */
+  .results-bar strong {
+    font-family: var(--font-mono);
+    color: var(--forest);
+  }
+
+  .info-note {
+    background: linear-gradient(135deg, var(--mint-ghost), #F2FBF8);
+    border-left: 3px solid var(--forest-light);
+    border-radius: var(--r-sm);
+    font-size: 0.86rem;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  .catalog-progress-fill {
+    background: linear-gradient(to right, #34D399, #22A066);
+  }
+
+  .catalog-progress-label span { color: var(--forest); }
+
+  /* ─── EMPTY STATE ─── */
+  .empty-state {
+    border-color: var(--border-mid);
+    border-radius: var(--r);
+  }
+
+  /* ─── FOOTER ─── */
+  .site-footer {
+    background: var(--forest-deep);
+  }
+
+  /* ─── MARQUE DISTINCTIVE ─── */
+  /* Ligne médicale verte pulsée à gauche de l'écran — signature de l'appli */
+  body::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #34D399 0%, var(--forest-light) 40%, transparent 100%);
+    opacity: 0.7;
+    z-index: 999;
+    pointer-events: none;
+  }
+
+  /* ─── SCROLLBAR AMÉLIORÉE ─── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(11,77,51,0.18);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(11,77,51,0.30); }
+
+  /* ─── MARK ─── */
+  mark {
+    background: #FEF08A;
+    color: #713F12;
+    border-radius: 3px;
+    padding: 0 3px;
+    font-weight: 600;
+  }
+
+  /* ─── FOCUS RING ─── */
+  :focus-visible {
+    outline: 2px solid var(--mint);
+    outline-offset: 3px;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .header-shell { padding: 14px 20px 0; }
+    .sticky-inner { padding: 12px 20px; }
+    .pharmacies-list, .med-content, .urgences-wrap { padding: 20px; }
+    .onp-banner { margin: 0 20px 28px; }
+    .header-icon { width: 40px; height: 40px; font-size: 18px; }
+  }
+</style>
+
 </head>
 <body>
 
@@ -3476,6 +4143,9 @@
           <select class="toolbar-select" id="formeFilter" onchange="onFormeChange()">
             <option value="">Toutes les formes</option>
           </select>
+          <select class="toolbar-select" id="classeFilter" onchange="onClasseChange()" style="max-width:240px;">
+            <option value="">🏷️ Toutes les classes</option>
+          </select>
           <select class="toolbar-select" id="sortSelect" onchange="onSortChange()">
             <option value="nom">Nom A → Z</option>
             <option value="nom_desc">Nom Z → A</option>
@@ -3503,6 +4173,7 @@
               <th id="th-dci" onclick="setSort('dci')">DCI <span class="sort-arrow">↕</span></th>
               <th id="th-code" onclick="setSort('code')">Code <span class="sort-arrow">↕</span></th>
               <th>Forme</th>
+              <th>Classe thérapeutique</th>
               <th>Présentation</th>
               <th>Laboratoire</th>
             </tr>
@@ -10631,6 +11302,111 @@ function buildContinuedPosology(m = {}) {
     }
   }
 
+
+  if (same('EMTRICITABINE + FUMARATE DE TENOFOVIR ALAFENAMIDE') && oralSolid) {
+    return {
+      voie: 'Voie orale, avec ou sans nourriture',
+      standard: 'Association antirétrovirale utilisée avec un 3e agent ; 1 prise par jour en continu.',
+      adulte: 'Adulte : 1 comprimé/j. Descovy 200/10 mg une fois/j si l’association comprend atazanavir + ritonavir/cobicistat, darunavir + ritonavir/cobicistat ou lopinavir/ritonavir ; Descovy 200/25 mg une fois/j avec dolutégravir, éfavirenz, maraviroc, névirapine, rilpivirine ou raltégravir.',
+      enfant: 'Adolescent ≥ 12 ans et ≥ 35 kg : 1 comprimé/j selon le même choix de dosage que chez l’adulte. Pas de repère standard repris ici en dessous de 12 ans ou < 35 kg.',
+      adaptation: 'En cas d’oubli, prendre la dose si le retard est < 18 h ; au-delà, sauter la dose oubliée. Si vomissement dans l’heure suivant la prise, reprendre un comprimé. Surveillance renforcée si hépatite B/C associée ou atteinte hépatique.',
+      conseil: 'Avaler entier chaque jour à heure régulière ; le choix entre 200/10 mg et 200/25 mg dépend du 3e antirétroviral coadministré.',
+      source: 'EMA — Descovy, information produit',
+      source_url: 'https://www.ema.europa.eu/fr/documents/product-information/descovy-epar-product-information_fr.pdf'
+    };
+  }
+
+  if (same('MENOTROPINE') && injectable) {
+    return {
+      voie: 'Voie sous-cutanée ou intramusculaire après reconstitution',
+      standard: 'Gonadotrophine de stimulation ovarienne prescrite et surveillée par un spécialiste ; schéma individualisé selon la réponse ovarienne.',
+      adulte: 'Infertilité anovulatoire : 75 à 150 UI/j pendant au moins 7 jours, avec ajustements par paliers de 37,5 UI sans dépasser 75 UI par ajustement ; maximum 225 UI/j. En stimulation ovarienne contrôlée (PMA) : 150 à 225 UI/j pendant au moins les 5 premiers jours, puis adaptation selon la surveillance clinique ; maximum 450 UI/j.',
+      enfant: 'Pas d’utilisation pédiatrique standard dans cette application.',
+      adaptation: 'Première injection sous surveillance médicale. Reconstituer juste avant emploi avec le solvant fourni ; jusqu’à 3 flacons de poudre peuvent être dissous dans 1 ml de solvant. Ne pas utiliser si la solution n’est pas limpide.',
+      conseil: 'Arrêter et ne pas administrer d’hCG en cas de réponse ovarienne excessive ou de risque de syndrome d’hyperstimulation ovarienne.',
+      source: 'emc — Menopur 75 IU SmPC',
+      source_url: 'https://www.medicines.org.uk/emc/product/1294/smpc'
+    };
+  }
+
+  if (same('PNEUMOCOCCAL POLYSACCHARIDE CONJUGATE VACCINE') && injectable) {
+    return {
+      voie: 'Voie intramusculaire',
+      standard: 'Vaccin pneumococcique conjugué 10-valent chez le nourrisson à partir de 6 semaines.',
+      adulte: 'Pas de schéma adulte standard repris dans cette application.',
+      enfant: 'Dose unitaire : 0,5 ml IM. Schéma 3p+0 : 6, 10 et 14 semaines (intervalle minimal 4 semaines). Schéma alternatif 2p+1 : 6 et 14 semaines, puis rappel à 9–10 mois.',
+      adaptation: 'Respecter l’âge minimal de 6 semaines et les intervalles entre doses. Le rappel concerne le schéma 2p+1.',
+      conseil: 'Administrer selon le calendrier vaccinal retenu localement et la disponibilité du programme de vaccination.',
+      source: 'CDSCO — Pneumosil SmPC',
+      source_url: 'https://cdsco.gov.in/opencms/resources/UploadCDSCOWeb/2018/UploadSmPC/SmPC%20of%20Pneumosil%20vaccine%20by%20Ms%20Serum%20Institute.pdf'
+    };
+  }
+
+  if (same('LIDOCAINE CHLORHYDRATE') && injectable) {
+    return {
+      voie: 'Injection / infiltration selon la technique anesthésique, sous contrôle médical',
+      standard: 'Anesthésique local injectable ; la posologie dépend strictement du type de bloc, de la concentration utilisée et du poids du patient.',
+      adulte: 'Repères du RCP consulté pour anesthésie locale : infiltration percutanée 5 à 300 mg ; rachianesthésie jusqu’à 100 mg ; blocs nerveux selon le site (ex. intercostal 30 mg, paravertébral 30–50 mg, pudendal 100 mg par côté). En anesthésie épidurale/caudale, les protocoles utilisent souvent des solutions diluées à 1 %.',
+      enfant: 'Réduire la dose chez l’enfant ; pour les anesthésies autres que spinales, ne pas dépasser 4,5 mg/kg (ou 200 mg) sans protocole spécialisé.',
+      adaptation: 'Pour les anesthésies autres que spinales, la dose unique ne doit pas dépasser 4,5 mg/kg ou 200 mg. En péridurale, injecter une dose test de 2 à 5 ml au moins 5 minutes avant la dose totale. Ne pas répéter la dose maximale à moins de 1 h 30 en anesthésie épidurale/caudale continue.',
+      conseil: 'Produit d’usage exclusivement médical ; ce RCP précise aussi que cette formulation 2 % n’est pas destinée à l’usage intraoculaire.',
+      source: 'emc — Lidocaine Hydrochloride Injection BP 2% w/v SmPC',
+      source_url: 'https://www.medicines.org.uk/emc/product/6281/smpc'
+    };
+  }
+
+  if (same('CHLORHYDRATE DE TOLPERISONE') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Myorelaxant central administré en 3 prises quotidiennes, avec adaptation progressive selon la réponse clinique.',
+      adulte: 'Dose usuelle adulte : 50 mg, 3 fois/j (150 mg/j), avec possibilité d’augmentation progressive jusqu’à 600 mg/j si nécessaire.',
+      enfant: 'Selon le document consulté : 5 à 10 mg/kg/j en 3 prises. En pratique, l’utilisation pédiatrique doit rester strictement médicale et individualisée.',
+      adaptation: 'Réduire la dose chez le sujet âgé et en cas d’insuffisance hépatique ou rénale. Une fois l’effet thérapeutique obtenu, diminuer progressivement la dose.',
+      conseil: 'Évaluer la tolérance digestive et cutanée ; prudence pendant grossesse/allaitement faute de données suffisantes.',
+      source: 'Alkem — Tolkem (tolpérisone) information produit',
+      source_url: 'https://www.alkemlabs.com/pdf/adverse/Tolkem.pdf'
+    };
+  }
+
+  if (same('TRIAMCINOLONE ACETONIDE') && /BUC|BUCC|PATE|PASTE/.test(route)) {
+    return {
+      voie: 'Application buccale locale',
+      standard: 'Corticostéroïde local pour lésions inflammatoires de la muqueuse buccale, appliqué en fine pellicule sur la lésion.',
+      adulte: 'Appliquer une petite quantité (environ 0,6 cm / 1/4 inch) au coucher ; selon la sévérité, renouveler 2 à 3 fois/j, de préférence après les repas.',
+      enfant: 'Pas de schéma pédiatrique standard détaillé dans la source consultée ; usage à individualiser avec avis médical/dentaire.',
+      adaptation: 'Utiliser seulement la quantité nécessaire pour former un film mince sur la lésion. Ne pas frotter ni chercher à étaler vigoureusement la pâte.',
+      conseil: 'Réévaluer si absence d’amélioration rapide ou aggravation des lésions buccales.',
+      source: 'DailyMed — Triamcinolone Acetonide Dental Paste USP 0.1%',
+      source_url: 'https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=b353c8b1-9088-4969-8199-37876f2461cc'
+    };
+  }
+
+  if (same('THIAMPHENICOL') && (oralSolid || /SUSPENSION|SIROP|SOLUTION ORALE|BUVABLE/.test(route))) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antibiotique phénicolé administré en 3 à 4 prises quotidiennes selon l’infection et la sévérité.',
+      adulte: 'Adulte : 1 g à 3 g/j par voie orale en 3 à 4 prises.',
+      enfant: 'Enfant : 30 à 100 mg/kg/j.',
+      adaptation: 'Éviter chez le nouveau-né et le nourrisson de moins de 3 mois ; contre-indiqué en insuffisance hépatique sévère ou insuffisance rénale sévère selon la monographie consultée.',
+      conseil: 'Antibiotique à utiliser uniquement sur prescription ; respecter la durée et réévaluer en l’absence d’amélioration clinique.',
+      source: 'med.ma — Thiobactin monographie produit',
+      source_url: 'https://www.med.ma/medicament/thiobactin-250-mg---5-ml-granule-pour-suspensionension-buvable-5653'
+    };
+  }
+
+  if (same('HIDROSMINE') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Veinotonique/capillaroprotecteur en 3 prises quotidiennes, généralement au moment des repas.',
+      adulte: 'Adulte : 1 gélule de 200 mg, 3 fois/j, généralement avec les repas principaux.',
+      enfant: 'Pas de schéma pédiatrique standard repris dans l’application.',
+      adaptation: 'Réévaluer si les symptômes veineux persistent ou s’aggravent malgré le traitement et les mesures non médicamenteuses.',
+      conseil: 'Associer si besoin les mesures habituelles de l’insuffisance veineuse (marche, surélévation, compression si prescrite).',
+      source: 'Rwanda FDA — Venosmil 200 mg capsules SmPC',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2024/06/Venosmil_200_mg%20capsules_Hidrosmin_200_mg_SmPC.pdf'
+    };
+  }
+
   if (name.includes('FERVEX')) {
     if (name.includes('ENFANT')) {
       return {
@@ -11359,11 +12135,661 @@ function buildSupplementalBrandPosology(m = {}) {
     };
   }
 
+  if (same('PRAZIQUANTEL')) {
+    return {
+      voie: 'Voie orale, pendant ou juste après le repas',
+      standard: 'Antiparasitaire à dose pondérale ; le schéma dépend de l’indication parasitaire et se fait souvent en prise unique ou sur 1 à 15 jours.',
+      adulte: 'Bilharziose : 40 mg/kg en prise unique le soir, ou 20 mg/kg 2 fois à 4-6 h d’intervalle ; Schistosoma japonicum : 60 mg/kg en prise unique ou 30 mg/kg 2 fois ; distomatoses à Clonorchis/Opisthorchis : 25 mg/kg 3 fois le même jour à 4-6 h d’intervalle ; neurocysticercose : 50 mg/kg/j en 2 à 3 prises pendant 15 jours.',
+      enfant: 'Même repères à partir de 1 an, en mg/kg selon l’indication : bilharziose 40 à 60 mg/kg selon l’espèce ; distomatoses 25 mg/kg 3 fois/j ; neurocysticercose 50 mg/kg/j en 2 à 3 prises.',
+      adaptation: 'Le choix du schéma doit suivre le parasite traité ; écraser le comprimé si besoin en cas de difficulté de déglutition.',
+      conseil: 'Administrer avec suffisamment d’eau ; en cas de prise unique, la faire le soir ; respecter des intervalles de 4 à 6 heures quand plusieurs prises sont prévues.',
+      source: 'Vidal — Praziquantel, substance active',
+      source_url: 'https://www.vidal.fr/medicaments/substances/praziquantel-2904.html'
+    };
+  }
+
+  if (same('LATANOPROST') && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Antiglaucomateux par instillation quotidienne unique, de préférence le soir.',
+      adulte: 'Adulte : 1 goutte dans l’œil atteint, 1 fois par jour, de préférence le soir.',
+      enfant: 'Enfant : même schéma usuel, 1 goutte dans l’œil atteint 1 fois par jour, de préférence le soir.',
+      adaptation: 'Ne pas instiller plus d’une fois par jour ; en cas d’association à un autre collyre, respecter un intervalle minimal de 5 minutes.',
+      conseil: 'Retirer les lentilles souples avant l’instillation et attendre 15 minutes avant de les remettre ; comprimer l’angle interne de l’œil juste après l’instillation pour limiter le passage systémique.',
+      source: 'Vidal — XALATAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/xalatan-11464.html'
+    };
+  }
+
+  if (same('TRAVOPROST') && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Antiglaucomateux par instillation quotidienne unique, de préférence le soir.',
+      adulte: 'Adulte : 1 goutte dans l’œil atteint, 1 fois par jour, de préférence le soir.',
+      enfant: 'Enfant de plus de 2 mois : 1 goutte dans l’œil atteint, 1 fois par jour, de préférence le soir.',
+      adaptation: 'Ne pas instiller plus d’une fois par jour ; respecter au moins 5 minutes entre deux collyres différents.',
+      conseil: 'Retirer les lentilles souples avant usage et attendre 15 minutes avant de les remettre ; fermer les paupières ou comprimer le point lacrymal après instillation.',
+      source: 'Vidal — TRAVATAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/travatan-20080.html'
+    };
+  }
+
+  if ((same('TIMOLOL MALEATE') || dci.includes('TIMOLOL')) && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Bêtabloquant ophtalmique débuté en général à 0,25% 2 fois/j, avec adaptation selon la pression intraoculaire.',
+      adulte: 'Schéma initial habituel : 1 goutte de solution à 0,25% dans l’œil atteint, 2 fois/j ; si la réponse est insuffisante, passer à 1 goutte de solution à 0,5% 2 fois/j. Après stabilisation, un relais à 1 instillation/j peut suffire chez certains patients.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans cette application à partir de la source consultée.',
+      adaptation: 'Réévaluer la pression intraoculaire après environ 4 semaines ; prudence chez les patients à risque de bradycardie, bronchospasme ou hypotension.',
+      conseil: 'Pratiquer une occlusion nasolacrymale ou garder les paupières fermées environ 2 minutes après l’instillation ; ne pas mettre l’embout en contact avec l’œil.',
+      source: 'eMC SmPC — Timolol Eye Drops',
+      source_url: 'https://www.medicines.org.uk/emc/product/459/smpc'
+    };
+  }
+
+  if (same('KETOCONAZOLE')) {
+    if (/SHAMPOO|SHAMPOOING/.test(route) || name.includes('NIZORAL') || name.includes('PHYTORAL')) {
+      return {
+        voie: 'Application locale sur cuir chevelu ou peau atteinte',
+        standard: 'Shampooing antifongique à laisser agir 3 à 5 minutes avant rinçage.',
+        adulte: 'Adulte et adolescent : dermite séborrhéique/pellicules : 2 applications par semaine pendant 2 à 4 semaines ; pityriasis versicolor : 1 application par jour pendant 1 à 5 jours.',
+        enfant: 'Pas de schéma pédiatrique standard retenu dans cette application ; la source consultée vise les adolescents et adultes.',
+        adaptation: 'En prophylaxie des pellicules/dermite séborrhéique, 1 application toutes les 1 à 2 semaines peut être utilisée.',
+        conseil: 'Mouiller les zones atteintes, faire mousser, laisser en place 3 à 5 minutes puis rincer soigneusement ; éviter le contact avec les yeux.',
+        source: 'eMC SmPC — Nizoral 2% shampoo',
+        source_url: 'https://www.medicines.org.uk/emc/product/1510/smpc'
+      };
+    }
+    if (topical) {
+      return {
+        voie: 'Voie cutanée',
+        standard: 'Antifongique local en 1 à 2 applications quotidiennes sur peau propre et sèche.',
+        adulte: 'Adulte : 1 à 2 applications par jour.',
+        enfant: 'Pas de schéma pédiatrique explicite retenu dans la source consultée ; utilisation à confirmer selon l’âge et l’avis médical.',
+        adaptation: 'La durée du traitement varie en général de 2 à 6 semaines selon la localisation des lésions.',
+        conseil: 'Après lavage et séchage de la zone, appliquer en petite quantité puis masser pour faire pénétrer ; dans les plis, limiter l’excès de crème pour éviter la macération.',
+        source: 'Vidal — KÉTODERM crème',
+        source_url: 'https://www.vidal.fr/medicaments/gammes/ketoderm-5201.html'
+      };
+    }
+  }
+
+  if (same('TERBINAFINE', 'TERBINAFINE CHLORHYDRATE', 'TERBINAFINE HYDROCHLORIDE')) {
+    if (topical) {
+      return {
+        voie: 'Voie cutanée',
+        standard: 'Antifongique local en application régulière sur peau propre et sèche.',
+        adulte: 'Appliquer une fine couche 1 à 2 fois par jour selon l’indication et la localisation.',
+        enfant: 'Pas de schéma pédiatrique standard retenu dans cette application à partir de la source consultée.',
+        adaptation: 'Durées usuelles : 1 à 2 semaines pour la plupart des dermatophyties et candidoses cutanées ; jusqu’à 2 semaines pour le pityriasis versicolor.',
+        conseil: 'Laver et bien sécher la zone avant application ; éviter le contact avec les yeux ; ne pas utiliser pour une onychomycose sans avis spécialisé.',
+        source: 'Vidal — LAMISIL 1% crème',
+        source_url: 'https://www.vidal.fr/medicaments/lamisil-1-creme-9873.html'
+      };
+    }
+    if (oralSolid) {
+      return {
+        voie: 'Voie orale, de préférence au cours d’un repas',
+        standard: 'Antifongique systémique en prise quotidienne unique ; la durée dépend du type de mycose.',
+        adulte: 'Adulte : 250 mg (1 comprimé) 1 fois par jour.',
+        enfant: 'Pas de schéma pédiatrique standard retenu dans cette application à partir de la source consultée.',
+        adaptation: 'La durée du traitement varie selon la localisation infectée ; le respect de la durée prescrite est essentiel à l’efficacité.',
+        conseil: 'Surveiller l’apparition de signes évocateurs d’atteinte hépatique ou cutanée sévère et réévaluer rapidement en cas d’éruption, de nausées persistantes ou d’ictère.',
+        source: 'Vidal — TERBINAFINE BIOGARAN 250 mg',
+        source_url: 'https://www.vidal.fr/medicaments/gammes/terbinafine-biogaran-29099.html'
+      };
+    }
+  }
+
+  if (same('CYPROHEPTADINE CHLORHYDRATE', 'CYPROHEPTADINE HYDROCHLORIDE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antihistaminique administré en 2 à 3 prises quotidiennes, avec adaptation à l’âge et à la réponse clinique.',
+      adulte: /SIROP|SUSP|SP /i.test(m.nom) || /SIROP|SUSP/.test(route)
+        ? 'Adulte : dose initiale habituelle de 4 mg (10 ml de sirop à 2 mg/5 ml) 3 fois par jour, puis adaptation selon la réponse.'
+        : 'Adulte : dose initiale habituelle de 4 mg (1 comprimé) 3 fois par jour, puis adaptation selon la réponse.',
+      enfant: /SIROP|SUSP|SP /i.test(m.nom) || /SIROP|SUSP/.test(route)
+        ? 'Enfant 2 à 6 ans : 2 mg (5 ml) 2 à 3 fois/j, sans dépasser 12 mg/j ; 7 à 14 ans : 4 mg (10 ml) 2 à 3 fois/j, sans dépasser 16 mg/j.'
+        : 'Enfant 2 à 6 ans : 2 mg (1/2 comprimé) 2 à 3 fois/j, sans dépasser 12 mg/j ; 7 à 14 ans : 4 mg (1 comprimé) 2 à 3 fois/j, sans dépasser 16 mg/j.',
+      adaptation: 'Chez l’adulte, la dose totale ne doit pas dépasser 0,5 mg/kg/j ; la plupart des patients répondent à 12 à 16 mg/j, avec un maximum occasionnel de 32 mg/j.',
+      conseil: 'Le traitement peut entraîner une somnolence ; prudence pour la conduite et l’association avec alcool ou autres sédatifs.',
+      source: /SIROP|SUSP|SP /i.test(m.nom) || /SIROP|SUSP/.test(route) ? 'DailyMed — Cyproheptadine hydrochloride syrup' : 'FDA label — Cyproheptadine hydrochloride tablets',
+      source_url: /SIROP|SUSP|SP /i.test(m.nom) || /SIROP|SUSP/.test(route) ? 'https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid=949743a7-f922-4248-aa28-818236c80a67&type=pdf' : 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/087056s045lbl.pdf'
+    };
+  }
+
+  if (same('LEVOSULPIRIDE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Prokinétique/gastrokinétique administré en 3 prises quotidiennes avant les repas.',
+      adulte: 'Adulte : 25 mg (1 comprimé) toutes les 8 heures, soit 75 mg/j répartis en 3 prises.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans cette application.',
+      adaptation: 'Utiliser avec prudence en cas de terrain neurologique ou de risque d’effets extrapyramidaux ; réévaluer en cas d’absence d’amélioration clinique.',
+      conseil: 'Avaler le comprimé entier avec suffisamment d’eau, sans le croquer ni le casser, au moins 20 minutes avant les repas.',
+      source: 'Rwanda FDA SmPC — DISLEP 25 mg',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2024/10/DISLEP_Levosulpiride%20tablets_25_mg_SmPC.pdf'
+    };
+  }
+
+  if (same('CITICOLINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Neuroprotecteur administré en 1 à 4 comprimés/j selon la sévérité et la prescription médicale.',
+      adulte: 'Adulte : 500 à 2000 mg/j, soit 1 à 4 comprimés de 500 mg par jour.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans cette application faute de données suffisantes dans la source consultée.',
+      adaptation: 'La dose exacte et la durée du traitement sont déterminées par le médecin selon la sévérité de l’atteinte ; pas d’ajustement requis chez le sujet âgé selon le RCP consulté.',
+      conseil: 'Avaler entier avec ou sans nourriture, de préférence à heure fixe ; éviter l’alcool pendant le traitement.',
+      source: 'Rwanda FDA SmPC — SYSCHOL-500',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2023/05/SYSCHOL-500-CITICOLINE-TABLETS-500mg-SmPC.pdf'
+    };
+  }
+
+  if (dci.includes('LEVOCETIRIZINE') && dci.includes('MONTELUKAST')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Association antiallergique en prise quotidienne unique.',
+      adulte: 'Adulte et adolescent de plus de 15 ans : 1 comprimé une fois par jour.',
+      enfant: 'La sécurité et l’efficacité de cette association à dose fixe ne sont pas établies avant 15 ans selon la source consultée.',
+      adaptation: 'Prudence en insuffisance rénale ; contre-indiqué si la clairance de la créatinine est inférieure à 10 ml/min.',
+      conseil: 'Avaler le comprimé entier avec de l’eau ; la prise peut se faire avec ou sans nourriture.',
+      source: 'TMDA SmPC — Montelukast 10 mg + Levocetirizine 5 mg',
+      source_url: 'https://www.tmda.go.tz/uploads/1708953221-T14H0470SmPCv1.pdf'
+    };
+  }
+
+  if ((dci.includes('XYLOMETAZOLINE') || name.includes('CIROVIN')) && /NAS|PULV/.test(route)) {
+    return {
+      voie: 'Voie nasale',
+      standard: 'Décongestionnant nasal de courte durée, avec adaptation à la concentration et à l’âge.',
+      adulte: 'Solution/gouttes 0,1% : adulte, sujet âgé et enfant de plus de 12 ans : 1 à 3 gouttes dans chaque narine, 2 à 3 fois par jour.',
+      enfant: 'Solution/gouttes 0,05% : enfant de 6 à 12 ans : 1 à 2 gouttes dans chaque narine, 1 à 2 fois par jour, sans dépasser 2 doses en 24 heures.',
+      adaptation: 'Ne pas utiliser plus de 5 jours sans avis médical ; ne pas dépasser les doses recommandées. Pas de schéma retenu dans cette application avant 6 ans.',
+      conseil: 'Usage nasal uniquement ; éviter l’utilisation prolongée en raison du risque de congestion de rebond.',
+      source: 'Ghana FDA SmPC — Nosil xylometazoline nasal drops',
+      source_url: 'https://fdaghana.gov.gh/wp-content/uploads/2025/08/Nosil-0.1_0.05-Nasal-drops-Xylometazoline-Hydrochloride-SmPC.pdf'
+    };
+  }
+
+
+  if (same('CEFIXIM', 'CEFIXIM ANHYDRE', 'CEFIXIME', 'CEFIXIME ANHYDRE', 'CEFIXIME TRIHYDRATE', 'CEFIXIME TRIHYDRATE USP')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Céphalosporine orale habituellement administrée en 2 prises par jour.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 200 mg matin et soir. Dans les infections génitales à gonocoques : 400 mg en prise unique.',
+      enfant: 'Pour les formes pédiatriques dédiées, la posologie dépend du poids et de la présentation ; vérifier la notice exacte si la spécialité n’est pas un comprimé adulte.',
+      adaptation: 'Réduction possible de la posologie en cas d’insuffisance rénale grave. Prudence en cas d’allergie aux céphalosporines ou aux pénicillines.',
+      conseil: 'Peut être pris pendant ou en dehors des repas. Respecter toute la durée du traitement, même si les symptômes s’améliorent rapidement.',
+      source: 'Vidal — CÉFIXIME VIATRIS',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/cefixime-viatris-39318.html'
+    };
+  }
+
+  if (same('CETIRIZINE', 'CETIRIZINE CHLORHYDRATE', 'CHLORHYDRATE DE CETIRIZINE', 'DICHLORHYDRATE DE CETIRIZINE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Antihistaminique H1 en prise quotidienne ; la dose varie selon l’âge et la forme.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 10 mg/j en 1 prise (soit 1 comprimé ou 20 gouttes/j).',
+      enfant: 'Enfant de 6 à 12 ans : 5 mg 2 fois/j (1/2 comprimé ou 10 gouttes, 2 fois/j). Enfant de 2 à 6 ans : 10 gouttes/j en 1 ou 2 prises.',
+      adaptation: 'Adapter en cas d’insuffisance rénale. Prudence en cas d’épilepsie, de risque de convulsions ou de rétention urinaire.',
+      conseil: 'Les comprimés se prennent avec un verre d’eau. Éviter l’alcool et vérifier la tolérance avant de conduire.',
+      source: 'Vidal — CÉTIRIZINE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/cetirizine-biogaran-25036.html'
+    };
+  }
+
+  if (same('BROMHEXINE HYDROCHLORIDE', 'CHLORHYDRATE DE BROMHEXIME')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Fluidifiant bronchique administré en prises régulières au cours de la journée.',
+      adulte: 'Adulte : 1 à 2 comprimés à 8 mg, 3 fois/j.',
+      enfant: 'Pas de schéma chiffré standard repris ici pour les formes pédiatriques non présentes dans cette fiche ; vérifier la notice de la spécialité locale.',
+      adaptation: 'Ne pas associer à un antitussif sans avis médical. Réévaluer en cas de fièvre, d’expectorations colorées ou de persistance des symptômes.',
+      conseil: 'Le traitement peut être arrêté dès amélioration. Ne pas dépasser 5 jours sans avis médical et boire suffisamment.',
+      source: 'Vidal — BISOLVON',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/bisolvon-1226.html'
+    };
+  }
+
+  if (same('CHLORHYDRATE DE PROPRANOLOL', 'PROPRANOLOL')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Bêtabloquant à posologie variable selon l’indication, généralement en 1 à 4 comprimés/j.',
+      adulte: 'Repère Vidal : 1 à 4 comprimés à 40 mg/j selon l’indication. En prévention des palpitations liées au stress : 1 comprimé 60 à 90 minutes avant l’évènement.',
+      enfant: 'Pas de posologie pédiatrique standard reprise dans cette application pour les formes présentes.',
+      adaptation: 'Prudence en cas d’insuffisance hépatique ou rénale, chez la personne âgée et chez le diabétique. Ne jamais interrompre brutalement.',
+      conseil: 'Peut être pris pendant ou en dehors des repas. Surveiller régulièrement tension et fréquence cardiaque.',
+      source: 'Vidal — PROPRANOLOL BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/propranolol-biogaran-75360.html'
+    };
+  }
+
+  if (same('CHLORHYDRATE DE CIPROFLOXACINE', 'CIPROFLOXACIN', 'CIPROFLOXACINE', 'CIPROFLOXACINE CHLORHYDRATE', 'CIPROFLOXACINE HYDROCHLORIDE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Fluoroquinolone à posologie dépendante de l’infection ; le plus souvent en 2 prises/j.',
+      adulte: 'Repères fréquents : 250 à 750 mg 2 fois/j selon l’infection. Pour de nombreuses infections de l’adulte : 500 mg 2 fois/j ; urétrite/cervicite gonococcique : 500 mg en prise unique.',
+      enfant: 'Indications pédiatriques limitées : souvent 10 à 20 mg/kg 2 fois/j ; en mucoviscidose ou infection sévère, jusqu’à 20 mg/kg 2 fois/j sans dépasser 750 mg par prise selon Vidal.',
+      adaptation: 'Adapter en cas d’insuffisance rénale. Hydratation correcte recommandée ; éviter l’exposition solaire/UV et interrompre le traitement en cas de tendinite, neuropathie ou réaction sévère.',
+      conseil: 'Avaler entier avec de l’eau, indépendamment des repas. Espacer d’au moins 2 heures avec fer, zinc, calcium, strontium, sucralfate et antiacides digestifs.',
+      source: 'Vidal — Ciprofloxacine (substance)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/ciprofloxacine-4070.html'
+    };
+  }
+
+  if (same('COLCHICINE', 'COLCHICINE CRISTALLISEE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Anti-inflammatoire spécifique de la goutte ; schéma particulier pour la crise puis entretien à dose réduite.',
+      adulte: 'Crise de goutte : 1 mg le plus tôt possible, puis 0,5 mg 1 heure après, puis 0,5 mg 2 à 3 fois/j selon la réponse clinique. Prévention des crises : 0,5 à 1 mg/j.',
+      enfant: 'Pas de posologie pédiatrique standard reprise dans cette application pour les formes présentes.',
+      adaptation: 'Adapter impérativement en cas d’insuffisance rénale, d’insuffisance hépatique et chez le sujet âgé. Contre-indiquée si insuffisance rénale sévère (clairance <30 mL/min) ou hépatique sévère.',
+      conseil: 'Vérifier les interactions avant prescription ; plusieurs associations, notamment avec certains macrolides, exposent à une toxicité grave.',
+      source: 'Vidal — Colchicine (substance)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/colchicine-6749.html'
+    };
+  }
+
+  if (same('DYDROGESTERONE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Progestatif administré soit en continu, soit sur certaines périodes du cycle selon l’indication.',
+      adulte: 'Posologie usuelle : 1 à 3 comprimés à 10 mg/j selon les cas.',
+      enfant: 'Pas de posologie pédiatrique standard reprise dans cette application.',
+      adaptation: 'Prudence en cas d’antécédent thromboembolique ou d’insuffisance hépatique grave. Évaluer tout saignement génital inexpliqué avant traitement.',
+      conseil: 'Les comprimés peuvent être pris en continu ou pendant certaines phases du cycle ; suivre strictement le schéma prescrit.',
+      source: 'Vidal — DUPHASTON',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/duphaston-3096.html'
+    };
+  }
+
+  if (same('DUTASTERIDE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Inhibiteur de la 5-alpha-réductase en prise quotidienne unique.',
+      adulte: 'Adulte : 1 capsule à 0,5 mg/j.',
+      enfant: 'Pas de posologie pédiatrique : médicament réservé à l’homme adulte.',
+      adaptation: 'Contre-indiqué chez la femme, l’enfant, l’adolescent et en insuffisance hépatique grave. Le PSA doit être réinterprété sous traitement.',
+      conseil: 'Avaler la capsule entière avec de l’eau, sans l’ouvrir ni la mâcher. Les capsules endommagées ne doivent pas être manipulées par les femmes enceintes ou susceptibles de l’être.',
+      source: 'Vidal — DUTASTÉRIDE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/dutasteride-biogaran-79618.html'
+    };
+  }
+
+  if (same('ESOMEPRASOLE MAGNE TRIHYDRATE', 'ESOMEPRAZOLE', 'ESOMEPRAZOLE MAGNESIUM', 'ESOMEPRAZOLE MAGNESIUM AMORPHE', 'ESOMEPRAZOLE MAGNESIUM DIHYDRATE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'IPP en 1 prise/j dans la plupart des indications ; certaines situations nécessitent 2 prises/j ou des doses plus élevées.',
+      adulte: 'Adulte : 20 à 40 mg/j selon l’indication. Éradication d’Helicobacter pylori : 20 mg 2 fois/j pendant 7 jours avec antibiotiques. Syndrome de Zollinger-Ellison : 80 à 160 mg/j.',
+      enfant: 'Enfant de plus de 12 ans : 20 à 40 mg/j dans le reflux gastro-œsophagien et l’œsophagite de reflux.',
+      adaptation: 'Prudence en cas d’insuffisance hépatique grave et lors de traitements prolongés. Association déconseillée avec le clopidogrel.',
+      conseil: 'Peut être pris pendant ou en dehors des repas avec un verre d’eau. Les gélules peuvent être ouvertes et dispersées dans l’eau non gazeuse si besoin.',
+      source: 'Vidal — ÉSOMÉPRAZOLE VIATRIS',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/esomeprazole-viatris-47913.html'
+    };
+  }
+
+  if (same('EZETIMIBE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Hypolipémiant en prise quotidienne unique, seul ou avec une statine selon l’indication.',
+      adulte: 'Adulte : 1 comprimé à 10 mg/j.',
+      enfant: 'Pas de posologie pédiatrique standard reprise dans cette application pour les spécialités présentes.',
+      adaptation: 'Prudence en cas d’insuffisance hépatique. En association avec une statine, surveiller foie et muscles.',
+      conseil: 'Prendre avec un verre d’eau, avant, pendant ou après le repas. Maintenir le régime pauvre en cholestérol pendant toute la durée du traitement.',
+      source: 'Vidal — ÉZÉTIMIBE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/ezetimibe-biogaran-83065.html'
+    };
+  }
+
+  if (same('FOSFOMYCINE', 'FOSFOMYCINE TROMETAMOL', 'FOSFOMYCINE (TROMETAMOL)')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Antibiotique urinaire administré en dose unique pour cystite simple de la femme et de l’adolescente.',
+      adulte: 'Femme et adolescente de plus de 12 ans : 1 sachet contenant 3 g, en prise unique.',
+      enfant: 'Pas de schéma pédiatrique standard repris ici en dehors de l’adolescente de plus de 12 ans.',
+      adaptation: 'Non adapté aux cystites à risque de complication ou à l’insuffisance rénale grave. Prudence en cas d’antécédent d’allergie à la fosfomycine.',
+      conseil: 'Prendre à distance des repas (2 à 3 heures avant ou après), de préférence avant le coucher et après avoir vidé la vessie. Dissoudre le sachet dans un verre d’eau.',
+      source: 'Vidal — FOSFOMYCINE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/fosfomycine-biogaran-61047.html'
+    };
+  }
+
+  if (same('CLOPIDOGREL', 'CLOPIDOGREL BESILATE', 'CLOPIDOGREL BISULFATE', 'CLOPIDOGREL BISULFATE USP')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Antiagrégant plaquettaire en prise quotidienne unique ; une dose de charge peut être nécessaire en syndrome coronarien aigu.',
+      adulte: 'Adulte : 75 mg/j. En syndrome coronarien aigu : dose de charge initiale de 300 mg, puis 75 mg/j en association avec l’aspirine.',
+      enfant: 'Pas de posologie pédiatrique standard reprise dans cette application.',
+      adaptation: 'Prudence en cas de risque hémorragique, d’insuffisance rénale, d’atteinte hépatique ou avant un geste invasif. Contre-indiqué en cas d’hémorragie évolutive ou d’insuffisance hépatique grave.',
+      conseil: 'Prendre si possible à la même heure chaque jour, pendant ou en dehors des repas. Tout saignement anormal doit conduire à un avis médical rapide.',
+      source: 'Vidal — CLOPIDOGREL BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/clopidogrel-biogaran-43869.html'
+    };
+  }
+
+  if (same('FLUBENDAZOLE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Vermifuge en prise unique pour oxyurose, ou en 2 prises/j pendant 3 jours pour les autres nématodoses.',
+      adulte: 'Adulte : oxyurose = 100 mg en prise unique à renouveler 15 jours plus tard ; autres parasites = 100 mg matin et soir pendant 3 jours.',
+      enfant: 'Même schéma que l’adulte pour les formes usuelles Vidal : oxyurose = 100 mg en prise unique à renouveler à 15 jours ; autres parasites = 100 mg matin et soir pendant 3 jours.',
+      adaptation: 'Par prudence, utilisation non recommandée pendant la grossesse. Réévaluer si les symptômes persistent ou si l’infestation récidive malgré les mesures d’hygiène.',
+      conseil: 'Les comprimés peuvent être croqués ou pris avec un peu d’eau pendant les repas. En cas d’oxyures, traiter en même temps les proches et renforcer l’hygiène des mains et des ongles.',
+      source: 'Vidal — FLUVERMAL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/fluvermal-3835.html'
+    };
+  }
+
+  return null;
+}
+
+function buildAdditionalReliablePosology(m = {}) {
+  const rawDci = canonicalizeDci(m.dci);
+  const dci = PRIORITY_DCI_ALIASES[rawDci] || rawDci;
+  const name = canonicalizeDci(m.nom);
+  const forme = canonicalizeDci(m.forme);
+  const presentation = canonicalizeDci(m.presentation);
+  const route = `${forme} ${presentation}`;
+  const same = (...names) => names.includes(dci);
+  const contains = (...fragments) => fragments.every(f => dci.includes(f));
+  const containsAny = (...fragments) => fragments.some(f => dci.includes(f));
+  const nameContains = (...fragments) => fragments.every(f => name.includes(f));
+  const oralSolid = /COMPRIME|GELULE|CAPSULE|DRG/.test(route);
+  const oralLiquid = /SIROP|SUSPENSION|SOLUTION ORALE|SOL BUV|BUVABLE/.test(route);
+  const injectable = /INJECT|PERFUSION|SC\/IM|SC\/IV| IV | IM |PPSD|PSI/.test(` ${route} `);
+  const ocular = /COLLYRE|OPHT|OCULAIRE/.test(route);
+  const inhaled = /INHAL|AEROSOL|SPRAY|DOSES/.test(route);
+
+  if (same('KETOTIFENE') && (oralSolid || oralLiquid)) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antihistaminique anti-allergique généralement administré en 2 prises par jour ; une phase d’adaptation initiale peut être utile pour limiter la somnolence.',
+      adulte: oralLiquid
+        ? 'Adulte : 5 ml (1 mg) matin et soir ; si nécessaire, augmentation possible jusqu’à 2 mg 2 fois/j.'
+        : 'Adulte : 1 mg matin et soir ; si nécessaire, augmentation possible jusqu’à 2 mg 2 fois/j.',
+      enfant: oralLiquid
+        ? 'Enfant ≥ 3 ans : 5 ml 2 fois/j ; utilisation non recommandée avant 4 ans dans la spécialité Vidal consultée. Pour les gélules, usage plutôt à partir de 3–6 ans selon la forme.'
+        : 'Enfant > 3 ans : 1 mg 2 fois/j ; chez l’enfant > 6 ans, 1 gélule matin et soir.',
+      adaptation: 'En début de traitement, possibilité de demi-dose le soir pendant quelques jours puis augmentation progressive ; diminuer la dose en cas de sédation ou de troubles de l’attention. Prudence en cas d’antécédent convulsif, d’insuffisance hépatique/rénale et avec l’alcool.',
+      conseil: 'Prendre idéalement au petit-déjeuner et au dîner ; prévenir le patient d’un possible effet sédatif en début de traitement.',
+      source: 'ANSM / Vidal — ZADITEN kétotifène oral',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/rcp/R0302468.htm'
+    };
+  }
+
+  if (same('ALUMINIUM HYDROXYDE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antiacide à prendre au moment des douleurs digestives, avec réévaluation si les symptômes persistent.',
+      adulte: 'Adulte et adolescent ≥ 15 ans : référence Vidal substance = 1 sachet jusqu’à 1 à 6 fois/j pour la suspension ; pour les comprimés antiacides, la posologie se rapproche habituellement d’1 prise au moment des symptômes selon le dosage du produit.',
+      enfant: 'Pas d’usage standard retenu avant 15 ans à partir de la fiche Vidal consultée.',
+      adaptation: 'Prudence en insuffisance rénale ou chez le patient dialysé ; espacer d’au moins 2 h avec les autres médicaments oraux afin d’éviter une diminution d’absorption.',
+      conseil: 'Administrer au moment des douleurs digestives et réévaluer si la symptomatologie persiste ou s’aggrave.',
+      source: 'Vidal — Aluminium hydroxyde (fiche DCI)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/aluminium-hydroxyde-260.html'
+    };
+  }
+
+  if (same('CALCIUM CARBONATE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Supplément calcique à sucer ou croquer, en 1 à 3 prises quotidiennes selon l’âge et le besoin.',
+      adulte: 'Adulte : 2 à 3 comprimés/j pour les carences calciques et en traitement d’appoint des ostéoporoses.',
+      enfant: 'Enfant 6–10 ans : 1 comprimé/j ; enfant ≥ 11 ans : 2 comprimés/j.',
+      adaptation: 'Prendre à distance des repas si possible (> 2 h), surtout des aliments riches en acide oxalique ou phytique ; adapter en cas d’insuffisance rénale ou de risque d’hypercalcémie.',
+      conseil: 'Les comprimés doivent être sucés ou croqués et non avalés entiers.',
+      source: 'Base de données publique des médicaments — CALCIUM COOPER 500 mg',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/69620719/extrait'
+    };
+  }
+
+  if ((same('CHLORHYDRATE DE LIDOCAINE ANHYDRE', 'LIDOCAINE') || contains('LIDOCAINE')) && injectable) {
+    return {
+      voie: 'Voie injectable pour anesthésie locale ou locorégionale',
+      standard: 'La dose dépend strictement de la technique d’anesthésie, du site, du terrain et de la surveillance en milieu équipé.',
+      adulte: 'Repères à 20 mg/ml : infiltration 0,25–10 ml (5–200 mg) ; bloc intercostal 1,5–2,5 ml/segment ; bloc cervical, lombaire, péridural ou caudal 10–20 ml (200–400 mg) selon la technique.',
+      enfant: 'Schéma pédiatrique non standardisé ici ; l’usage doit être déterminé par un praticien entraîné selon la technique et le poids.',
+      adaptation: 'Dose maximale usuelle : 200 mg pour infiltration locale et 400 mg pour anesthésie régionale ; diminuer les doses en obstétrique et surveiller étroitement la toxicité neurologique et cardiaque.',
+      conseil: 'Administration réservée à un professionnel expérimenté avec matériel d’urgence immédiatement disponible.',
+      source: 'Santé Ouest-France / RCP — Lidocaïne chlorhydrate 2 % injectable',
+      source_url: 'https://sante.ouest-france.fr/medicament/lidocaine-chlorhydrate-2-pourcent-20-mg-ml-solution-injectable-mv00001486'
+    };
+  }
+
+  if (same('FUROATE DE DILOXANIDE + METRONIDAZOLE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Association antiamibienne administrée 3 fois/j sur une courte cure de 5 à 10 jours.',
+      adulte: 'Adulte : 2 comprimés, 3 fois/j.',
+      enfant: oralLiquid
+        ? 'Enfant 2–5 ans : 5 ml 3 fois/j ; enfant 5–12 ans : 10 ml 3 fois/j pendant 5 à 10 jours.'
+        : 'Enfant 5–12 ans : 0,5 à 1 comprimé 3 fois/j ; chez l’enfant 2–5 ans, privilégier la forme buvable 5 ml 3 fois/j pendant 5 à 10 jours.',
+      adaptation: 'Réévaluer en cas d’intolérance digestive, d’absence d’amélioration ou de suspicion d’atteinte hépatique ; prudence avec l’alcool et les traitements concomitants.',
+      conseil: 'Respecter strictement la durée prescrite et avertir le patient du risque de nausées, goût métallique ou urines foncées.',
+      source: 'Rwanda FDA — TROGYL PLUS / Metronidazole + Diloxanide furoate',
+      source_url: 'https://rwandafda.gov.rw/wp-content/uploads/2024/08/Trogyl%20Plus%20Suspension_Metronidazole%20Benzoate_200_mg%20and%20Diloxanide%20Furoate_250_mg_PIL.pdf'
+    };
+  }
+
+  if (same('CLOMIFENE', 'CITRATE DE CLOMIFENE', 'CLOMIFENE CITRATE DE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Inducteur de l’ovulation administré par cures de 5 jours selon le cycle menstruel et la stratégie définie par le gynécologue.',
+      adulte: 'Femme adulte : 1 à 2 comprimés de 50 mg/j selon les cas pendant 5 jours ; la date de début de cure et l’adaptation des cycles ultérieurs sont fixées par le médecin.',
+      enfant: 'Pas d’indication pédiatrique.',
+      adaptation: 'Surveillance médicale et biologique stricte ; arrêt et avis spécialisé en cas de troubles visuels, douleurs pelviennes, distension abdominale ou suspicion d’hyperstimulation ovarienne.',
+      conseil: 'Avaler avec un peu d’eau ; vérifier l’absence de grossesse avant une nouvelle cure chez une patiente non réglée.',
+      source: 'Vidal — CLOMID',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/clomid-2027.html'
+    };
+  }
+
+  if (same('DIOSMINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Veinotonique pris au moment des repas, avec schéma distinct selon insuffisance veineuse ou crise hémorroïdaire.',
+      adulte: 'Insuffisance veineuse : 1 cp à 300 mg midi et soir ou 1 cp à 600 mg le matin avant le petit déjeuner. Crise hémorroïdaire : 4 à 6 cp à 300 mg/j ou 2 à 3 cp à 600 mg/j.',
+      enfant: 'Pas d’utilisation pédiatrique standard retenue à partir de la source consultée.',
+      adaptation: 'Réévaluer si saignement anal ou douleur persistante ; ne remplace pas les mesures physiques comme les bas de contention.',
+      conseil: 'Prendre au cours des repas ; associer si possible activité physique, hydratation et apport en fibres.',
+      source: 'Vidal — DIOSMINE TEVA CONSEIL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/diosmine-teva-conseil-40353.html'
+    };
+  }
+
+  if (same('PYRIDOXINE', 'CHLORHYDRATE DE PYRIDOXINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Vitamine B6 orale pour carence documentée, avec traitement prolongé à éviter à fortes doses.',
+      adulte: 'Adulte (≥ 15 ans) : 1 comprimé de 250 mg, 1 à 4 fois/j selon la carence.',
+      enfant: 'Pas de schéma standard retenu avant 15 ans dans la fiche Vidal consultée pour le comprimé dosé à 250 mg.',
+      adaptation: 'Éviter les doses élevées prolongées ; prudence en traitement prolongé et respecter un intervalle si association à certains adsorbants digestifs.',
+      conseil: 'Administrer avec un peu d’eau ; privilégier la plus petite dose efficace pendant la durée la plus courte nécessaire.',
+      source: 'Vidal — Pyridoxine (fiche DCI)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/pyridoxine-2978.html'
+    };
+  }
+
+  if (same('PINAVERIUM', 'PINAVERIUM BROMIDE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antispasmodique digestif habituellement donné en 2 prises/j, parfois 3 prises/j.',
+      adulte: 'Adulte : 1 comprimé à 100 mg matin et soir ; dans certains cas, jusqu’à 3 comprimés de 100 mg/j. Préparation au lavement baryté : 2 comprimés/j pendant les 3 jours précédant l’examen.',
+      enfant: 'Pas d’utilisation pédiatrique standard retenue dans la fiche consultée.',
+      adaptation: 'Prudence en cas de lésion œsophagienne ou hernie hiatale ; éviter la prise juste avant le coucher.',
+      conseil: 'Prendre au milieu des repas avec un grand verre d’eau, sans croquer ni sucer, et jamais en position allongée.',
+      source: 'Vidal — PINAVÉRIUM BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/pinaverium-biogaran-28293.html'
+    };
+  }
+
+  if (same('DAPTOMYCINE')) {
+    return {
+      voie: 'Voie intraveineuse',
+      standard: 'Antibiotique injectable en 1 administration/j, avec dose adaptée à l’indication infectieuse.',
+      adulte: 'Infection sévère peau/tissus mous : 4 mg/kg toutes les 24 h pendant 7 à 14 jours ; endocardite droite à S. aureus ou infection cutanée sévère avec bactériémie : 6 mg/kg toutes les 24 h.',
+      enfant: 'Schémas pédiatriques variables selon l’âge et l’indication ; à individualiser selon RCP spécialisé.',
+      adaptation: 'Adapter la posologie en cas d’insuffisance rénale ; surveiller la CPK avant traitement puis 1 fois/semaine et arrêter en cas d’élévation majeure ou de néphrotoxicité.',
+      conseil: 'Administrer sous surveillance clinique en tenant compte du risque musculaire et rénal.',
+      source: 'Vidal — Daptomycine (fiche DCI)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/daptomycine-22846.html'
+    };
+  }
+
+  if (same('CISATRACURIUM') && injectable) {
+    return {
+      voie: 'Voie IV directe ou perfusion en anesthésie-réanimation',
+      standard: 'Curare non dépolarisant à utiliser exclusivement en milieu spécialisé avec monitorage neuromusculaire continu.',
+      adulte: 'Intubation : 0,15 mg/kg IV. Entretien : 0,03 mg/kg IV, procurant environ 20 min supplémentaires de curarisation efficace.',
+      enfant: 'Enfant 1 mois à 12 ans : dose d’intubation de 0,15 mg/kg ; chez l’enfant 2–12 ans, dose d’entretien usuelle autour de 0,02 mg/kg selon l’anesthésie.',
+      adaptation: 'Surveiller la fonction neuromusculaire ; prudence en troubles hydroélectrolytiques, myasthénie, insuffisance hépatique/rénale, brûlures, hypothermie et en réanimation.',
+      conseil: 'Administration réservée aux anesthésistes ou praticiens entraînés, avec matériel d’intubation, de ventilation et d’oxygénation immédiatement disponible.',
+      source: 'Santé Ouest-France / Vidal — Cisatracurium',
+      source_url: 'https://sante.ouest-france.fr/medicament/cisatracurium-besilate-5-mg-ml-solution-injectable-pour-perfusion-mv00004242'
+    };
+  }
+
+  if (same('SILYMARINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Protecteur hépatique usuellement administré en 2 à 3 prises quotidiennes.',
+      adulte: 'Adulte : 2 comprimés, 2 à 3 fois/j.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans la fiche consultée.',
+      adaptation: 'Ne pas poursuivre de façon prolongée sans avis médical si les symptômes persistent.',
+      conseil: 'Avaler les comprimés avec un verre d’eau ; associer si possible une hygiène alimentaire et l’éviction de l’alcool.',
+      source: 'Vidal — LEGALON',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/legalon-5445.html'
+    };
+  }
+
+  if (same('LACOSAMIDE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antiépileptique en 2 prises espacées d’environ 12 h, avec augmentation progressive selon la réponse.',
+      adulte: 'Adulte et adolescent > 50 kg : dose initiale 50 mg 2 fois/j, augmentée progressivement ; alternative possible : dose de charge unique de 200 mg suivie 12 h plus tard de 100 mg 2 fois/j.',
+      enfant: 'Enfant > 2 ans et adolescent < 50 kg : dose fonction du poids, strictement selon prescription spécialisée.',
+      adaptation: 'Ne jamais arrêter brutalement ; prudence en troubles de conduction cardiaque, insuffisance cardiaque, antécédents d’infarctus ou d’arythmie.',
+      conseil: 'Peut être pris pendant ou en dehors des repas ; éviter l’alcool et signaler toute idée suicidaire, vertige important ou palpitations.',
+      source: 'Vidal — LACOSAMIDE TEVA',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/lacosamide-teva-86703.html'
+    };
+  }
+
+  if (nameContains('GAMALATE', 'B6') || contains('GLUTAMATE DE MAGNESIUM', 'AMINOBUTYRIQUE') || containsAny('GAMALATE B6')) {
+    return {
+      voie: 'Voie orale',
+      standard: oralLiquid
+        ? 'Association neurotonique/nootrope administrée 2 à 3 fois/j selon l’âge.'
+        : 'Association neurotonique/nootrope administrée 2 à 3 fois/j selon l’âge.',
+      adulte: oralLiquid ? 'Adulte : 10 ml, 2 à 3 fois/j.' : 'Adulte : 2 comprimés, 2 à 3 fois/j (toutes les 12 h ou 8 h).',
+      enfant: oralLiquid
+        ? 'Jusqu’à 2 ans : 2,5 ml 3 fois/j ; 2–4 ans : 5 ml 3 fois/j ; 4–7 ans : 10 ml 2 fois/j ; > 7 ans : 10 ml 2 à 3 fois/j.'
+        : 'Enfant > 7 ans : 2 comprimés, 2 à 3 fois/j.',
+      adaptation: 'Ces recommandations peuvent être modifiées par le médecin ; prudence en grossesse/allaitement et réduire la dose en cas de troubles gastriques.',
+      conseil: 'Peut être administré avant ou après les principaux repas.',
+      source: oralLiquid ? 'Rwanda FDA — Gamalate B6 oral solution' : 'Rwanda FDA — Gamalate B6 coated tablet',
+      source_url: oralLiquid
+        ? 'https://rwandafda.gov.rw/wp-content/uploads/2023/07/Gamalate-B6-Oral-Solution-SmPC.pdf'
+        : 'https://rwandafda.gov.rw/wp-content/uploads/2023/07/Gamalate-B6-Coated-Tablet-SmPC.pdf'
+    };
+  }
+
+  if (same('TRASTUZUMAB EMTANSINE')) {
+    return {
+      voie: 'Perfusion IV',
+      standard: 'Anticorps conjugué administré toutes les 3 semaines en oncologie spécialisée.',
+      adulte: 'Adulte : 3,6 mg/kg en perfusion IV toutes les 3 semaines (cycle de 21 jours). Première perfusion sur 90 min ; si bien tolérée, les suivantes peuvent être administrées sur 30 min.',
+      enfant: 'Pas d’indication pédiatrique standard retenue ici.',
+      adaptation: 'Ne pas ré-escalader après réduction de dose ; surveiller plaquettes avant chaque dose, fonction hépatique avant initiation et avant chaque cure, ainsi que la fonction cardiaque à l’initiation puis régulièrement.',
+      conseil: 'Administrer uniquement en structure d’oncologie avec surveillance des réactions à la perfusion et de la toxicité hépatique/hématologique.',
+      source: 'EMA — KADCYLA (trastuzumab emtansine)',
+      source_url: 'https://www.ema.europa.eu/en/documents/product-information/kadcyla-epar-product-information_en.pdf'
+    };
+  }
+
+  if (same('PERTUZUMAB + TRASTUZUMAB')) {
+    return {
+      voie: 'Voie sous-cutanée',
+      standard: 'Association anti-HER2 administrée toutes les 3 semaines en oncologie spécialisée.',
+      adulte: 'Dose de charge : 1 200 mg pertuzumab + 600 mg trastuzumab SC ; dose d’entretien : 600 mg + 600 mg SC toutes les 3 semaines.',
+      enfant: 'Pas d’utilisation pédiatrique standard retenue.',
+      adaptation: 'Injection uniquement dans la cuisse, sans fractionner la dose ; surveiller 30 min après la dose de charge puis 15 min après les doses d’entretien ; contrôler la FEVG avant traitement puis régulièrement.',
+      conseil: 'Administration par professionnel capable de prendre en charge une anaphylaxie, avec alternance du site d’injection entre cuisse droite et gauche.',
+      source: 'EMA — PHESGO',
+      source_url: 'https://www.ema.europa.eu/en/documents/product-information/phesgo-epar-product-information_en.pdf'
+    };
+  }
+
+  if (same('HORMONE STIMULANTE FOLLICULAIRE HUMAINE RECOMBINANTE') || name.includes('FOLIGRAF')) {
+    return {
+      voie: 'Voie sous-cutanée (ou selon protocole de fertilité)',
+      standard: 'Gonadotrophine de stimulation ovarienne à adapter à la réponse folliculaire, sous surveillance échographique et hormonale.',
+      adulte: 'Anovulation/PCOS : début habituel à 75–150 UI/j, avec paliers de 37,5–75 UI à 7–14 jours ; dose max usuelle 225 UI/j. Stimulation multifolliculaire/ART : 150–225 UI/j à partir de J2–J3, avec ajustement selon la réponse, sans dépasser en général 450 UI/j.',
+      enfant: 'Pas d’indication pédiatrique usuelle.',
+      adaptation: 'Monitorage régulier par échographie, idéalement associé à l’estradiol ; interrompre et ne pas administrer l’hCG en cas de réponse excessive.',
+      conseil: 'Utilisation strictement spécialisée en fertilité, avec adaptation individuelle de chaque cycle.',
+      source: 'EFDA — FOLIGRAF recombinant FSH',
+      source_url: 'https://www.efda.gov.et/wp-content/uploads/2024/02/Recombinant-Human-Follicle-Stimulating-Hormone-for-Injection-%E2%80%93-Freeze-dried_FOLIGRAF-75-I.U_Bharat-Serum-and-Vacciness-LTD.pdf'
+    };
+  }
+
+  if (contains('VIRUS INACTIVE DE LA POLIO TYPE 1', 'VIRUS INACTIVE DE LA POLIO TYPE 2') || name.includes('ANTIPOLIOMYELITIQUE')) {
+    return {
+      voie: 'Voie IM ou SC',
+      standard: 'Vaccin antipoliomyélitique inactivé en doses unitaires de 0,5 ml selon calendrier vaccinal.',
+      adulte: 'Adulte à risque d’exposition : 0,5 ml IM ou SC ; un rappel IPV à vie peut être proposé selon le risque.',
+      enfant: 'Enfant : 0,5 ml IM ou SC selon le calendrier de primovaccination, généralement en 4 doses.',
+      adaptation: 'Le schéma dépend du calendrier national et du statut vaccinal antérieur ; privilégier la cuisse chez le nourrisson et le deltoïde ou bras postérieur chez l’enfant plus grand/adulte.',
+      conseil: 'Administration vaccinale selon programme officiel, sur peau saine et avec matériel adapté à l’âge.',
+      source: 'CDC — Inactivated polio vaccine (IPOL)',
+      source_url: 'https://www.cdc.gov/vaccines/hcp/by-disease/polio.html'
+    };
+  }
+
+  if (same('DACLATASVIR DICHLORHYDRATE', 'DACLATASVIR')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antiviral d’action directe administré 1 fois/j en association à d’autres antiviraux contre l’hépatite C.',
+      adulte: 'Adulte : 60 mg 1 fois/j, avec ou sans nourriture.',
+      enfant: 'Pas de schéma pédiatrique retenu ici.',
+      adaptation: 'Réduire à 30 mg/j avec les inhibiteurs puissants du CYP3A ; augmenter à 90 mg/j avec les inducteurs modérés du CYP3A ; contre-indiqué avec les inducteurs puissants du CYP3A.',
+      conseil: 'Toujours vérifier le schéma antiviral associé et les interactions médicamenteuses avant initiation.',
+      source: 'FDA — DAKLINZA (daclatasvir)',
+      source_url: 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/206843s006lbl.pdf'
+    };
+  }
+
+  if (same('CYCLOSERINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antituberculeux de deuxième ligne donné en 1 ou 2 prises/j avec surveillance clinique et biologique rapprochée.',
+      adulte: 'Adulte : 10–15 mg/kg/j, généralement jusqu’à 1 000 mg/j max, en 2 prises toutes les 12 h ou en 1 prise/j si bien toléré.',
+      enfant: 'Schémas pédiatriques spécialisés selon poids ; surveillance des concentrations recommandée.',
+      adaptation: 'Pour limiter la toxicité, possibilité de débuter à 250–500 mg/j puis augmenter progressivement sur 1–2 semaines ; en insuffisance rénale sévère ou hémodialyse : 250 mg/j ou 500 mg 3 fois/semaine après dialyse.',
+      conseil: 'Surveiller les concentrations de pointe, la fonction rénale/hépatique et l’état neuropsychiatrique pendant le traitement.',
+      source: 'TMDA — Cycloserine 250 mg capsules',
+      source_url: 'https://www.tmda.go.tz/uploads/1678452097-T21H0429SmPCv1.pdf'
+    };
+  }
+
+  if (contains('MOXIFLOXACINE', 'DEXAMETHASONE') && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Association ophtalmique antibiotique + corticoïde administrée sur courte cure.',
+      adulte: '1 goutte dans l’œil atteint, 3 fois/j pendant 5 à 7 jours.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans la source consultée ; usage à individualiser.',
+      adaptation: 'Ne pas injecter ni introduire en chambre antérieure ; prudence si hypersensibilité aux quinolones ; un usage prolongé peut favoriser glaucome, cataracte ou infection secondaire.',
+      conseil: 'Espacer d’au moins 5 minutes avec les autres collyres et réévaluer rapidement si la douleur, la rougeur ou l’écoulement persistent.',
+      source: 'Centaur — Moxifloxacin 0.5% + Dexamethasone 0.1% eye drops',
+      source_url: 'https://www.centaurpharma.com/downloads/ophthalmology/anti-infectives/Centaflox%20DX.pdf'
+    };
+  }
+
   return null;
 }
 
 function buildStandardPosology(m = {}) {
-  return buildSupplementalBrandPosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
+  return buildSupplementalBrandPosology(m) || buildAdditionalReliablePosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
 }
 
 function buildStandardPosologyHtml(m = {}) {
@@ -11382,7 +12808,1153 @@ function buildStandardPosologyHtml(m = {}) {
   `;
 }
 
-const MEDICINES_WITH_NOTICE = ALL_MEDICINES.map(m => ({ ...m, notice: buildSimpleNotice(m), posologie_standard: buildStandardPosology(m) }));
+// ====================
+// TABLE DE CORRESPONDANCE DCI → CLASSE THÉRAPEUTIQUE VIDAL
+// ====================
+const DCI_TO_CLASSE = {
+  // Analgésiques / Antipyrétiques
+  'PARACETAMOL': 'Analgésiques / Antipyrétiques',
+  'ACIDE ACETYLSALICYLIQUE': 'Analgésiques / Antipyrétiques',
+  'NEFOPAM': 'Analgésiques / Antipyrétiques',
+  'TRAMADOL': 'Analgésiques / Antipyrétiques',
+  'TRAMADOL CHLORHYDRATE': 'Analgésiques / Antipyrétiques',
+  'PARACETAMOL + TRAMADOL CHLORHYDRATE': 'Analgésiques / Antipyrétiques',
+  'CODEINE': 'Analgésiques / Antipyrétiques',
+  'PHOSPHATE DE CODEINE HEMIHYDRATE + PARACETAMOL': 'Analgésiques / Antipyrétiques',
+  'METAMIZOLE': 'Analgésiques / Antipyrétiques',
+  'PARACETAMOL + CAFEINE': 'Analgésiques / Antipyrétiques',
+  'PARACETAMOL + IBUPROFEN + CAFEINE': 'Analgésiques / Antipyrétiques',
+  'PARACETAMOL + DICLOFENAC SODIUM': 'Analgésiques / Antipyrétiques',
+
+  // Anti-inflammatoires non stéroïdiens (AINS)
+  'IBUPROFENE': 'Anti-inflammatoires (AINS)',
+  'IBUPROFEN': 'Anti-inflammatoires (AINS)',
+  'IBUBROFEN': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC SODIUM': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC SODIQUE': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC DIETHYLAMINE': 'Anti-inflammatoires (AINS)',
+  'KETOPROFENE': 'Anti-inflammatoires (AINS)',
+  'NAPROXENE': 'Anti-inflammatoires (AINS)',
+  'MELOXICAM': 'Anti-inflammatoires (AINS)',
+  'ACECLOFENAC': 'Anti-inflammatoires (AINS)',
+  'ACECLOFENAC + PARACETAMOL': 'Anti-inflammatoires (AINS)',
+  'CELECOXIB': 'Anti-inflammatoires (AINS)',
+  'IBUPROFENE + PHOSPHATE DE CODEINE HEMIHYDRATE': 'Anti-inflammatoires (AINS)',
+  'IBUPROFENE + CODEINE': 'Anti-inflammatoires (AINS)',
+
+  // Corticoïdes
+  'DEXAMETHASONE': 'Corticoïdes',
+  'DEXAMETHASONE PHOSPHATE': 'Corticoïdes',
+  'DEXAMETHASONE PHOSPHATE SODIQUE': 'Corticoïdes',
+  'DEXAMETHASONE SODIQUE PHOSPHATE': 'Corticoïdes',
+  'BETAMETHASONE': 'Corticoïdes',
+  'BETAMETHASONE (VALERATE)': 'Corticoïdes',
+  'BETAMETHASONE VALERATE': 'Corticoïdes',
+  'BETAMETHASONE VALEARATE': 'Corticoïdes',
+  'DIPROPIONATE DE BETAMETHASONE': 'Corticoïdes',
+  'BETAMETHASONE DIPROPRIONATE': 'Corcticoïdes',
+  'PREDNISOLONE': 'Corticoïdes',
+  'PREDNISONE': 'Corticoïdes',
+  'METHYLPREDNISOLONE': 'Corticoïdes',
+  'HYDROCORTISONE': 'Corticoïdes',
+  'CLOBETASOL PROPRIONATE': 'Corticoïdes',
+  'DEFLAZACORT': 'Corticoïdes',
+  'BUDESONIDE': 'Corticoïdes',
+  'BECLOMETASONE DIPROPIONATE (ANHYDRE)': 'Corticoïdes',
+  'BECLOMETHASONE DIPROPIONATE': 'Corticoïdes',
+  'DIPROPIONATE DE BECLOMETASONE': 'Corticoïdes',
+  'FUROATE DE FLUTICASONE': 'Corticoïdes',
+  'FLUTICASONE': 'Corticoïdes',
+  'MOMETASONE': 'Corticoïdes',
+
+  // Antibiotiques — Pénicillines
+  'AMOXICILLINE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE TRIHYDRATE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE TRIHYDRATE + CLAVULANATE DE POTASSIUM': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE + ACIDE CLAVULANIQUE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE + CLAVULANATE DE POTASSIUM': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE TRIHYDRATE + -ACIDE CLAVULANIQUE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE ANHYDRE + ACIDE CLAVULANIQUE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE + ACIDE CLAVULANIQUE + AMOXICILLINE TRIHYDRATE + CLAVULANATE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE SODIQUE ET POTASSIUM CLAVULANATE': 'Antibiotiques — Pénicillines',
+  'AMPICILLINE': 'Antibiotiques — Pénicillines',
+  'AMPICILLINE TRIHYDRATE': 'Antibiotiques — Pénicillines',
+  'AMPICILLINE SODIUM': 'Antibiotiques — Pénicillines',
+  'AMPICILLINE SODIQUE': 'Antibiotiques — Pénicillines',
+  'BENZYLPENICILLINE': 'Antibiotiques — Pénicillines',
+  'BENZYLPENICILLINE SODIQUE': 'Antibiotiques — Pénicillines',
+  'BENZYLPENICILLINE SODIUM': 'Antibiotiques — Pénicillines',
+  'BENZYLPENICILLINE PROCAINE': 'Antibiotiques — Pénicillines',
+  'BENZYLPENICILLINE PROCAÏNE': 'Antibiotiques — Pénicillines',
+  'BENZATHINE BENZYLPENICILLINE': 'Antibiotiques — Pénicillines',
+  'BENZATHINE PENICILLINE': 'Antibiotiques — Pénicillines',
+  'CLOXACILLINE': 'Antibiotiques — Pénicillines',
+  'CLOXACILLINE SODIQUE': 'Antibiotiques — Pénicillines',
+  'FLUCLOXACILLINE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE AZITHROMYCINE AZITHROMYCINE': 'Antibiotiques — Pénicillines',
+
+  // Antibiotiques — Céphalosporines
+  'CEFALEXINE': 'Antibiotiques — Céphalosporines',
+  'CEFALEXINE MONOHYDRATE': 'Antibiotiques — Céphalosporines',
+  'CEFIXIME': 'Antibiotiques — Céphalosporines',
+  'CEFIXIME TRIHYDRATE': 'Antibiotiques — Céphalosporines',
+  'CEFIXIME ANHYDRE': 'Antibiotiques — Céphalosporines',
+  'CEFIM': 'Antibiotiques — Céphalosporines',
+  'CEFTRIAXONE': 'Antibiotiques — Céphalosporines',
+  'CEFTRIAXONE ANHYDRE': 'Antibiotiques — Céphalosporines',
+  'CEFTRIAXONE SODIQUE': 'Antibiotiques — Céphalosporines',
+  'CEFOTAXIME': 'Antibiotiques — Céphalosporines',
+  'CEFUROXIME': 'Antibiotiques — Céphalosporines',
+  'CEFUROXIME SODIQUE': 'Antibiotiques — Céphalosporines',
+  'CEFPODOXIME': 'Antibiotiques — Céphalosporines',
+  'CEFIXIME TRIHYDRATE + CEFIXIME ANHYDRE': 'Antibiotiques — Céphalosporines',
+
+  // Antibiotiques — Macrolides
+  'AZITHROMYCINE': 'Antibiotiques — Macrolides',
+  'AZITHROMYCINE ANHYDRE': 'Antibiotiques — Macrolides',
+  'AZITHROMYCINE DIHYDRATE': 'Antibiotiques — Macrolides',
+  'ERYTHROMYCINE': 'Antibiotiques — Macrolides',
+  'CLARITHROMYCINE': 'Antibiotiques — Macrolides',
+  'SPIRAMYCINE': 'Antibiotiques — Macrolides',
+  'SPIRAMYCINE + METRONIDAZOLE': 'Antibiotiques — Macrolides',
+
+  // Antibiotiques — Fluoroquinolones
+  'CIPROFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'CIPROFLOXACINE CHLORHYDRATE': 'Antibiotiques — Fluoroquinolones',
+  'CIPROFLOXACIN': 'Antibiotiques — Fluoroquinolones',
+  'CIPROFLOXACINE + TINIDAZOLE': 'Antibiotiques — Fluoroquinolones',
+  'NORFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'OFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'MOXIFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'MOXIFLOXACINE CHLORHYDRATE': 'Antibiotiques — Fluoroquinolones',
+  'LEVOFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'BESIFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+
+  // Antibiotiques — Aminosides
+  'AMICACINE SULFATE': 'Antibiotiques — Aminosides',
+  'GENTAMICINE': 'Antibiotiques — Aminosides',
+  'TOBRAMYCINE': 'Antibiotiques — Aminosides',
+  'NEOMYCINE SULFATE': 'Antibiotiques — Aminosides',
+  'AMOXICILLINE TRIHYDRATE + CLAVULANATE DE POTASSIUM + AMICACINE': 'Antibiotiques — Aminosides',
+
+  // Antibiotiques — Nitroimidazolés
+  'METRONIDAZOLE': 'Antibiotiques — Nitroimidazolés',
+  'TINIDAZOLE': 'Antibiotiques — Nitroimidazolés',
+  'SECNIDAZOLE': 'Antibiotiques — Nitroimidazolés',
+  'ORNIDAZOLE': 'Antibiotiques — Nitroimidazolés',
+
+  // Antibiotiques — Tétracyclines
+  'DOXYCYCLINE': 'Antibiotiques — Tétracyclines',
+  'CHLORTETRACYCLINE HCL': 'Antibiotiques — Tétracyclines',
+  'OXYTETRACYCLINE': 'Antibiotiques — Tétracyclines',
+  'CHLORHYDRATE D\'OXYTETRACYCLINE': 'Antibiotiques — Tétracyclines',
+
+  // Antibiotiques — Autres
+  'CYCLOSERINE': 'Antibiotiques — Autres',
+  'IMIPENEME ANHYDRE + CILASTATINE BICARBONATE DE SODIUM': 'Antibiotiques — Autres (carbapénèmes)',
+  'DAPTOMYCINE': 'Antibiotiques — Autres',
+  'MUPIROCINE': 'Antibiotiques — Autres (topiques)',
+  'ACIDE FUSIDIQUE': 'Antibiotiques — Autres (topiques)',
+  'CHLORTETRACYCLINE': 'Antibiotiques — Autres (topiques)',
+  'SULFADIAZINE': 'Antibiotiques — Sulfamides',
+  'SULFAMETHOXAZOLE + TRIMETHOPRIME': 'Antibiotiques — Sulfamides (cotrimoxazole)',
+  'TRIMETHOPRIME + SULFAMETHOXAZOLE': 'Antibiotiques — Sulfamides (cotrimoxazole)',
+  'SULFAMETRHOXAZOLE + TRIMETHIPRIME': 'Antibiotiques — Sulfamides (cotrimoxazole)',
+  'SULFAMETHOXAZOLE + TRIMETHIPRIME': 'Antibiotiques — Sulfamides (cotrimoxazole)',
+
+  // Antiparasitaires — Antipaludéens
+  'ARTEMETHER + LUMEFANTRINE': 'Antiparasitaires — Antipaludéens',
+  'ARTEMETHER': 'Antiparasitaires — Antipaludéens',
+  'ARTESUNATE': 'Antiparasitaires — Antipaludéens',
+  'ARTESUNATE + AMODIAQUINE': 'Antiparasitaires — Antipaludéens',
+  'ARTESUNATE + CHLORHYDRATE D\'AMODIAQUINE': 'Antiparasitaires — Antipaludéens',
+  'DIHYDROARTEMISININE + PIPERAQUINE PHOSPHATE': 'Antiparasitaires — Antipaludéens',
+  'DIHYDROARTEMISININE + PIPERAQUINE PHOSPHATE ANHYDRE': 'Antiparasitaires — Antipaludéens',
+  'DIHYDROARTEMISININE + PIPÉRAQUINE PHOSPHATE': 'Antiparasitaires — Antipaludéens',
+  'AMODIAQUINE': 'Antiparasitaires — Antipaludéens',
+  'AMODIAQUINE + SULFADOXINE + .PYRIMETHAMINE': 'Antiparasitaires — Antipaludéens',
+  'AMODIAQUINE + SULFADOXINE + PYRIMETHAMINE': 'Antiparasitaires — Antipaludéens',
+  'SULFADOXINE + PYRIMETHAMINE': 'Antiparasitaires — Antipaludéens',
+  'QUININE': 'Antiparasitaires — Antipaludéens',
+  'CHLOROQUINE': 'Antiparasitaires — Antipaludéens',
+
+  // Antiparasitaires — Antihelminthiques
+  'ALBENDAZOLE': 'Antiparasitaires — Antihelminthiques',
+  'MEBENDAZOLE': 'Antiparasitaires — Antihelminthiques',
+  'MEMBEDAZOLE': 'Antiparasitaires — Antihelminthiques',
+  'PRAZIQUANTEL': 'Antiparasitaires — Antihelminthiques',
+  'PYRANTEL': 'Antiparasitaires — Antihelminthiques',
+  'IVERMECTINE': 'Antiparasitaires — Antihelminthiques',
+  'LEVAMISOLE': 'Antiparasitaires — Antihelminthiques',
+
+  // Antiparasitaires — Antiprotozoaires
+  'METRONIDAZOLE VAGINAL': 'Antiparasitaires — Antiprotozoaires',
+
+  // Antifongiques
+  'FLUCONAZOLE': 'Antifongiques',
+  'CLOTRIMAZOLE': 'Antifongiques',
+  'NYSTATINE': 'Antifongiques',
+  'MICONAZOLE': 'Antifongiques',
+  'TERBINAFINE HYDROCHLORIDE': 'Antifongiques',
+  'TERBINAFINE CHLORHYDRATE': 'Antifongiques',
+  'AMPHOTERICINE B': 'Antifongiques',
+  'GRISEOFULVINE': 'Antifongiques',
+  'ITRACONAZOLE': 'Antifongiques',
+  'VORICONAZOLE': 'Antifongiques',
+  'SERTACONAZOLE': 'Antifongiques',
+  'KETOCONAZOLE': 'Antifongiques',
+
+  // Antiviraux
+  'ACICLOVIR': 'Antiviraux',
+  'ACYCLOVIR': 'Antiviraux',
+  'OSELTAMIVIR': 'Antiviraux',
+  'EMTRICITABINE + FUMARATE DE TENOFOVIR ALAFENAMIDE': 'Antiviraux — Antirétroviraux',
+  'DACLATASVIR DICHLORHYDRATE': 'Antiviraux — Hépatite C',
+  'SOFOSBUVIR': 'Antiviraux — Hépatite C',
+
+  // Antituberculeux
+  'RIFAMPICINE': 'Antituberculeux',
+  'ISONIAZIDE': 'Antituberculeux',
+  'PYRAZINAMIDE': 'Antituberculeux',
+  'ETHAMBUTOL': 'Antituberculeux',
+  'STREPTOMYCINE': 'Antituberculeux',
+
+  // Cardiovasculaires — Antihypertenseurs (IEC)
+  'PERINDOPRIL ARGININE': 'Cardiovasculaires — IEC',
+  'PERINDOPRIL ARGININE + INDAPAMIDE': 'Cardiovasculaires — IEC + diurétique',
+  'PERINDOPRIL ARGININE + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  'FUMARATE DE BISOPROLOL + PERINDOPRIL ARGININE': 'Cardiovasculaires — IEC + bêtabloquant',
+  'CAPTOPRIL': 'Cardiovasculaires — IEC',
+  'CAPTOPRIL + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — IEC + diurétique',
+  'CAPTOPRIL + HYDROCHLOTHIAZIDE': 'Cardiovasculaires — IEC + diurétique',
+  'ENALAPRIL': 'Cardiovasculaires — IEC',
+  'LISINOPRIL': 'Cardiovasculaires — IEC',
+  'RAMIPRIL': 'Cardiovasculaires — IEC',
+
+  // Cardiovasculaires — Sartans (ARA II)
+  'LOSARTAN POTASSIUM': 'Cardiovasculaires — Sartans (ARA II)',
+  'LOSARTAN': 'Cardiovasculaires — Sartans (ARA II)',
+  'LOSARTAN POTASSIUM + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  'IRBESARTAN': 'Cardiovasculaires — Sartans (ARA II)',
+  'IRBESARTAN + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  'IRBESARTAN + AMLODIPINE BESILATE': 'Cardiovasculaires — Sartans (ARA II) + inhibiteur calcique',
+  'IBESARTAN + AMLODIPINE BESILATE': 'Cardiovasculaires — Sartans (ARA II) + inhibiteur calcique',
+  'VALSARTAN': 'Cardiovasculaires — Sartans (ARA II)',
+  'VALSARTAN + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  'CANDESARTAN CILEXETIL': 'Cardiovasculaires — Sartans (ARA II)',
+  'TELMISARTAN': 'Cardiovasculaires — Sartans (ARA II)',
+  'TELMISARTAN + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  'TELMISARTAN + AMLODIPINE': 'Cardiovasculaires — Sartans (ARA II) + inhibiteur calcique',
+
+  // Cardiovasculaires — Inhibiteurs calciques
+  'AMLODIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'AMLODIPINE BESILATE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'AMLODIPINE BESYLATE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'BESILATE D\'AMLODIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'NIFEDIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'DILTIAZEM': 'Cardiovasculaires — Inhibiteurs calciques',
+  'VERAPAMIL': 'Cardiovasculaires — Inhibiteurs calciques',
+  'FELODIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'AMLODIPINE BESYLATE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'AMLODIPINE + PERINDOPRIL ERBUMINE': 'Cardiovasculaires — Inhibiteurs calciques + IEC',
+  'AMLODIPINE + VALSARTAN': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'AMLODIPINE BESYLATE + LOSARTAN POTASSIQUE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'LOSARTAN POTASSIUM + AMLODIPINE BESYLATE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'LOSARTAN POTASSIUM + AMLODIPINE + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Inhibiteurs calciques + sartan + diurétique',
+  'AMLODIPINE + PERINDOPRIL ERBUMINE + INDAPAMIDE': 'Cardiovasculaires — Inhibiteurs calciques + IEC + diurétique',
+  'AMLODIPINE + VALSARTAN + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Inhibiteurs calciques + sartan + diurétique',
+
+  // Cardiovasculaires — Bêtabloquants
+  'BISOPROLOL FUMARATE': 'Cardiovasculaires — Bêtabloquants',
+  'FUMARATE DE BISOPROLOL': 'Cardiovasculaires — Bêtabloquants',
+  'ATENOLOL': 'Cardiovasculaires — Bêtabloquants',
+  'METOPROLOL': 'Cardiovasculaires — Bêtabloquants',
+  'PROPRANOLOL': 'Cardiovasculaires — Bêtabloquants',
+  'CARVEDILOL': 'Cardiovasculaires — Bêtabloquants',
+  'NEBIVOLOL': 'Cardiovasculaires — Bêtabloquants',
+  'PINDOLOL': 'Cardiovasculaires — Bêtabloquants',
+  'GLIMEPIRIDE + CHLORHYDRATE DE METFORMINE + ATENOLOL': 'Cardiovasculaires — Bêtabloquants',
+
+  // Cardiovasculaires — Diurétiques
+  'FUROSEMIDE': 'Cardiovasculaires — Diurétiques',
+  'HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Diurétiques',
+  'INDAPAMIDE': 'Cardiovasculaires — Diurétiques',
+  'SPIRONOLACTONE MICRONISEE': 'Cardiovasculaires — Diurétiques',
+  'SPIRONOLACTONE': 'Cardiovasculaires — Diurétiques',
+  'CHLORTALIDONE': 'Cardiovasculaires — Diurétiques',
+  'HYDROCHLOROTHIAZIDE + TRIAMTERENE': 'Cardiovasculaires — Diurétiques',
+  'PERINDOPRIL ARGININE + INDAPAMIDE + AMLODIPINE': 'Cardiovasculaires — Diurétiques (association)',
+
+  // Cardiovasculaires — Antiarythmiques
+  'AMIODARONE': 'Cardiovasculaires — Antiarythmiques',
+  'DIGOXINE': 'Cardiovasculaires — Antiarythmiques (digitaliques)',
+  'LIDOCAINE': 'Cardiovasculaires — Antiarythmiques',
+
+  // Cardiovasculaires — Anticoagulants / Antiagrégants
+  'APIXABAN': 'Cardiovasculaires — Anticoagulants',
+  'DABIGATRAN ETEXILATE': 'Cardiovasculaires — Anticoagulants',
+  'RIVAROXABAN': 'Cardiovasculaires — Anticoagulants',
+  'HEPARINE': 'Cardiovasculaires — Anticoagulants',
+  'ENOXAPARINE': 'Cardiovasculaires — Anticoagulants',
+  'CLOPIDOGREL': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'CLOPIDOGREL BESILATE': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'TICAGRELOR': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'PRASUGREL': 'Cardiovasculaires — Antiagrégants plaquettaires',
+
+  // Cardiovasculaires — Hypolipémiants
+  'ATORVASTATINE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'ATORVASTATINE CALCIUM': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'ROSUVASTATINE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'SIMVASTATINE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'PRAVASTATINE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'FLUVASTATINE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'FENOFIBRATE': 'Cardiovasculaires — Hypolipémiants (fibrates)',
+
+  // Cardiovasculaires — Dérivés nitrés
+  'D\'ISOSORBIDE DINITRATE': 'Cardiovasculaires — Dérivés nitrés',
+  'ISOSORBIDE DINITRATE': 'Cardiovasculaires — Dérivés nitrés',
+  'ISOSORBIDE MONONITRATE': 'Cardiovasculaires — Dérivés nitrés',
+  'TRINITRINE': 'Cardiovasculaires — Dérivés nitrés',
+
+  // Cardiovasculaires — Antihypertenseurs centraux
+  'METHYLDOPA': 'Cardiovasculaires — Antihypertenseurs centraux',
+  'CLONIDINE': 'Cardiovasculaires — Antihypertenseurs centraux',
+
+  // Cardiovasculaires — Autres
+  'IVABRADINE': 'Cardiovasculaires — Autres',
+  'RANOLAZINE': 'Cardiovasculaires — Autres',
+  'TRIMETAZIDINE': 'Cardiovasculaires — Autres',
+  'ADENOSINE TRIPHOSPHATE DISODIQUE': 'Cardiovasculaires — Autres',
+  'SULBUTIAMINE': 'Cardiovasculaires — Autres (vasoactifs)',
+  'BETAHISTINE': 'Cardiovasculaires — Autres (vasoactifs)',
+
+  // Antidiabétiques
+  'METFORMINE': 'Antidiabétiques',
+  'CHLORHYDRATE DE METFORMINE': 'Antidiabétiques — Biguanides',
+  'GLIMEPIRIDE': 'Antidiabétiques — Sulfamides hypoglycémiants',
+  'GLICLAZIDE': 'Antidiabétiques — Sulfamides hypoglycémiants',
+  'GLIBENCLAMIDE': 'Antidiabétiques — Sulfamides hypoglycémiants',
+  'GLIPIZIDE': 'Antidiabétiques — Sulfamides hypoglycémiants',
+  'GLIMEPIRIDE + CHLORHYDRATE DE METFORMINE': 'Antidiabétiques — Association',
+  'VILDAGLIPTINE': 'Antidiabétiques — Gliptines',
+  'SITAGLIPTINE': 'Antidiabétiques — Gliptines',
+  'SAXAGLIPTINE': 'Antidiabétiques — Gliptines',
+  'VILDAGLIPTINNE + CHLORHYDRATE DE METFORMINE': 'Antidiabétiques — Gliptines + biguanide',
+  'DAPAGLIFLOZINE': 'Antidiabétiques — Gliflozines',
+  'EMPAGLIFLOZINE': 'Antidiabétiques — Gliflozines',
+  'CANAGLIFLOZINE': 'Antidiabétiques — Gliflozines',
+  'DAPAGLIFLOZINE + CHLORHYDRATE DE METFORMINE': 'Antidiabétiques — Gliflozines + biguanide',
+  'DAPAGLIFLOZINE + METFORMINE': 'Antidiabétiques — Gliflozines + biguanide',
+  'INSULINE HUMAINE (ADNR)': 'Antidiabétiques — Insulines',
+  'INSULINE': 'Antidiabétiques — Insulines',
+
+  // Antiulcéreux / Gastroentérologie
+  'OMEPRAZOLE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'ESOMEPRAZOLE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'PANTOPRAZOLE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'LANSOPRAZOLE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'RABEPRAZOLE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'CIMETIDINE': 'Gastroentérologie — Anti-H2',
+  'RANITIDINE': 'Gastroentérologie — Anti-H2',
+  'ALUMINIUM HYDROXYDE': 'Gastroentérologie — Antiacides',
+  'ALUMINIUM HYDROXYDE + MAGNESIUM HYDROXYDE': 'Gastroentérologie — Antiacides',
+  'HYDROXYDE DE MAGNESIUM': 'Gastroentérologie — Antiacides',
+  'GEL HYDROXYDE ALUMINIUM + HYDROXYDE DE MAGNESIUM + SIMETICONE': 'Gastroentérologie — Antiacides',
+  'PHOSPHATE D\' ALUMINIUM': 'Gastroentérologie — Antiacides',
+  'MONTMORILLONITE BEIDELLITIQUE': 'Gastroentérologie — Antidiarrhéiques',
+  'LOPERAMIDE': 'Gastroentérologie — Antidiarrhéiques',
+  'LOPERAMIDE CHLORHYDRATE': 'Gastroentérologie — Antidiarrhéiques',
+  'METOCLOPRAMIDE': 'Gastroentérologie — Procinétiques',
+  'DOMPERIDONE': 'Gastroentérologie — Procinétiques',
+  'MALEATE DE TRIMEBUTINE': 'Gastroentérologie — Antispasmodiques',
+  'BROMURE DE BUTYLSCOPOLAMINE': 'Gastroentérologie — Antispasmodiques',
+  'PINAVERIUM': 'Gastroentérologie — Antispasmodiques',
+  'MEBEVERINE': 'Gastroentérologie — Antispasmodiques',
+  'CHARBON ACTIF': 'Gastroentérologie — Adsorbants',
+  'CHARBON ACTIVÉ': 'Gastroentérologie — Adsorbants',
+  'SIMETICONE': 'Gastroentérologie — Carminatifs',
+  'CHARBON ACTIF + SIMETICONE': 'Gastroentérologie — Carminatifs',
+  'CHARBON ACTIF + SIMETICONE + OXYDE DE MAGNESIUM LOURD': 'Gastroentérologie — Carminatifs',
+  'LACTOBACILLUS CASEI': 'Gastroentérologie — Probiotiques',
+  'POLYVINYLPOLYPYRROLID ONE': 'Gastroentérologie — Adsorbants',
+  'SULFAGUANIDINE + BI- IODOXYQUINOLEINE + CHARBON ACTIVE + POUDRE D\'OPIUM': 'Gastroentérologie — Antidiarrhéiques',
+  'BISMUTH': 'Gastroentérologie — Autres',
+  'PAPAVERINE CHLORHYDRATE + CHARBON ACTIVE': 'Gastroentérologie — Autres',
+  'COLCHICINE CRISTALLISEE + TIEMONIUM METHYLSULFATE + OPIUM': 'Gastroentérologie — Autres',
+
+  // Pneumologie / Bronchodilatateurs
+  'SALBUTAMOL': 'Pneumologie — Bronchodilatateurs bêta2',
+  'SALBUTAMOL SULFATE': 'Pneumologie — Bronchodilatateurs bêta2',
+  'SALBUTAMOL SULFATE + BECLOMETASONE DIPROPIONATE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'FUMARATE DE FORMOTEROL': 'Pneumologie — Bronchodilatateurs bêta2 longue durée',
+  'TIOTROPIUM': 'Pneumologie — Bronchodilatateurs anticholinergiques',
+  'IPRATROPIUM': 'Pneumologie — Bronchodilatateurs anticholinergiques',
+  'MONTELUKAST': 'Pneumologie — Antileucotriènes',
+  'MONTELUKAST SODIQUE': 'Pneumologie — Antileucotriènes',
+  'CARBOCISTEINE': 'Pneumologie — Mucolytiques',
+  'N-ACETYLCYSTEINE': 'Pneumologie — Mucolytiques',
+  'BROMHEXINE': 'Pneumologie — Mucolytiques',
+  'CHLORHYDRATE DE BROMHEXIME': 'Pneumologie — Mucolytiques',
+  'AMBROXOL': 'Pneumologie — Mucolytiques',
+  'DEXTROMETHORPHAN': 'Pneumologie — Antitussifs',
+  'DEXTROMETHORPHANE BROMHYDRATE': 'Pneumologie — Antitussifs',
+  'DEXTROMETHORPHAN + CHLORPHENIRAMINE MALEATE': 'Pneumologie — Antitussifs',
+  'CODEINE + GUAIFENESIN': 'Pneumologie — Antitussifs',
+
+  // Antihistaminiques
+  'CETIRIZINE': 'Antihistaminiques',
+  'CHLORHYDRATE DE CETIRIZINE': 'Antihistaminiques',
+  'CHLORPHENIRAMINE': 'Antihistaminiques',
+  'CHLORPHENIRAMINE MALEATE': 'Antihistaminiques',
+  'MALEATE DE CHLORPHENIRAMINE': 'Antihistaminiques',
+  'LORATADINE': 'Antihistaminiques',
+  'DESLORATADINE': 'Antihistaminiques',
+  'BILASTINE': 'Antihistaminiques',
+  'FEXOFENADINE': 'Antihistaminiques',
+  'HYDROXYZINE': 'Antihistaminiques',
+  'CHLORHYDRATE D\'AZELASTINE': 'Antihistaminiques',
+  'LEVOCABASTINE': 'Antihistaminiques',
+  'CYPROHEPTADINE CHLORHYDRATE': 'Antihistaminiques',
+  'CYPROHEPTADINE HYDROCHLORIDE ANHYDRE': 'Antihistaminiques',
+
+  // Neurologie / Psychiatrie
+  'VALPROATE DE SODIUM': 'Neurologie — Antiépileptiques',
+  'CARBAMAZEPINE': 'Neurologie — Antiépileptiques',
+  'PHENOBARBITAL': 'Neurologie — Antiépileptiques',
+  'LEVETIRACETAM': 'Neurologie — Antiépileptiques',
+  'LACOSAMIDE': 'Neurologie — Antiépileptiques',
+  'GABAPENTINE': 'Neurologie — Antiépileptiques / Douleurs neuropathiques',
+  'PREGABALINE': 'Neurologie — Antiépileptiques / Douleurs neuropathiques',
+  'DIAZEPAM': 'Neurologie — Benzodiazépines',
+  'BROMAZEPAM': 'Neurologie — Benzodiazépines',
+  'ALPRAZOLAM': 'Neurologie — Benzodiazépines',
+  'ZOLPIDEM': 'Neurologie — Hypnotiques',
+  'CHLORHYDRATE D\'AMITRIPTYLINE': 'Neurologie — Antidépresseurs tricycliques',
+  'PAROXETINE BASE': 'Neurologie — Antidépresseurs (ISRS)',
+  'ESCITALOPRAM OXALATE': 'Neurologie — Antidépresseurs (ISRS)',
+  'SERTRALINE': 'Neurologie — Antidépresseurs (ISRS)',
+  'FLUOXETINE': 'Neurologie — Antidépresseurs (ISRS)',
+  'DULOXETINE': 'Neurologie — Antidépresseurs (IRSNA)',
+  'CHLORPROMAZINE CHLORHYDRATE': 'Neurologie — Antipsychotiques',
+  'HALOPERIDOL': 'Neurologie — Antipsychotiques',
+  'CHLORPROMAZINE': 'Neurologie — Antipsychotiques',
+
+  // Hormones thyroïdiennes / antithyroïdiens
+  'LEVOTHYROXINE': 'Endocrinologie — Hormones thyroïdiennes',
+  'LÉVOTHYROXINE SODIQUE': 'Endocrinologie — Hormones thyroïdiennes',
+  'CARBIMAZOLE': 'Endocrinologie — Antithyroïdiens',
+  'PROPYLTHIOURACILE': 'Endocrinologie — Antithyroïdiens',
+
+  // Hormones — Contraceptifs
+  'LEVONORGESTREL': 'Gynécologie — Contraceptifs',
+  'MEDROXYPROGESTERONE': 'Gynécologie — Contraceptifs',
+  'MEDROXYPROGESTERONE ACETATE': 'Gynécologie — Contraceptifs',
+  'ETHINYLESTRADIOL': 'Gynécologie — Contraceptifs',
+  'ETONOGESTREL': 'Gynécologie — Contraceptifs',
+  'DESOGESTREL': 'Gynécologie — Contraceptifs',
+
+  // Hormones — Obstétrique
+  'MISOPROSTOL': 'Gynécologie — Ocytociques / Prostaglandines',
+  'OCYTOCINE': 'Gynécologie — Ocytociques',
+  'ERGOMETRINE': 'Gynécologie — Ocytociques',
+  'MENOTROPINE': 'Gynécologie — Stimulateurs de l\'ovulation',
+  'CLOMIFENE (CITRATE DE)': 'Gynécologie — Stimulateurs de l\'ovulation',
+  'CLOMIFENE': 'Gynécologie — Stimulateurs de l\'ovulation',
+  'CITRATE DE CLOMIFENE': 'Gynécologie — Stimulateurs de l\'ovulation',
+  'SUCCINATE DE DOXYLAMINE + CHLORHYDRATE DE PYRIDOXINE': 'Gynécologie — Antiémétiques grossesse',
+
+  // Hormones sexuelles
+  'ENANTHATE DE TESTOSTERONE': 'Hormones sexuelles',
+  'TESTOSTERONE': 'Hormones sexuelles',
+  'PROGESTERONE': 'Hormones sexuelles',
+  'ESTRADIOL': 'Hormones sexuelles',
+  'TADALAFIL': 'Urologie — Dysfonction érectile',
+  'SILDENAFIL': 'Urologie — Dysfonction érectile',
+
+  // Urologie / Prostate
+  'ALFUZOSINE CHLORHYDRATE': 'Urologie — Hypertrophie bénigne de la prostate',
+  'TAMSULOSINE': 'Urologie — Hypertrophie bénigne de la prostate',
+  'DOXAZOSINE': 'Urologie — Alpha-bloquants',
+  'FINASTERIDE': 'Urologie — Antiandrogènes',
+  'BICALUTAMIDE': 'Urologie — Antiandrogènes',
+  'ANASTROZOLE': 'Oncologie — Hormonothérapie',
+  'BEVACIZUMAB': 'Oncologie — Thérapies ciblées',
+
+  // Rhumatologie
+  'ALLOPURINOL': 'Rhumatologie — Anti-goutteux',
+  'COLCHICINE CRISTALLISEE': 'Rhumatologie — Anti-goutteux',
+  'COLCHICINE': 'Rhumatologie — Anti-goutteux',
+  'ACIDE ALENDRONIQUE': 'Rhumatologie — Bisphosphonates',
+  'CINACALCET': 'Rhumatologie / Endocrinologie — Calcimimétiques',
+
+  // Vitamines / Minéraux / Nutritions
+  'GLUCOSE ANHYDRE': 'Nutrition / Perfusion — Solutés',
+  'CHLORURE DE SODIUM': 'Nutrition / Perfusion — Solutés',
+  'SODIUM BICARBONATE': 'Nutrition / Perfusion — Solutés',
+  'CHLORURE DE POTASSIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'CALCIUM GLUCONATE': 'Vitamines / Minéraux',
+  'GLUCONATE DE CALCIUM': 'Vitamines / Minéraux',
+  'CALCIUM ELEMENT': 'Vitamines / Minéraux',
+  'CALCIUM LACTATE PENTAHYDRATE': 'Vitamines / Minéraux',
+  'CALCIUM CARBONATE': 'Vitamines / Minéraux',
+  'CALCIUM': 'Vitamines / Minéraux',
+  'CALCIUM + VITAMINE D3': 'Vitamines / Minéraux',
+  'CALCIUM ELEMENT + CHOLECALCIFEROL': 'Vitamines / Minéraux',
+  'CALCIUM ELEMENT + VITAMINE D3': 'Vitamines / Minéraux',
+  'CONCENTRAT DE CHOLECALCIFEROL + CARBONATE DE CALCIUM': 'Vitamines / Minéraux',
+  'CALCIUM CARBONATE + CHOLECALCIFEROL': 'Vitamines / Minéraux',
+  'CALCIUMELEMENT + CHOLECALCIFEROL': 'Vitamines / Minéraux',
+  'CHOLECALCIFEROL': 'Vitamines / Minéraux',
+  'VITAMINE D3': 'Vitamines / Minéraux',
+  'FER ELEMENTAIRE': 'Vitamines / Minéraux — Fer',
+  'ACIDE FOLIQUE': 'Vitamines / Minéraux',
+  'ACIDE ASCORBIQUE': 'Vitamines / Minéraux',
+  'VIT C': 'Vitamines / Minéraux',
+  'PIDOLATE DE MAGNESIUM': 'Vitamines / Minéraux',
+  'ZINC': 'Vitamines / Minéraux',
+  'VITAMINE A': 'Vitamines / Minéraux',
+  'VITAMINE B1': 'Vitamines / Minéraux',
+  'VITAMINE B1 + VITAMINE B2 + VITAMINE B6 + NIACINAMIDE': 'Vitamines / Minéraux — Complexe B',
+  'VIT B1 + VIT B2 + VIT B3 + VIT B5 + VIT B6': 'Vitamines / Minéraux — Complexe B',
+  'VITAMINE B1 + VITAMINE B2 + VITAMINE B3 + VITAMINE B5': 'Vitamines / Minéraux — Complexe B',
+  'MULTIVITAMINE': 'Vitamines / Minéraux — Multivitamines',
+  'MULTIVITAMINE + ACIDE AMINEE': 'Vitamines / Minéraux — Multivitamines',
+  'VITAMINE A + VITAMINE D3 + VITAMINE B1 + VITAMINE B2 + VITAMINE B6': 'Vitamines / Minéraux — Multivitamines',
+  'VITAMINE A + VITAMINE B1 + VITAMINE B2 + VITAMINE B3 + VITAMINE B5': 'Vitamines / Minéraux — Multivitamines',
+  'ACIDES AMINES + AZOTE TOTALE': 'Nutrition parentérale',
+  'ACIDE AMINES + IONS': 'Nutrition parentérale',
+  'ACIDES AMINES': 'Nutrition parentérale',
+
+  // Ophtalmologie
+  'TIMOLOL': 'Ophtalmologie — Antiglaucomateux',
+  'LATANOPROST': 'Ophtalmologie — Antiglaucomateux (prostaglandines)',
+  'LATANOPROST + TIMOLOL': 'Ophtalmologie — Antiglaucomateux (association)',
+  'BRINZOLAMIDE': 'Ophtalmologie — Antiglaucomateux (inhibiteurs anhydrase)',
+  'BRINZOLAMIDE + TIMOLOL MALEATE': 'Ophtalmologie — Antiglaucomateux (association)',
+  'CHLORHYDRATE DE CARTEOLOL': 'Ophtalmologie — Antiglaucomateux',
+  'CHLORHYDRATE D\'OXYBUPROCAINE': 'Ophtalmologie — Anesthésiques locaux',
+  'HYPROMELLOSE': 'Ophtalmologie — Lubrifiants oculaires',
+  'CARBOXYMETHYLCELLULO SE SODIQUE': 'Ophtalmologie — Lubrifiants oculaires',
+  'DEXPANTHENOL': 'Ophtalmologie — Lubrifiants oculaires',
+  'HEXAMIDINE DI- ISETIONATE': 'Ophtalmologie — Antiseptiques',
+  'DEXAMETHASONE PHOSPHATE SODIQUE + NEOMYCINE SULFATE': 'Ophtalmologie — Antibiotiques + corticoïde',
+  'MOXIFLOXACINE + DEXAMETHASONE PHOSPHATE': 'Ophtalmologie — Antibiotiques + corticoïde',
+  'CROMOGLYCATE SODIUM': 'Ophtalmologie — Antiallergiques',
+  'AZITHROMYCINE DIHYDRATE': 'Ophtalmologie — Antibiotiques',
+
+  // Dermatologie
+  'BENZOATE DE BENZYLE': 'Dermatologie — Antiparasitaires',
+  'BENZYL BENZOATE + SULFIRAME': 'Dermatologie — Antiparasitaires',
+  'PERMETHRINE': 'Dermatologie — Antiparasitaires',
+  'ACIDE SALICYLIQUE': 'Dermatologie — Kératolytiques',
+  'ACIDE SALICYLIQUE + DIETHYLAMINE + MYRTECAÏNE': 'Dermatologie — Anti-inflammatoires topiques',
+  'TROLAMINE': 'Dermatologie — Émollients',
+  'GLYCEROL + VASELINE + PARAFFINE LIQUIDE': 'Dermatologie — Émollients',
+  'ADAPALENE + PEROXYDE DE BENZOYLE HYDRATE': 'Dermatologie — Anti-acnéiques',
+
+  // Anesthésiques
+  'CHLORHYDRATE DE LIDOCAINE ANHYDRE': 'Anesthésiques — Locaux',
+  'CHLORHYDRATE DE BUPIVACAINE': 'Anesthésiques — Locaux (rachianesthésie)',
+  'ARTICAÏNE CHLORHYDRATE + ÉPINEPHRINE': 'Anesthésiques — Locaux dentaires',
+  'CHLORHYDRATE DE LIDOCAÏNE + SULFATE DE ZINC': 'Anesthésiques — Locaux (buccaux)',
+  'KETAMINE': 'Anesthésiques — Dissociatifs',
+  'PROPOFOL': 'Anesthésiques — Intraveineux',
+  'ATRACURIUM BESYLATE': 'Anesthésiques — Curares',
+  'CISATRACURIUM': 'Anesthésiques — Curares',
+
+  // Urgences / Réanimation
+  'ADRENALINE': 'Urgences — Amines vasoactives',
+  'EPINEPHRINE': 'Urgences — Amines vasoactives',
+  'CHLORHYDRATE DE DOPAMINE': 'Urgences — Amines vasoactives',
+  'ATROPINE SULFATE': 'Urgences — Anticholinergiques',
+  'ACIDE TRANEXAMIQUE': 'Urgences — Antifibrinolytiques',
+  'ETAMSYLATE': 'Urgences — Hémostatiques',
+
+  // Antiseptiques / Désinfectants
+  'POVIDONE IODEE': 'Antiseptiques / Désinfectants',
+  'CHLORHEXIDINE DIGLUCONATE + .': 'Antiseptiques / Désinfectants',
+  'DIGLUCONATE DE CHLORHEXIDINE + CHLORURE DE BENZALKONIUM': 'Antiseptiques / Désinfectants',
+  'HEXAMIDINE + CHLORHEXIDINE + CHLOROCRESOL': 'Antiseptiques / Désinfectants',
+  'CHLORHYDRATE DE LIDOCAINE + DIISETHIONATE D\'HEXAMIDINE': 'Antiseptiques / Désinfectants',
+  'ETHANOL': 'Antiseptiques / Désinfectants',
+  'ETHANOL DILUE': 'Antiseptiques / Désinfectants',
+  'ALCOOL ETHYLIQUE': 'Antiseptiques / Désinfectants',
+  'SOLUTION CONCENTREE D\'HYPOCHLORITE DE SODIUM (CHLORE ACTIF)': 'Antiseptiques / Désinfectants',
+
+  // Vaccins
+  'HPV TYPE 16 + HPV TYPE 18': 'Vaccins',
+  'HUMAN PAPILOMAVIRUS TYPE 16 L1 PROTEIN + HUMAN PAPILOMAVIRUS TYPE 18 L1 PROTEIN': 'Vaccins',
+
+  // Phytothérapie / Médicaments de plantes
+  'FRACTION FLAVONOÏQUE PURIFIEE MICRONISEE': 'Phlébotonie / Veinotropes',
+  'EXTRAIT ANTHOCYANOSIDIQUE DE MYRTILLE + ALPHA- TOCOPHEROL~VITAMINE E': 'Ophtalmologie — Phytothérapie',
+  'EXTRAIT SEC DE RUSCUS TITRE EN HETEROSIDES STEROLIQUES + HESPERIDINE METHYL CHALCONE + ACIDE ASCORBIQUE': 'Phlébotonie / Veinotropes',
+
+  // === AJOUTS v68 — DCIs précédemment non classifiées ===
+
+  // Gastroentérologie — Antispasmodiques
+  'PHLOROGLUCINOL': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL ANHYDRE + TRIMETHYLPHLOROGLUCIN OL': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL DIHYDRATE': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL DIHYDRATE + TRIMETHYLPHLOROGLUCIN OL': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL HYDRATE': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL HYDRATE + - TRIMETHYLPHLOROGLUCIN OL': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL HYDRATE + TRIMETHYLPHLOROGLUCIN OL': 'Gastroentérologie — Antispasmodiques',
+  'Phloroglucinol hydraté + Triméthylphloroglucinol': 'Gastroentérologie — Antispasmodiques',
+  'DROTAVERINE CHLORHYDRATE': 'Gastroentérologie — Antispasmodiques',
+  'BROMURE DE PRIFINIUM': 'Gastroentérologie — Antispasmodiques',
+  'PRIFINIUM BROMURE': 'Gastroentérologie — Antispasmodiques',
+  'HYOSCINE BUTYLBROMIDE': 'Gastroentérologie — Antispasmodiques',
+  "BUTYLBROMURE D' HYOSCINE": 'Gastroentérologie — Antispasmodiques',
+
+  // Gastroentérologie — Laxatifs
+  'LACTULOSE': 'Gastroentérologie — Laxatifs',
+  'MACROGOL 4000': 'Gastroentérologie — Laxatifs',
+  'MONOHYDRATE DE LACTILOL': 'Gastroentérologie — Laxatifs',
+  'SULFATE DE SODIUM + SULFATE DE POTASSIUM + SULFATE DE MAGNESIUM': 'Gastroentérologie — Laxatifs',
+  'SULFATE DE SODIUM + LEVURE SACCHAROMYCES CEREVISIAE': 'Gastroentérologie — Laxatifs',
+
+  // Gastroentérologie — Antidiarrhéiques
+  'RACECADOTRIL': 'Gastroentérologie — Antidiarrhéiques',
+  'DIOSMECTITE': 'Gastroentérologie — Antidiarrhéiques',
+
+  // Gastroentérologie — Antiémétiques
+  'ONDANSETRON': 'Gastroentérologie — Antiémétiques',
+  'ONDASETRON': 'Gastroentérologie — Antiémétiques',
+  'GRANISETRON': 'Gastroentérologie — Antiémétiques',
+  'PALONOSETRAN': 'Gastroentérologie — Antiémétiques',
+
+  // Gastroentérologie — Probiotiques
+  'SACCHAROMYCES BOULARDII': 'Gastroentérologie — Probiotiques',
+  'SACCHAROMYCES BOULARDII CNCM I-745': 'Gastroentérologie — Probiotiques',
+  'SACCHAROMYCES BOULARDII LYOPHILISE': 'Gastroentérologie — Probiotiques',
+  'SPORES DE BACILLUS CLAUSII PALYANTIBIO- RESISTATNTES': 'Gastroentérologie — Probiotiques',
+
+  // Gastroentérologie — Enzymes digestives / Carminatifs / Antiacides / Autres
+  'PANCREATINE + DIMETHICONE': 'Gastroentérologie — Enzymes digestives',
+  'ALFA-AMYLASE': 'Gastroentérologie — Enzymes digestives',
+  'ALPHA-AMYLASE': 'Gastroentérologie — Enzymes digestives',
+  'DIMETICONE': 'Gastroentérologie — Carminatifs',
+  'GAIAZULENE + DIMETICONE': 'Gastroentérologie — Carminatifs',
+  'ALUMINIUM HYDROXIDE + MAGNESIUM HYDROXIDE + DIMETHICONE ACTIVEE + SORBITOL SOLUTION': 'Gastroentérologie — Antiacides',
+  "HYDROXYDE D'ALUMINIUM": 'Gastroentérologie — Antiacides',
+  "HYDROXYDE D'ALUMINIUM SECHE": 'Gastroentérologie — Antiacides',
+  'ESOMEPRASOLE MAGNE TRIHYDRATE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'CITRATE DE BETAÏNE': 'Gastroentérologie — Autres',
+  'BOLDINE + SULFATE DE SODIUM ANHYDRE + DIHYDROGENOPHOSPHAT E DE SODIUM (132MG)': 'Gastroentérologie — Cholagogues',
+
+  // Hépatologie — Hépatoprotecteurs
+  'EXTRAIT SEC DE SILYBUM MARIANUM FRUIT': 'Hépatologie — Hépatoprotecteurs',
+  'SILYMARINE': 'Hépatologie — Hépatoprotecteurs',
+  'EXTRAIT DE DESMODIUM ADSCENDENS': 'Hépatologie — Hépatoprotecteurs',
+
+  // Anti-inflammatoires (AINS) compléments
+  'ACIDE MEFENAMIQUE': 'Analgésiques / Antipyrétiques',
+  'ACIDE NIFLUMIQUE': 'Anti-inflammatoires (AINS)',
+  'ACEMETACINE': 'Anti-inflammatoires (AINS)',
+  'NIMESULIDE': 'Anti-inflammatoires (AINS)',
+  'ETORICOXIB': 'Anti-inflammatoires (AINS)',
+  'TENOXICAM': 'Anti-inflammatoires (AINS)',
+  'ETOFENAMATE': 'Anti-inflammatoires (AINS)',
+  'INDOMETACINE': 'Anti-inflammatoires (AINS)',
+  'MORNIFLUMATE': 'Anti-inflammatoires (AINS)',
+  'KETOROLAC TROMETHAMINE': 'Anti-inflammatoires (AINS)',
+  'BROFENAC': 'Anti-inflammatoires (AINS)',
+  'NEPAFENAC': 'Ophtalmologie — Anti-inflammatoires',
+
+  // Analgésiques — Opioïdes
+  'MORPHINE CHLORHYDRATE': 'Analgésiques — Opioïdes',
+  'FENTANYL': 'Analgésiques — Opioïdes',
+  'FENTANYL BASE': 'Analgésiques — Opioïdes',
+  'SUFENTANIL': 'Analgésiques — Opioïdes',
+
+  // Neurologie — Antiparkinsoniens
+  'LEVODOPA + CARBIDOPA ANHYDRE': 'Neurologie — Antiparkinsoniens',
+
+  // Neurologie — Antiépileptiques (compléments)
+  'TOPIRAMATE': 'Neurologie — Antiépileptiques',
+  'LAMOTRIGINE': 'Neurologie — Antiépileptiques',
+
+  // Neurologie — Benzodiazépines (compléments)
+  'LORAZEPAM': 'Neurologie — Benzodiazépines',
+  'CLORAZEPATE DIPOTASSIQUE': 'Neurologie — Benzodiazépines',
+  'MIDAZOLAM': 'Neurologie — Benzodiazépines',
+
+  // Neurologie — Antidépresseurs (compléments)
+  'TIANEPTINE': 'Neurologie — Antidépresseurs',
+  'AGOMELATINE': 'Neurologie — Antidépresseurs',
+  'VENLAFAXINE': 'Neurologie — Antidépresseurs (IRSNA)',
+
+  // Neurologie — Antipsychotiques (compléments)
+  'LEVOMEPROMAZINE': 'Neurologie — Antipsychotiques',
+  'OLANZAPINE': 'Neurologie — Antipsychotiques',
+  'RISPERIDONE': 'Neurologie — Antipsychotiques',
+  'CLOZAPINE': 'Neurologie — Antipsychotiques',
+  'LEVOSULPIRIDE': 'Neurologie — Antipsychotiques (procinétiques)',
+  'OXOMEMAZINE': 'Neurologie — Antihistaminiques sédatifs',
+
+  // Neurologie — Neuroprotecteurs / Vasoactifs cérébraux
+  'CITICOLINE': 'Neurologie — Neuroprotecteurs',
+  'METHYLCOBALAMINE': 'Neurologie — Neuroprotecteurs',
+  "ciytidine-5'- monophosphate, sel disodique + UMP DISODIQUE": 'Neurologie — Neuroprotecteurs',
+  'EXTRAIT DE GINKGO BILOBA': 'Neurologie — Vasoactifs cérébraux',
+  'GINKO BILOBA EXTRAIT': 'Neurologie — Vasoactifs cérébraux',
+  'FLUNARAZINE': 'Neurologie — Antimigraineux / Vasoactifs',
+  'ETIFOXINE HYDROCHLORIDE': 'Neurologie — Anxiolytiques',
+
+  // Myorelaxants
+  'THIOCOLCHICOSIDE': 'Myorelaxants',
+  'METHOCARBAMOL': 'Myorelaxants',
+  'CHLORHYDRATE DE TOLPERISONE': 'Myorelaxants',
+  'Cyclobenzaprine': 'Myorelaxants',
+
+  // Rhumatologie — Compléments
+  'ACIDE ZOLEDRONIQUE': 'Rhumatologie — Bisphosphonates',
+  'FEBUXOSTAT': 'Rhumatologie — Anti-goutteux',
+  'TOFACITINIB': 'Rhumatologie — Immunosuppresseurs (JAK inhibiteurs)',
+
+  // Cardiovasculaires — Antihypertenseurs centraux (compléments)
+  'RILMENIDINE': 'Cardiovasculaires — Antihypertenseurs centraux',
+  'MOXONIDINE': 'Cardiovasculaires — Antihypertenseurs centraux',
+  'MOXONODINE': 'Cardiovasculaires — Antihypertenseurs centraux',
+
+  // Cardiovasculaires — Inhibiteurs calciques (compléments)
+  'NICARDIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'NICARDIPINE CHLORHYDRATE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'NICARDIPINE HCL': 'Cardiovasculaires — Inhibiteurs calciques',
+  'CILNIDIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'ISRADIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'CHLORHYDRATE DE LERCANIDIPINE': 'Cardiovasculaires — Inhibiteurs calciques',
+  'VERAPAMOL CHLORHYDRATE': 'Cardiovasculaires — Inhibiteurs calciques',
+
+  // Cardiovasculaires — Diurétiques (compléments)
+  'BENDROFLUMETHIAZIDE + RESERPINE': 'Cardiovasculaires — Diurétiques',
+  'TORASEMIDE': 'Cardiovasculaires — Diurétiques',
+  'TORSEMIDE': 'Cardiovasculaires — Diurétiques',
+  'FUROSEMUDE': 'Cardiovasculaires — Diurétiques',
+
+  // Cardiovasculaires — Sartans / Antiarythmiques / Hypolipémiants / Autres
+  'OLMESARTAN MEDOXOMIL': 'Cardiovasculaires — Sartans (ARA II)',
+  'CIBENZOLINE': 'Cardiovasculaires — Antiarythmiques',
+  'EZETIMIBE': 'Cardiovasculaires — Hypolipémiants (inhibiteurs absorption)',
+  'BOSENTAN': 'Cardiovasculaires — Antihypertenseurs artériels pulmonaires',
+  'TENECTEPLASE': 'Cardiovasculaires — Thrombolytiques',
+
+  // Phlébotonie / Veinotropes (compléments)
+  'DIOSMINE': 'Phlébotonie / Veinotropes',
+  'HIDROSMINE': 'Phlébotonie / Veinotropes',
+
+  // Antidiabétiques (compléments)
+  'TENELIGLIPTINE HYDROBROMIDE HYDRATE': 'Antidiabétiques — Gliptines',
+
+  // Vitamines / Minéraux (compléments)
+  'CALCIFEDIOL MONOHYDRATE': 'Vitamines / Minéraux',
+  'Cholécalciférol': 'Vitamines / Minéraux',
+  'VITAMINE C': 'Vitamines / Minéraux',
+  'VITAMINE K1': 'Vitamines / Minéraux',
+  'PHYTOMENADIONE': 'Vitamines / Minéraux',
+  'THIAMINE CHLORHYDRATE': 'Vitamines / Minéraux',
+  'THIAMINE NITRATE + PYRIDOXINE CHLORHYDRATE': 'Vitamines / Minéraux — Complexe B',
+  'VIT B1 + VIT B2 + VIT B6 + NIACINAMIDE + VIT B12': 'Vitamines / Minéraux — Complexe B',
+  'VITAMIN B1 (THIAMINE Hcl) BP + VITAMIN B2 (RIBOFLAVIN) BP + VITAMIN B6 (PYRODOXINE Hcl) + D. PANTHENOL USP + NIACINAMIDE BP': 'Vitamines / Minéraux — Complexe B',
+  'CHLORHYDRATE DE PYRIDOXINE + CITRATE DE MAGNESIUM': 'Vitamines / Minéraux',
+  'CHLORHYDRATE DE THIAMINE OU VIT B1 + CHLORHYDRATE DE PYRIDOXINE OU VIT B6 + CYANOCOBALAMINE OU VIT B12': 'Vitamines / Minéraux — Complexe B',
+  'LACTATE DE MAGNESIUM DIHYDRATE + PYRIDOXINE CHLORHYDRATE': 'Vitamines / Minéraux',
+  'MAGNESIUM + PYRIDOXINE CHLORHYDRATE': 'Vitamines / Minéraux',
+  'MAGNESIUM ELEMENT + PYRIDOXINE CHLORHYDRATE': 'Vitamines / Minéraux',
+  'MAGNESIUM GLYCEROPHOSPHATE ACIDE + PYRIDOXINE CHLORHYDRATE + MAGNESIUM ELEMENT': 'Vitamines / Minéraux',
+  'SULFATE DE MAGNESIUM HEPTAHYDRATE': 'Vitamines / Minéraux',
+  'SULFATE DE MAGNESIUM TRIHYDRATE + LEVURE SACCHAROMYCES CEREVISIAE': 'Vitamines / Minéraux',
+  'CARBONATE DE CLACIUM + VIT D3': 'Vitamines / Minéraux',
+  'BROMHYDRATE DU GLUTAMATE DE MAGNESIUM + ACIDE ALPHA-AMINOBUTYRIQUE + ACIDE ALPHA-AMINO- BETA-HIDROXY- BUTYRIQUE + VITAMINE B6': 'Vitamines / Minéraux',
+
+  // Vitamines / Minéraux — Fer
+  'COMPLEXE HYDROXYDE DE FER(III)-POLYMALTOSE': 'Vitamines / Minéraux — Fer',
+  'FER (II)': 'Vitamines / Minéraux — Fer',
+  'FER + MANGANESE + CUIVRE': 'Vitamines / Minéraux — Fer',
+  'FER PROTEINSUCCINYLATE': 'Vitamines / Minéraux — Fer',
+  'SULFATE DE FER + .': 'Vitamines / Minéraux — Fer',
+
+  // Vitamines / Minéraux — Acides aminés
+  'ARGININE + ACIDE MALIQUE': 'Vitamines / Minéraux — Acides aminés',
+  'ARGININE ASPARTATE': 'Vitamines / Minéraux — Acides aminés',
+  "ASPARTATE D'ARGININE": 'Vitamines / Minéraux — Acides aminés',
+  'MALEATE DE CITRULLINE': 'Vitamines / Minéraux — Acides aminés',
+  'L-ARGININE HYDROCHLORIDE + L- LEUCINE + L-THREONINE + NICOTINAMIDE': 'Vitamines / Minéraux — Acides aminés',
+  'GLUTODINE + ARGININE ASPARTATE': 'Vitamines / Minéraux — Acides aminés',
+  'CIPROHEPTADINE CHLORHYDRATE + CARNITINE CHLORHYDRATE + ARGININE ASPARTATE': 'Vitamines / Minéraux — Acides aminés',
+  'OROTATE DE CYPROHEPTADINE + LYSINE CHLORHYDRATE + CARNITINE CHLORHYDRATE + COENZYME B12': 'Vitamines / Minéraux — Acides aminés',
+  'L-CYSTINE + SOUFRE PRECIPITE + RETINOL + LEVURE SACCHAROMYCES CEREVISIAE': 'Dermatologie — Compléments capillaires',
+  'L-CYSTINE + SOUFRE PRECIPITE + RETINOL + RETINOL': 'Dermatologie — Compléments capillaires',
+
+  // Nutrition / Perfusion — Solutés
+  'EAU POUR PREPARATION INJECTABLE': 'Nutrition / Perfusion — Solutés',
+  'EAU POUR PREPARATION INJECTABLES': 'Nutrition / Perfusion — Solutés',
+  'EAU PPI': 'Nutrition / Perfusion — Solutés',
+  'EPPI': 'Nutrition / Perfusion — Solutés',
+  'SODIUM CHLORIDE': 'Nutrition / Perfusion — Solutés',
+  'SODIUM CHLORURE': 'Nutrition / Perfusion — Solutés',
+  'SOLUTION PHYSIOLOGIQUE DE NACL': 'Nutrition / Perfusion — Solutés',
+  'MANNITOL': 'Nutrition / Perfusion — Solutés (osmotiques)',
+  "huile de soja + lécithine d'œufs + glycérol": 'Nutrition parentérale',
+
+  // Gynécologie — Progestatifs / Ocytociques / Stimulateurs ovulation
+  'ACETATE DE NORETHISTERONE': 'Gynécologie — Contraceptifs',
+  'DYDROGESTERONE': 'Gynécologie — Progestatifs',
+  'DIENOGEST': 'Gynécologie — Progestatifs',
+  'NOMEGESTROL ACETATE': 'Gynécologie — Progestatifs',
+  "CAPROATE D'HYDROXYPROGESTERON E": 'Gynécologie — Progestatifs',
+  'DINOPROSTONE': 'Gynécologie — Ocytociques / Prostaglandines',
+  'CARBOPROST': 'Gynécologie — Ocytociques / Prostaglandines',
+  'OXYTOCINE': 'Gynécologie — Ocytociques',
+  'GONADOTROPHINE CHORIONIQUE': "Gynécologie — Stimulateurs de l'ovulation",
+  'HORMONE STIMULANTE FOLLICULAIRE HUMAINE RECOMBINANTE': "Gynécologie — Stimulateurs de l'ovulation",
+  'LEUPRORELINE': 'Gynécologie / Oncologie — Agonistes GnRH',
+
+  // Urologie — Compléments
+  'ALFUZOSINE HCl': 'Urologie — Hypertrophie bénigne de la prostate',
+  "CHLORHYDRATE D'ALFUZOSINE": 'Urologie — Hypertrophie bénigne de la prostate',
+  'SILODOSINE': 'Urologie — Hypertrophie bénigne de la prostate',
+  'SERENOA REPENS': 'Urologie — Hypertrophie bénigne de la prostate',
+  'DUTASTERIDE': 'Urologie — Antiandrogènes',
+  'DAPOXETINE': 'Urologie — Dysfonction érectile / éjaculation précoce',
+  'SOLIFENACINE SUCCINATE': 'Urologie — Anticholinergiques (vessie hyperactive)',
+
+  // Oncologie — Hormonothérapie / Immunothérapies / Autres
+  'TAMOXIFENE': 'Oncologie — Hormonothérapie',
+  'TAMOXIFENE CITRATE': 'Oncologie — Hormonothérapie',
+  'LETROZOLE': 'Oncologie — Hormonothérapie',
+  'RITUXIMAB': 'Oncologie — Immunothérapies / Anticorps monoclonaux',
+  'TRASTUZUMAB': 'Oncologie — Immunothérapies / Anticorps monoclonaux',
+  'TRASTUZUMAB EMTANSINE': 'Oncologie — Immunothérapies / Anticorps monoclonaux',
+  'PERTUZUMAB + TRASTUZUMAB': 'Oncologie — Immunothérapies / Anticorps monoclonaux',
+  'BROLUCIZUMAB': 'Oncologie — Thérapies ciblées (VEGF)',
+  'TRINBELIMAB': 'Oncologie — Immunothérapies',
+  'FILGRASTIM': 'Oncologie — Facteurs de croissance hématopoïétiques',
+  'ERYTHROPOIETINE CONCENTREE': 'Oncologie — Facteurs de croissance hématopoïétiques',
+  'DEFERASIROX': 'Oncologie — Chélateurs du fer',
+
+  // Immunosuppresseurs
+  'MYCOPHENOLATE MOFETIL': 'Immunosuppresseurs',
+  'MYCOPHENOLIC ACIDE': 'Immunosuppresseurs',
+  'TACROLIMUS': 'Immunosuppresseurs',
+
+  // Antihistaminiques — Compléments
+  'EBASTINE': 'Antihistaminiques',
+  'MEQUITAZINE': 'Antihistaminiques',
+  'RUPATADINE': 'Antihistaminiques',
+  'RUPATADINE FUMARATE': 'Antihistaminiques',
+  'OLOPATADINE': 'Antihistaminiques',
+  'KETOTIFENE': 'Antihistaminiques',
+  'KETITIFENE': 'Antihistaminiques',
+  'KETOTIFENE FUMARATE': 'Antihistaminiques',
+  'CHLORPHENAMINE MALEATE': 'Antihistaminiques',
+  'CHLOPHENIRAMINE MALEATE': 'Antihistaminiques',
+  'CHLORHYDRATE DE PHENYLEPHRINE + CHLORHYDRATE DE DIPHENHYDRAMINE + MALEATE DE CHLORPHENAMINE': 'Antihistaminiques',
+  'chlorhydrate de cétirizine': 'Antihistaminiques',
+  'CYPROHEPTADINE ANHYDRE': 'Antihistaminiques',
+  'CHLORHYDRATE DE PROMETHAZINE': 'Antihistaminiques sédatifs / Antiémétiques',
+  'PROMETHAZINE': 'Antihistaminiques sédatifs / Antiémétiques',
+  'PROMETHAZINE CHLORHYDRATE': 'Antihistaminiques sédatifs / Antiémétiques',
+  'PROMETHAZINE CHLORYDRATE': 'Antihistaminiques sédatifs / Antiémétiques',
+  'PROMETHAZINE HCl': 'Antihistaminiques sédatifs / Antiémétiques',
+  'MEGLUMINE BENZOATE + POLYSORBATE 20 + PROMETHAZINE CHLORHYDRATE': 'Antihistaminiques sédatifs / Antiémétiques',
+
+  // Pneumologie — Mucolytiques / Antitussifs (compléments)
+  'BROMHEXINE': 'Pneumologie — Mucolytiques',
+  'CHLORHYDRATE DE BROMHEXIME': 'Pneumologie — Mucolytiques',
+  'BUDESOMIDE': 'Corticoïdes',
+  'SODIUM BENZOATE + SULFOGAIACOL': 'Pneumologie — Mucolytiques',
+  "TERPINE + H.E. DE NIAOULI RECONSTITUEE + HUILE DE PIN DE SIBERIE + H.E. EUCALYPTUS": 'Pneumologie — Mucolytiques',
+  "TERPINE + HUILE ESSENTIELLE DE PIN DE SIBERIE + HUILE ESSENTIELLE DE NIAOULI + HUILE ESSENTIELLE D'EUCALYPTUS": 'Pneumologie — Mucolytiques',
+  'GRINDELIA (EXTRAIT MOU DE SOMMITE FLEURIE) + GELSEMIUM (EXTRAIT MOU DE PARTIE SOUTERRAINE)': 'Pneumologie — Mucolytiques',
+  'EXTRAIT HYDROALCOOLIQUE MOU DE GRINDELIA + EXTRAIT HYDROALCOOLIQUE MOU DE GELSEMIUM': 'Pneumologie — Mucolytiques',
+  'HUILE ESSENTIELLE DE NIAOULI + EXTRAIT HYDROALCOOLIQUE MOU DE GRINDELIA + EXTRAIT HYDROALCOOLIQUE MOU DE GELSEMIUM': 'Pneumologie — Mucolytiques',
+  'CINEOLE + CHLORYDRATE AMYELINE + GAIACOL LIQUIDE + HUILE ESSENTIELLE DE PIN': 'Pneumologie — Mucolytiques',
+  'DEXTOMETHORPHANE BROMHYDRATE + DIPHENIDRAMINE CHLORHYDRATE': 'Pneumologie — Antitussifs',
+  "CODETHYLINE CHLORHYDRATE + EXTRAIT CONCENTRE ESPECES PECTORALES 20%": 'Pneumologie — Antitussifs',
+  "CODETHYLINE CHLORHYDRATE + TEINTURE D'ACONIT + TEINTURE DE GRINDELIA + EAU DE LAURIER CERISE + TEINTURE DE BELLADONE": 'Pneumologie — Antitussifs',
+  'DIPHENHHYDRAMINE CHLORHYDRATE + CHLORURE D\'AMMONIUM + MENTHOL': 'Pneumologie — Antitussifs',
+
+  // Antibiotiques — Lincosamides
+  'CHLORHYDRATE DE LINCOMYCINE': 'Antibiotiques — Lincosamides',
+  'LINCOMYCINE': 'Antibiotiques — Lincosamides',
+
+  // Antibiotiques — Carbapénèmes
+  'MEROPENEME': 'Antibiotiques — Autres (carbapénèmes)',
+  'MEROPENEME ANHYDRE': 'Antibiotiques — Autres (carbapénèmes)',
+  'IMIPENEM + CILASTATINE SODIUM': 'Antibiotiques — Autres (carbapénèmes)',
+
+  // Antibiotiques — Macrolides (compléments)
+  'ROXITHROMYCINE': 'Antibiotiques — Macrolides',
+  'ERYTHROMICYNE': 'Antibiotiques — Macrolides',
+  'ERYTHROMYCIN STEARATE': 'Antibiotiques — Macrolides',
+  'AZYTHROMYCINE': 'Antibiotiques — Macrolides',
+
+  // Antibiotiques — Tétracyclines (compléments)
+  'CHLORHYDRATE DE TETRACYCLINE': 'Antibiotiques — Tétracyclines',
+  'TETRACYCLINE HYDROCHLORIDE': 'Antibiotiques — Tétracyclines',
+  'MINOCYCLINE': 'Antibiotiques — Tétracyclines',
+
+  // Antibiotiques — Céphalosporines (compléments)
+  'CEFOPERAZONE + SULBACTAM': 'Antibiotiques — Céphalosporines',
+  'CEFIXIM ANHYDRE': 'Antibiotiques — Céphalosporines',
+  'CEFPODOXINE': 'Antibiotiques — Céphalosporines',
+
+  // Antibiotiques — Pénicillines (compléments)
+  'PHENOXYMETHYLPENICILLI NE': 'Antibiotiques — Pénicillines',
+  'Benzathine benzylpénicilline': 'Antibiotiques — Pénicillines',
+
+  // Antibiotiques — Aminosides (compléments)
+  'AMIKACINE': 'Antibiotiques — Aminosides',
+  'GENTAMYCINE SULFATE': 'Antibiotiques — Aminosides',
+
+  // Antibiotiques — Sulfamides (compléments)
+  'SAVITRIM': 'Antibiotiques — Sulfamides (cotrimoxazole)',
+  'SULFAMETHOXASOLE + TRIMETHOPRIME': 'Antibiotiques — Sulfamides (cotrimoxazole)',
+
+  // Antibiotiques — Autres
+  'PRISTINAMYCINE': 'Antibiotiques — Autres',
+  'FOSFOMYCINE': 'Antibiotiques — Autres',
+  'FOSFOMYCINE (TROMETAMOL)': 'Antibiotiques — Autres',
+  'POLYMYXIN B': 'Antibiotiques — Autres',
+  'NEOMYCINE + BACITRACINE': 'Antibiotiques — Autres (topiques)',
+  'THIAMPHENICOL': 'Antibiotiques — Autres',
+
+  // Antibiotiques — Nitroimidazolés (compléments)
+  'Métronidazole': 'Antibiotiques — Nitroimidazolés',
+
+  // Antituberculeux — Compléments
+  'RIFAMYCINE': 'Antituberculeux',
+  'RIFAMYCINE SODIQUE': 'Antituberculeux',
+  'RIFAMYCINE SODIUM': 'Antituberculeux',
+
+  // Antiparasitaires — Antipaludéens (compléments)
+  'ARTELETHER + LUMEFANTRINE': 'Antiparasitaires — Antipaludéens',
+  'TETRAPHOSPHATE DE PIPERAQUINE + DIHYDROARTEMISININE': 'Antiparasitaires — Antipaludéens',
+  'SULFADOXINE + PURIMETHAMINE': 'Antiparasitaires — Antipaludéens',
+  "XTRAIT D'ARTEMISIA ANNUA A 150 MG D'ARTEMISININE + FLAVONOÏDES ET D'EXTRAITS TERPENIQUES + HUILE ESSENTIELLE DE RAVINTSARA": 'Antiparasitaires — Antipaludéens',
+
+  // Antiparasitaires — Antihelminthiques (compléments)
+  'FLUBENDAZOLE': 'Antiparasitaires — Antihelminthiques',
+
+  // Antifongiques (compléments)
+  'ECONAZOLE NITRATE': 'Antifongiques',
+  'CICLOPIROX': 'Antifongiques',
+  'CICLOPIROXOLAMINE': 'Antifongiques',
+  'LULICONAZOLE': 'Antifongiques',
+  'FENTICONAZOLE': 'Antifongiques',
+  'NITRATE DE FENTICONAZOLE': 'Antifongiques',
+  "NITRATE D'ECONAZOLE": 'Antifongiques',
+
+  // Antiviraux — Antirétroviraux (compléments)
+  'TENOFOVIR DISOPROXIL + EMTRICITABINE': 'Antiviraux — Antirétroviraux',
+
+  // Immunoglobulines / Sérums
+  "FRAGMENTS D'IMMUNOGLOBULINES ANTIRABIQUES EQUINE": 'Immunoglobulines / Sérums',
+  "FRAGMENTS F (ab')2 D'IMMUNOGLOBULINE TETANIQUE EQUINE": 'Immunoglobulines / Sérums',
+
+  // Vaccins (compléments)
+  'AgHBs purifié': 'Vaccins',
+  'PNEUMOCOCCAL POLYSACCHARIDE CONJUGATE VACCINE': 'Vaccins',
+  'POLIOVIRUS TYPE 1 + POLIOVIRUS TYPE 3': 'Vaccins',
+  'VIRUS INACTIVE DE LA POLIO TYPE 1 (MAHONEY) + VIRUS INACTIVE DE LA POLIO TYPE 2 (MEF1) + VIRUS INACTIVE DE LA POLIO TYPE 3 (SAUKETT)': 'Vaccins',
+  'ROTAVIRUS HUMAIN SOUCHE RIX4414': 'Vaccins',
+  'PROTEINE L1 DE PAPILLOMAVIRUS HUMAIN DE TYPE 6(2)(3) + PROTEINE L1 DE PAPILLOMAVIRUS HUMAIN DE TYPE 11(2)(3) + PROTEINE L1 DE PAPILLOMAVIRUS HUMAIN DE TYPE 16(2)(3) + PROTEINE L1 DE PAPILLOMAVIRUS HUMAIN DE TYPE 18(2)(3)': 'Vaccins',
+
+  // Ophtalmologie — Compléments
+  'BRIMONIDINE TARTRATE': 'Ophtalmologie — Antiglaucomateux',
+  'DORZOLAMIDE': 'Ophtalmologie — Antiglaucomateux (inhibiteurs anhydrase)',
+  'TRAVOPROST': 'Ophtalmologie — Antiglaucomateux (prostaglandines)',
+  'TROPICAMIDE': 'Ophtalmologie — Mydriatiques',
+  'EBONATE DE LOTEPREDNOL': 'Ophtalmologie — Corticoïdes',
+  "CHLORHYDRATE D'ANTAZOLINE + CHLORHYDRATE DE TETRYZOLINE": 'Ophtalmologie — Antiallergiques',
+  'CARBOXYMETHYLCELLULO SE SODIUM + GLYCERINE': 'Ophtalmologie — Lubrifiants oculaires',
+  'Carboxymethylcellulose': 'Ophtalmologie — Lubrifiants oculaires',
+  'HYALURONATE DE SODIUM + CARBOXYMETHYLCELLULO SE SODIUM': 'Ophtalmologie — Lubrifiants oculaires',
+  'CARBOMERE 980': 'Ophtalmologie — Lubrifiants oculaires',
+  'EXTRAIT ANTHOCYANOSIDIQUE DE MYRTILLE + BÊTA- CAROTENE': 'Ophtalmologie — Phytothérapie',
+
+  // ORL — Décongestionnants / Antiseptiques buccaux / auriculaires
+  'CHLORHYDRATE DE XYLOMETAZOLINE': 'ORL — Décongestionnants',
+  "CHLORHYDRATE D'OXYMETAZOLINE": 'ORL — Décongestionnants',
+  'XYLOMETAZOLINE CHLORHYDRATE': 'ORL — Décongestionnants',
+  'XYLOMETAZOLINE CHLORHYDRATE + .': 'ORL — Décongestionnants',
+  "CHLORHYDRATE D'EPHEDRINE": 'ORL — Décongestionnants',
+  "MENTHE POIVREE + HUILE ESSENTIELLE D'EUCALYPTUS": 'ORL — Décongestionnants',
+  'BICLOTYMOL + CHLORHYDRATE DE LYSOZYME + ENOLOXONE': 'ORL — Antiseptiques buccaux',
+  'MYRISTALKONIUM CHLORURE': 'ORL — Antiseptiques buccaux',
+  'CHLORURE DE DEQUALINIUM': 'ORL — Antiseptiques buccaux',
+  'BORAX + ACIDE BORIQUE': 'ORL — Antiseptiques auriculaires',
+
+  // Corticoïdes (compléments topiques)
+  'CLOBETASOL PROPIONATE': 'Corticoïdes',
+  'PREDNICARBATE': 'Corticoïdes',
+  'TRIAMCINOLONE ACETONIDE': 'Corticoïdes',
+  'PREDINISOLONE': 'Corticoïdes',
+
+  // Dermatologie — Compléments
+  'ACIDE SALICYLIQUE + DIETHYLAMINE + MYRTECAÏNE': 'Dermatologie — Anti-inflammatoires topiques',
+  'CALENDULA OFFICINALIS': 'Dermatologie — Cicatrisants',
+  'RTA + CALENDULA OFFICINALIS': 'Dermatologie — Cicatrisants',
+  'EOSINE DISODIQUE': 'Dermatologie — Antiseptiques',
+  'LATEX': 'Dermatologie — Kératolytiques',
+
+  // Antiseptiques / Désinfectants (compléments)
+  'GLUCONATE DE CHLOHEXIDINE': 'Antiseptiques / Désinfectants',
+  'GLUCONATE DE CHLORHEXIDINE + CHLORHYDRATE DE TETRACAINE': 'Antiseptiques / Désinfectants',
+  'DIGLUCONATE DE CHLORHEXIDINE (sol 20%) + CHLOROBUTANOL HEMIHYDRATE': 'Antiseptiques / Désinfectants',
+  'DIGLUCONATE DE CHLORHEXIDINE + CHLORHYDRATE DE TETRACAINE': 'Antiseptiques / Désinfectants',
+  "PEROXYDE D'HYDROGENE": 'Antiseptiques / Désinfectants',
+  "SOLUTION DE PEROXYDE D'HYDROGENE": 'Antiseptiques / Désinfectants',
+  "SOLUTION DE PEROXYDSE D'HYDROGENE + .": 'Antiseptiques / Désinfectants',
+
+  // Anesthésiques — Compléments
+  'CHLORHYDRATE DE LIDOCAÏNE ANHYDRE': 'Anesthésiques — Locaux',
+  'LIGNOCAINE': 'Anesthésiques — Locaux',
+  'MEPIVACAINE HCL': 'Anesthésiques — Locaux dentaires',
+  'AMYLEINE CHLORHYDRATE + .': 'Anesthésiques — Locaux',
+  'LIDOCAÏNE CHLORHYDRATE ANHYDRE + ADRÉNALINE': 'Anesthésiques — Locaux',
+  'THIOPENTAL SODIUM': 'Anesthésiques — Intraveineux',
+  'ISOFLURANE': 'Anesthésiques — Inhalés',
+  'SEVOFLURANE': 'Anesthésiques — Inhalés',
+  'SUXAMETHONIUM CHLORIDE': 'Anesthésiques — Curares',
+
+  // Urgences / Réanimation (compléments)
+  'DOPAMINE CHLORHYDRATE': 'Urgences — Amines vasoactives',
+  "SULFATE D'ATROPINE": 'Urgences — Anticholinergiques',
+
+  // Divers
+  'TDR': 'Diagnostics',
+  'XYLENE': 'Réactifs / Laboratoire',
+
+  // Phytothérapie malgache
+  'AZADIRACHTA INDICA + CALOPHYLLUM INOPHYLLUM': 'Phytothérapie malgache',
+  'BRACHYLAENA RAMIFLORA + CINNAMOSMA FRAGRANS + HARUNGA MADAGASCARIENSIS + TACHIADENUS LONGIFLORUS + -': 'Phytothérapie malgache',
+  'CENTELLA ASIATICA + ALOES MACROLADA': 'Phytothérapie malgache',
+  'CENTELLA ASIATICA + CLIDEMIA HIRTA + RAVENALA MADAGASCARIENSIS + AZOLLA PINNATA + -': 'Phytothérapie malgache',
+  'CINNAMOSMA FRAGRANS + STENOCLINE INULOIDES + CATHARANTHUS ROSEUS + CITRUS LIMONUM + ALOE MACROCLADA': 'Phytothérapie malgache',
+  'DORATOXYLON LITTORALE': 'Phytothérapie malgache',
+  'EMBELLA OBOVATA + TACHIADENUS LONGIFLORUS + CUSSONIA BOJERI + FICUS PYRIFOLIA + -': 'Phytothérapie malgache',
+  'EUPHORBIA HIRTA + CINCHONA OFFICINALIS + APHLOIA THEIFORMIS + CINNAMOMUM CAMPHORA': 'Phytothérapie malgache',
+  'FICUS TRICHOPODA + HARONGANA MADAGASCARIENSIS + CLIDEMIA HIRTA + CINNAMOMUM CAMPHORA': 'Phytothérapie malgache',
+  'HUILE VEGETALE + EUCALYPTUS ROBUSTA + GEL ALOES MACROCLADA': 'Phytothérapie malgache',
+  'MYSTROXYLON AETHIOPICUM + CYNODON DACTYLON + ZEA MAYS + HYLOCEREUS TRIANGULARIS': 'Phytothérapie malgache',
+  'MYXTROXYLON AETHIOPICUM + APHLOIA THEAEFORMIS + CENTELLA ASIATICA + TACHIADENUS LONGIFLORUS + CATHARANTHUS ROSEUS': 'Phytothérapie malgache',
+  'PHELLOLOPHIUM MADAGASCARIENSIS + LYGODIUM LANCEOLATUM + WOODFORDIA FRUTICOSA + CEDRELOPSIS GREVEI + -': 'Phytothérapie malgache',
+  "TEINTURE DE DROSERA + TEINTURE DE MOLLUGO NUDICAULIS + TEINTURE D'EUPHORBIA HIRTA + ESSENCE D'EUCALYPTUS + ESSENCE DE RAVINTSARA AROMATICA": 'Phytothérapie malgache',
+  'TM TODDALIA ASIATICA + TM ALLIUM SATIVUM + VINAIGRE DE CIDRE + SILICEA + -': 'Phytothérapie malgache',
+  'TODDALIA ASIATICA + CYNODON DACTYLON + HYLOCEREUS TRIANGULARIS + CATHARANTHUS ROSEUS': 'Phytothérapie malgache',
+  'ZEA MAYS + APHLOIA THEAFORMIS + MYSTROXYLON AETHIOPICUM + - + -': 'Phytothérapie malgache',
+  'ALOE MACROLADA + MIEL + CITRUS LIMONUM': 'Phytothérapie malgache',
+  "EXTRAIT DE CENTELLA ASIATICA + EXTRAIT D'ALOES + EXTRAIT DE CINNAMOMUM": 'Phytothérapie malgache',
+  "EXTRAIT HYDRO- ALCOOLIQUE DE CENTELLA ASIATICA + POUDRE STANDARDISE DE CENTELLA ASIATICA + ESSENCE DE RAVENSARA": 'Phytothérapie malgache',
+  'EUGENIA JAMBOLANA': 'Phytothérapie / Antidiabétiques traditionnels',
+  'EUGENIA JAMBOLANA + CATHARANTHUS ROSEUS + MYSTROXYLON AETHIOPICUM + HELICHRYSUM GYMNOCEPHALUM + ANACARDIUM OCCIDENTALE': 'Phytothérapie / Antidiabétiques traditionnels',
+
+  // Phytothérapie — Huiles essentielles
+  'H.E CINNAMOMUM CAMPHORA': 'Phytothérapie — Huiles essentielles',
+  'H.E CINNAMOMUM CAMPHORA + H.E MELALEUCA VIRIDIFLORA + - + -': 'Phytothérapie — Huiles essentielles',
+  'H.E CINNAMOSMA FRAGRANS': 'Phytothérapie — Huiles essentielles',
+  'H.E EUCALYPTUS CITRIODORA + H.E CINNAMOMUM CAMPHORA + H.E HELICHRYSUM GYMNOCEPHALUM': 'Phytothérapie — Huiles essentielles',
+  'H.E FEUILLES DE CINNAMOMUM CAMPHORA + H.E FEUILLES DE CEDRELOPSIS GREVEI + H.E FEUILLES DE EUCALYPTUS CITRIODORA': 'Phytothérapie — Huiles essentielles',
+  'H.E FEUILLES DE CUPRESSUS SEMPERVIRENS + EXTRAIT DE PLANTE ARNICA MONTANA': 'Phytothérapie — Huiles essentielles',
+  'H.E. CEDRELOPSIS GREVEI + H.E. EUCALYPTUS CITRIODORA': 'Phytothérapie — Huiles essentielles',
+  'H.E. HELICHRYSUM GYMNOCEPHALLUM': 'Phytothérapie — Huiles essentielles',
+  'H.E. MELALEUCA VIRIDIFLORA + H. VEGETALE CALOPHYLLUM INOPHYLLUM + - + -': 'Phytothérapie — Huiles essentielles',
+  'HE MENTHA PIPERATA + CINNAMOMUM CAMPHORA + PINUS LONGIFOLIA + PTYCHOTIS AJOWAN + GAULTHERIA PROCUMBENS': 'Phytothérapie — Huiles essentielles',
+  'HUILE DE CALOPHYLLUM INOPHYLLUM + H.E DE CINNAMOMUM ZEYLANICUM': 'Phytothérapie — Huiles essentielles',
+  'NIAOULI + RAVINTSARA + EUCALYPTUS CITRIODORA + CYPRES + CITRONNELLE': 'Phytothérapie — Huiles essentielles',
+  'CINNAMOMUM CAMPHORA': 'Phytothérapie — Huiles essentielles',
+  "CAMPHRE + MENTHOL + HUILE D'EUCALYPTUS + HUILE DE TEREBENTHINE + HUILE DE GAULTHERIE": 'Phytothérapie — Huiles essentielles',
+  "cinéole ou eucalyptol + gaïacol créosoté + huile essentielle de pin": 'Phytothérapie — Huiles essentielles',
+
+  // Phytothérapie — Toniques
+  'VIN DE QUINQUINA SP + VIN DE COLA ACUMINATA + TEINTURE DE VANILLA PLANIFOLIA + TEINTURE DE CINNAMOMUM VERUM': 'Phytothérapie — Toniques',
+
+  // Phytothérapie ayurvédique
+  'ACACIA CATECHU+ADHATOVA VASICA+ACORUS CALAMUS + ELETTARIA CADAMOMUM+MESUA FERREA+ABIES WEBBIANA + CINNAMOMUM ZEYLANICUM+ZINGIBER OFFICINAL+PIPER LONGUM + PIPER CUBEBA+GLYCYRRHIZA GLABRA+EPHEDRA GERARDIANA + DATURA METEL+THYMOL+MENTHOL': 'Phytothérapie ayurvédique',
+  'EXTRAIT DE ADHATODA VASIKA + EXTRAIT DE GLYCYRRHIZA GLABRA + EXTRAIT DE PIPER LONGUM + EXTRAIT DE ALPINIA GALANGA': 'Phytothérapie ayurvédique',
+  'EXTRAIT DE TINOSPORA CORDIFOLIA + EXTRAIT DE TECOMA UNDULATA + EXTRAIT DE ANDROGRAPHIS PANICULATA + EXTRAITA DE ECLIPTA ALBA + PICRRHIZA KURROA- GLYCYRRHIZA GLABRA': 'Phytothérapie ayurvédique',
+  'OCIMUM SANCTUM + CURCUMA LONGA + PIPER LONGUM + ELETTARIA CARDAMOMUM + SOLANUM XANTHOCARPUM': 'Phytothérapie ayurvédique',
+  'SARACA INDICA + WITANIA SOMNIFERA + SYMPLOCOS RACEMOSA + ASPARAGUS RACEMOSUS + RUBIA CODIFOLIA': 'Phytothérapie ayurvédique',
+  'SILAJEET + BANG BHASMA + EXTRAIT DE WITHANIA SOMNIFERA + EXTRAIT DE MYRISTICA FRAGRANS + EXTRAIT DE MUCUNA PRURIENS': 'Phytothérapie ayurvédique',
+
+  // === Dernières DCIs non classifiées (apostrophes internes) ===
+  "CAMPHRE + MENTHOL + HUILE D'EUCALYPTUS + HUILE DE TEREBENTHINE + HUILE DE GAULTHERIE": 'Phytothérapie — Huiles essentielles',
+  "CAPROATE D'HYDROXYPROGESTERON E": 'Gynécologie — Progestatifs',
+  "CHLORHYDRATE D'EPHEDRINE": 'ORL — Décongestionnants',
+  "CIYTIDINE-5'- MONOPHOSPHATE, SEL DISODIQUE + UMP DISODIQUE": 'Neurologie — Neuroprotecteurs',
+  "EXTRAIT DE CENTELLA ASIATICA + EXTRAIT D'ALOES + EXTRAIT DE CINNAMOMUM": 'Phytothérapie malgache',
+  "FRAGMENTS F (AB')2 D'IMMUNOGLOBULINE TETANIQUE EQUINE": 'Immunoglobulines / Sérums',
+  "MENTHE POIVREE + HUILE ESSENTIELLE D'EUCALYPTUS": 'ORL — Décongestionnants',
+  "NITRATE D'ECONAZOLE": 'Antifongiques',
+  "TEINTURE DE DROSERA + TEINTURE DE MOLLUGO NUDICAULIS + TEINTURE D'EUPHORBIA HIRTA + ESSENCE D'EUCALYPTUS + ESSENCE DE RAVINTSARA AROMATICA": 'Phytothérapie malgache',
+  "XTRAIT D'ARTEMISIA ANNUA A 150 MG D'ARTEMISININE + FLAVONOÏDES ET D'EXTRAITS TERPENIQUES + HUILE ESSENTIELLE DE RAVINTSARA": 'Antiparasitaires — Antipaludéens',
+
+  // === Cas spéciaux avec apostrophes internes (guillemets doubles) ===
+  "ASPARTATE D'ARGININE": 'Vitamines / Minéraux — Acides aminés',
+  "BUTYLBROMURE D' HYOSCINE": 'Gastroentérologie — Antispasmodiques',
+  "CAMPHRE + MENTHOL + HUILE D'EUCALYPTUS + HUILE DE TEREBENTHINE + HUILE DE GAULTHERIE": 'Phytothérapie — Huiles essentielles',
+  "CAPROATE D'HYDROXYPROGESTERON E": 'Gynécologie — Progestatifs',
+  "CHLORHEXIDINE + BENZALKONIUM + ALCOOL BENZYLIQUE": 'Antiseptiques / Désinfectants',
+  "CHLORHYDRATE DE TERBINAFINE": 'Antifongiques',
+  "CHLORHYDRATE D'EPHEDRINE": 'ORL — Décongestionnants',
+  "CICALFATE+": 'Dermatologie — Cicatrisants',
+  "CICAPLAST BAUME B5+": 'Dermatologie — Cicatrisants',
+  "CITRATE DE CAFEINE": 'Neurologie — Autres (stimulants)',
+  "CODETHYLINE CHLORHYDRATE + EXTRAIT CONCENTRE ESPECES PECTORALES 20%": 'Pneumologie — Antitussifs',
+  "EXTRAIT DE CENTELLA ASIATICA + EXTRAIT D'ALOES + EXTRAIT DE CINNAMOMUM": 'Phytothérapie malgache',
+  "EXTRAIT HYDRO- ALCOOLIQUE DE CENTELLA ASIATICA + POUDRE STANDARDISE DE CENTELLA ASIATICA + ESSENCE DE RAVENSARA": 'Phytothérapie malgache',
+  "FRAGMENTS F (ab')2 D'IMMUNOGLOBULINE TETANIQUE EQUINE": 'Immunoglobulines / Sérums',
+  "HYDROCOTYLE (CENTELLA ASIATICA)": 'Phytothérapie malgache',
+  "MENTHE POIVREE + HUILE ESSENTIELLE D'EUCALYPTUS": 'ORL — Décongestionnants',
+  "NITRATE D'ECONAZOLE": 'Antifongiques',
+  "TEINTURE DE DROSERA + TEINTURE DE MOLLUGO NUDICAULIS + TEINTURE D'EUPHORBIA HIRTA + ESSENCE D'EUCALYPTUS + ESSENCE DE RAVINTSARA AROMATICA": 'Phytothérapie malgache',
+  "TERPINE + H.E. DE NIAOULI RECONSTITUEE + HUILE DE PIN DE SIBERIE + H.E. EUCALYPTUS": 'Pneumologie — Mucolytiques',
+  "XTRAIT D'ARTEMISIA ANNUA A 150 MG D'ARTEMISININE + FLAVONOÏDES ET D'EXTRAITS TERPENIQUES + HUILE ESSENTIELLE DE RAVINTSARA": 'Antiparasitaires — Antipaludéens',
+  "cinéole ou eucalyptol + gaïacol créosoté + huile essentielle de pin": 'Phytothérapie — Huiles essentielles',
+  "ciytidine-5'- monophosphate, sel disodique + UMP DISODIQUE": 'Neurologie — Neuroprotecteurs',
+  "BICARBONATE DE SODIUM + EXTRAIT DE ANETHUM SOWA + EXTRAIT DE PIMPINELLA ANISUM + EXTRAIT DE MENTHA ARVENSIS": 'Gastroentérologie — Carminatifs',
+
+  // Homéopathie
+  'ACONITUM NAPPELUS + ALLIUM CEPA + BELLADONA + BRYONIA ALBA': 'Homéopathie',
+  'ALLIUM CEPA + APIS MELLIFICA + DULCAMARA + HISTAMINUM': 'Homéopathie',
+  'ALOE + NUX VOMICA + PODOPHYLLUM PELTATUM + VERATRUM ALBUM': 'Homéopathie',
+  'ANTIMONIUM TARTARICUM + ARALIA RACEMOSA + IPECA + KALIUM CARBONICUM': 'Homéopathie',
+  'ARUM TRIPHYLLUM + BELLADONNA + SPONGIATOSTA + PHYTOLACCA DECANDRA': 'Homéopathie',
+  'COFFEA CRUDA + GELSEMIUM + IGNATIA AMARA + PASSIFLORA INCARNATA': 'Homéopathie',
+  'CUPRUM METALLICUM + DROSERA ROTENDIFOLIA + IPECA + RUMEX': 'Homéopathie',
+  'PHOSPHORICUM ACIDUM + APIS MELLIFICA + COLCHICUM AUTOMNALE + LYCOPODIUM CLAVATUM': 'Homéopathie',
+};
+
+// Fonction pour obtenir la classe thérapeutique d'un médicament
+function getClasseTherapeutique(m) {
+  if (!m || !m.dci) return 'Non classifié';
+  const dciUpper = (m.dci || '').toUpperCase().trim();
+  // Recherche exacte d'abord
+  if (DCI_TO_CLASSE[dciUpper]) return DCI_TO_CLASSE[dciUpper];
+  // Recherche partielle : si la DCI contient un terme clé
+  for (const [key, val] of Object.entries(DCI_TO_CLASSE)) {
+    if (dciUpper.includes(key) || key.includes(dciUpper)) return val;
+  }
+  return 'Non classifié';
+}
+
+const MEDICINES_WITH_NOTICE = ALL_MEDICINES.map(m => ({
+  ...m,
+  notice: buildSimpleNotice(m),
+  posologie_standard: buildStandardPosology(m),
+  classeTherapeutique: getClasseTherapeutique(m)
+}));
+
+// Liste triée des classes thérapeutiques uniques
+const ALL_CLASSES = [...new Set(MEDICINES_WITH_NOTICE.map(m => m.classeTherapeutique))].sort((a, b) => {
+  if (a === 'Non classifié') return 1;
+  if (b === 'Non classifié') return -1;
+  return a.localeCompare(b, 'fr');
+});
 
 let activeCity = 'all';
 let pharmSearch = '';
@@ -11395,6 +13967,7 @@ let currentPage = 1;
 const PER_PAGE = 50;
 let searchQ = '';
 let formeQ = '';
+let classeQ = '';
 let careSearchQ = '';
 let careTypeFilter = 'all';
 let ambulanceSearchQ = '';
@@ -11977,7 +14550,7 @@ function renderHopDirectory() {
 }
 
 (function init() {
-  console.log('[MedMada] v63 — corrections bugs critiques chargement sections');
+  console.log('[MedMada] v68 — corrections bugs critiques chargement sections');
   var _sm = document.getElementById('statMeds'); if (_sm) _sm.textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
   var _sp = document.getElementById('statPharms'); if (_sp) _sp.textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
 
@@ -11989,6 +14562,17 @@ function renderHopDirectory() {
       opt.value = f;
       opt.textContent = f;
       sel.appendChild(opt);
+    });
+  }
+
+  // Populate classe thérapeutique filter
+  const selClasse = document.getElementById('classeFilter');
+  if (selClasse) {
+    ALL_CLASSES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      selClasse.appendChild(opt);
     });
   }
 
@@ -12599,6 +15183,7 @@ const CERT_TYPES = {
 function toggleCertDropdown() {
   const menu = document.getElementById('cert-dropdown-menu');
   const arrow = document.getElementById('cert-dropdown-arrow');
+  if (!menu || !arrow) return;
   const isOpen = menu.classList.contains('open');
   menu.classList.toggle('open', !isOpen);
   arrow.classList.toggle('open', !isOpen);
@@ -12690,9 +15275,14 @@ function getCertData() {
   const dateInput = (document.getElementById('cert-date') || {}).value || '';
   let dateStr = '';
   if (dateInput) {
-    const [y, m, day] = dateInput.split('-');
-    const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-    dateStr = `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+    const parts = dateInput.split('-');
+    if (parts.length === 3) {
+      const [y, m, day] = parts;
+      const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+      const monthIdx = parseInt(m, 10) - 1;
+      const monthName = (monthIdx >= 0 && monthIdx < 12) ? months[monthIdx] : '';
+      dateStr = `${parseInt(day, 10)} ${monthName} ${y}`;
+    }
   }
   const docOrdre = (document.getElementById('cert-doc-ordre') || {}).value || '';
   const docTel = (document.getElementById('cert-doc-tel') || {}).value || '';
@@ -12850,9 +15440,9 @@ function printCertificat() {
   }
   .doc-header-left { font-size: 9.5pt; line-height: 1.65; }
   .doc-header-left .doc-name {
-    font-size: 12.5pt;
+    font-size: 10pt;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.03em;
     color: #0d2a18;
   }
   .doc-header-left .doc-qual { font-style: italic; font-size: 9.5pt; color: #444; }
@@ -12914,8 +15504,9 @@ function printCertificat() {
 
   .cp-field {
     font-weight: 700;
-    border-bottom: 1px solid #444;
-    padding-bottom: 1px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: #333;
   }
 
   /* ── Signature ── */
@@ -13361,6 +15952,12 @@ function onFormeChange() {
   applyMedFilters();
 }
 
+function onClasseChange() {
+  var _cf = document.getElementById('classeFilter'); if (_cf) classeQ = _cf.value;
+  currentPage = 1;
+  applyMedFilters();
+}
+
 function onSortChange() {
   var _ss = document.getElementById('sortSelect');
   if (!_ss) return;
@@ -13393,8 +15990,9 @@ function applyHeaderSortState() {
 function applyMedFilters() {
   filteredMeds = MEDICINES_WITH_NOTICE.filter(m => {
     if (formeQ && (m.forme || '') !== formeQ) return false;
+    if (classeQ && (m.classeTherapeutique || '') !== classeQ) return false;
     if (searchQ) {
-      const hay = `${m.nom || ''} ${m.dci || ''} ${m.code || ''} ${m.laboratoire || ''} ${m.fabricant || ''} ${m.presentation || ''}`.toLowerCase();
+      const hay = `${m.nom || ''} ${m.dci || ''} ${m.code || ''} ${m.laboratoire || ''} ${m.fabricant || ''} ${m.presentation || ''} ${m.classeTherapeutique || ''}`.toLowerCase();
       if (!hay.includes(searchQ)) return false;
     }
     return true;
@@ -13435,6 +16033,7 @@ function renderMedications() {
         <td class="col-dci">${hl(m.dci, searchQ)}</td>
         <td class="col-code">${hl(m.code, searchQ)}</td>
         <td><span class="forme-badge ${formeBadgeClass(m.forme)}">${esc(m.forme)}</span></td>
+        <td style="font-size:0.78rem;color:var(--emerald);font-weight:500;max-width:160px;">${esc(m.classeTherapeutique || '')}</td>
         <td>${esc(m.presentation)}</td>
         <td>${hl(m.laboratoire, searchQ)}</td>
       </tr>
@@ -13449,6 +16048,7 @@ function renderMedications() {
         <div class="med-card-dci">${hl(m.dci, searchQ)}</div>
         <div class="med-card-row"><span class="med-card-label">Code</span><span class="med-card-val med-card-code">${esc(m.code)}</span></div>
         <div class="med-card-row"><span class="med-card-label">Forme</span><span class="med-card-val"><span class="forme-badge ${formeBadgeClass(m.forme)}">${esc(m.forme)}</span></span></div>
+        ${m.classeTherapeutique && m.classeTherapeutique !== 'Non classifié' ? `<div class="med-card-row"><span class="med-card-label">Classe</span><span class="med-card-val" style="color:var(--emerald);font-size:0.78rem;font-weight:500;">${esc(m.classeTherapeutique)}</span></div>` : ''}
         <div class="med-card-row"><span class="med-card-label">Laboratoire</span><span class="med-card-val">${esc(m.laboratoire)}</span></div>
       </div>
     `).join('');
@@ -13580,6 +16180,10 @@ function openModal(idx) {
       <div class="info-card-value"><span class="forme-badge ${formeBadgeClass(m.forme)}">${esc(m.forme)}</span></div>
     </div>
     <div class="info-card full">
+      <div class="info-card-label">Classe thérapeutique (Vidal)</div>
+      <div class="info-card-value" style="color:var(--emerald);font-weight:600;">${esc(m.classeTherapeutique || 'Non classifié')}</div>
+    </div>
+    <div class="info-card full">
       <div class="info-card-label">Présentation</div>
       <div class="info-card-value">${esc(m.presentation)}</div>
     </div>
@@ -13595,7 +16199,7 @@ function openModal(idx) {
 
 function closeModal(event) {
   var _mo = document.getElementById('modalOverlay');
-  if (_mo && event.target === _mo) closeModalBtn();
+  if (_mo && (!event || event.target === _mo)) closeModalBtn();
 }
 
 function closeModalBtn() {
@@ -14433,7 +17037,10 @@ ${cardHtml}
       setTimeout(function() { URL.revokeObjectURL(url); }, 5000);
     }
   };
-  _buildAndOpen(card.innerHTML);
+  // Cloner la carte et supprimer les éléments non-imprimables (boutons, no-print) avant export
+  const cardClone = card.cloneNode(true);
+  cardClone.querySelectorAll('.no-print, button, input, select, textarea, [data-noprint]').forEach(el => el.remove());
+  _buildAndOpen(cardClone.innerHTML);
 }
 window.ordoExportPDF = ordoExportPDF;
 
@@ -14454,11 +17061,8 @@ function ordoInit() {
   if (typeof renderOrdoFavoris === 'function') renderOrdoFavoris();
 }
 window.ordoInit = ordoInit;
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', ordoInit);
-} else {
-  ordoInit();
-}
+// ordoInit est appelé uniquement lors du switch vers le panel ordonnance (via switchTab)
+// Ne pas appeler au chargement pour éviter d'initialiser sur un panel inactif
 
 // ====================
 //  FAVORIS MODULE
@@ -14594,13 +17198,7 @@ if (document.readyState === 'loading') {
   renderOrdoFavoris();
 }
 // Re-render favoris quand l'onglet ordonnance est ouvert
-// Note: ordoInit() appelé par switchTab appelle déjà renderOrdoFavoris()
-// Ce wrapper n'ajoute plus de double-appel
-const _origSwitchTab = window.switchTab;
-window.switchTab = function(name, btn) {
-  if (typeof _origSwitchTab === 'function') _origSwitchTab(name, btn);
-  // renderOrdoFavoris déjà appelé dans ordoInit — pas de double appel
-};
+// Note: ordoInit() appelé par switchTab appelle déjà renderOrdoFavoris() — pas de wrapper nécessaire
 
 })(); // end IIFE
 

@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Catalogue des médicaments enregistrés à Madagascar, annuaire des pharmacies et hôpitaux, outil d'ordonnance et de certificats médicaux.">
 <meta name="theme-color" content="#061F16">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments &amp; Pharmacies — Madagascar — v68</title>
+<title>Médicaments &amp; Pharmacies — Madagascar — v70</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -4121,7 +4119,7 @@
       </div>
       <div class="onp-banner-links">
         <a href="https://ordrepharmacien.mg/" target="_blank" rel="noopener noreferrer" class="onp-sub-link">🌐 ordrepharmacien.mg</a>
-        <a href="mailto:onp@pharmacien.mg" class="onp-sub-link">✉️ onp@pharmacien.mg</a>
+        <a href="mailto:onp.madagascar@gmail.com" class="onp-sub-link">✉️ onp.madagascar@gmail.com</a>
         <a href="tel:+261320329654" class="onp-sub-link">📞 +261 32 03 296 54</a>
         <a href="tel:+261349269021" class="onp-sub-link">📞 +261 34 92 690 21</a>
         <span class="onp-sub-link onp-addr">📍 Lot II A 138 Route de Nanisana, Antananarivo 101</span>
@@ -4484,23 +4482,23 @@
           <span class="cert-dropdown-arrow" id="cert-dropdown-arrow">▼</span>
         </div>
         <div class="cert-dropdown-menu" id="cert-dropdown-menu">
-          <div class="cert-dropdown-item active" onclick="selectCertType('inaptitude','🚶 Inaptitude',this)">🚶 Inaptitude</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('aptitude','✅ Aptitude',this)">✅ Aptitude</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('deces','⚫ Décès',this)">⚫ Décès</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('reprise','🏫 Reprise scolaire',this)">🏫 Reprise scolaire</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('coups','⚠️ Coups et blessures',this)">⚠️ Coups et blessures</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('viol','🔒 Certificat pour viol',this)">🔒 Certificat pour viol</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('expertise','⚖️ Rapport médico-légal',this)">⚖️ Rapport médico-légal</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('circoncision','✂️ Circoncision',this)">✂️ Circoncision</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('arret','🛌 Arrêt de travail',this)">🛌 Arrêt de travail</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('reprisetr','💼 Reprise du travail',this)">💼 Reprise du travail</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('hospit','🏥 Hospitalisation',this)">🏥 Hospitalisation</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('noncontagio','🧒 Non-contagiosité',this)">🧒 Non-contagiosité</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('dispensesport','🏃 Dispense de sport',this)">🏃 Dispense de sport</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('gardevue','🔐 Garde à vue / Détention',this)">🔐 Garde à vue / Détention</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('grossesse','🤰 Certificat de grossesse',this)">🤰 Certificat de grossesse</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('vie','❤️ Certificat de vie',this)">❤️ Certificat de vie</div>
-          <div class="cert-dropdown-item" onclick="selectCertType('evasan','✈️ EVASAN',this)">✈️ EVASAN</div>
+          <div data-certtype="inaptitude" class="cert-dropdown-item active" onclick="selectCertType('inaptitude','🚶 Inaptitude',this)">🚶 Inaptitude</div>
+          <div data-certtype="aptitude" class="cert-dropdown-item" onclick="selectCertType('aptitude','✅ Aptitude',this)">✅ Aptitude</div>
+          <div data-certtype="deces" class="cert-dropdown-item" onclick="selectCertType('deces','⚫ Décès',this)">⚫ Décès</div>
+          <div data-certtype="reprise" class="cert-dropdown-item" onclick="selectCertType('reprise','🏫 Reprise scolaire',this)">🏫 Reprise scolaire</div>
+          <div data-certtype="coups" class="cert-dropdown-item" onclick="selectCertType('coups','⚠️ Coups et blessures',this)">⚠️ Coups et blessures</div>
+          <div data-certtype="viol" class="cert-dropdown-item" onclick="selectCertType('viol','🔒 Certificat pour viol',this)">🔒 Certificat pour viol</div>
+          <div data-certtype="expertise" class="cert-dropdown-item" onclick="selectCertType('expertise','⚖️ Rapport médico-légal',this)">⚖️ Rapport médico-légal</div>
+          <div data-certtype="circoncision" class="cert-dropdown-item" onclick="selectCertType('circoncision','✂️ Circoncision',this)">✂️ Circoncision</div>
+          <div data-certtype="arret" class="cert-dropdown-item" onclick="selectCertType('arret','🛌 Arrêt de travail',this)">🛌 Arrêt de travail</div>
+          <div data-certtype="reprisetr" class="cert-dropdown-item" onclick="selectCertType('reprisetr','💼 Reprise du travail',this)">💼 Reprise du travail</div>
+          <div data-certtype="hospit" class="cert-dropdown-item" onclick="selectCertType('hospit','🏥 Hospitalisation',this)">🏥 Hospitalisation</div>
+          <div data-certtype="noncontagio" class="cert-dropdown-item" onclick="selectCertType('noncontagio','🧒 Non-contagiosité',this)">🧒 Non-contagiosité</div>
+          <div data-certtype="dispensesport" class="cert-dropdown-item" onclick="selectCertType('dispensesport','🏃 Dispense de sport',this)">🏃 Dispense de sport</div>
+          <div data-certtype="gardevue" class="cert-dropdown-item" onclick="selectCertType('gardevue','🔐 Garde à vue / Détention',this)">🔐 Garde à vue / Détention</div>
+          <div data-certtype="grossesse" class="cert-dropdown-item" onclick="selectCertType('grossesse','🤰 Certificat de grossesse',this)">🤰 Certificat de grossesse</div>
+          <div data-certtype="vie" class="cert-dropdown-item" onclick="selectCertType('vie','❤️ Certificat de vie',this)">❤️ Certificat de vie</div>
+          <div data-certtype="evasan" class="cert-dropdown-item" onclick="selectCertType('evasan','✈️ EVASAN',this)">✈️ EVASAN</div>
         </div>
       </div>
 
@@ -4592,7 +4590,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ====================
 // DATASETS
 // ====================
@@ -5359,6 +5357,9 @@ const PRIORITY_DCI_ALIASES = {
   "SECNIDAZOLE ANHYDRE": "SECNIDAZOLE",
   "CEFTRIAXONE": "CEFTRIAXONE ANHYDRE",
   "CEFTRIAXONE SODIUM": "CEFTRIAXONE ANHYDRE",
+  "EAU POUR PREPARATION INJECTABLES": "EAU POUR PREPARATION INJECTABLE",
+  "EAU POUR PREPARATIONS INJECTABLES": "EAU POUR PREPARATION INJECTABLE",
+  "EPPI": "EAU POUR PREPARATION INJECTABLE"
 };
 
 function buildPriorityPosology(m = {}) {
@@ -11638,6 +11639,149 @@ function buildSupplementalBrandPosology(m = {}) {
   const rectal = /RECT|SUPPOSITOIRE/.test(route);
   const prolonged = /LIBERATION PROLONGEE|LIBERATION CONTROLEE| LP /.test(` ${route} `);
 
+  if (name.includes('CHARBON DE BELLOC')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Adsorbant intestinal utilisé en cures courtes, généralement en 2 à 3 prises par jour.',
+      adulte: 'Adulte et enfant de plus de 15 ans : 2 capsules, 2 à 3 fois par jour.',
+      enfant: 'Pas de schéma standard retenu ici avant 15 ans dans la source consultée.',
+      adaptation: 'Respecter un intervalle d’au moins 2 heures avec les autres médicaments en raison d’un risque de diminution d’absorption ; traitement habituellement limité à 5 à 10 jours.',
+      conseil: 'Avaler les capsules telles quelles avec un verre d’eau. Consulter si les ballonnements persistent ou s’aggravent. Contre-indiqué en cas d’allergie à l’arachide ou au soja.',
+      source: 'Vidal — CHARBON DE BELLOC',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/charbon-de-belloc-30905.html'
+    };
+  }
+
+  if (name.includes('CYTEAL') || (dci.includes('HEXAMIDINE') && dci.includes('CHLORHEXIDINE') && dci.includes('CHLOROCRESOL'))) {
+    return {
+      voie: 'Application locale cutanée ou sur certaines muqueuses selon l’indication',
+      standard: 'Antiseptique moussant utilisé comme un savon liquide, pur ou dilué, avec rinçage soigneux après usage.',
+      adulte: '1 à 2 applications par jour.',
+      enfant: '1 à 2 applications par jour ; éviter l’usage prolongé chez l’enfant sans avis médical, surtout sur surfaces étendues ou muqueuses.',
+      adaptation: 'Utiliser pur ou dilué à 1 volume de solution pour 9 volumes d’eau ; toujours rincer soigneusement après le lavage. Usage plutôt ponctuel, prolongation seulement sur conseil médical.',
+      conseil: 'Ne pas utiliser dans les yeux, dans le conduit auditif, avant une piqûre ou pour le matériel médicochirurgical. Éviter le contact oculaire.',
+      source: 'Vidal — CYTÉAL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/cyteal-2474.html'
+    };
+  }
+
+  if (name.includes('DEBRIDAT') || dci.includes('TRIMEBUTINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antispasmodique digestif généralement administré en 3 prises par jour.',
+      adulte: 'Adulte : 1 comprimé à 100 mg, 3 fois par jour. Dans certains cas, augmentation possible jusqu’à 600 mg/j, soit 6 comprimés à 100 mg ou 3 comprimés à 200 mg par jour.',
+      enfant: 'Pas de repère pédiatrique standard ajouté ici pour cette présentation comprimé ; les formes buvables pédiatriques de la gamme sont distinctes.',
+      adaptation: 'Avaler avec un verre d’eau. Réévaluer si les douleurs digestives persistent malgré le traitement ou s’accompagnent d’autres signes d’alarme.',
+      conseil: 'Le traitement ne remplace pas les mesures diététiques et la prise en charge des facteurs déclenchants, notamment le stress.',
+      source: 'Vidal — DÉBRIDAT',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/debridat-2519.html'
+    };
+  }
+
+  if (name.includes('DRILL') && dci.includes('CHLORHEXIDINE') && dci.includes('TETRACAINE')) {
+    return {
+      voie: 'Voie buccale (pastille à sucer lentement)',
+      standard: 'Pastille antiseptique et antalgique, à répartir dans la journée avec un intervalle minimal de 2 heures entre les prises.',
+      adulte: 'Adulte : 1 pastille, 4 fois par jour.',
+      enfant: 'Enfant de 6 à 15 ans : 1 pastille, 2 à 3 fois par jour. Contre-indiqué avant 6 ans.',
+      adaptation: 'Sucer lentement sans croquer, à distance des repas. Ne pas dépasser les doses recommandées en raison du risque systémique lié à la tétracaïne.',
+      conseil: 'Éviter avant les repas ou boissons chaudes car l’anesthésie locale peut gêner la déglutition. Consulter en cas de fièvre ou de persistance au-delà de 5 jours.',
+      source: 'Vidal — DRILL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/drill-3048.html'
+    };
+  }
+
+  if (name.includes('ELUDRILPRO') || (dci.includes('CHLORHEXIDINE') && dci.includes('CHLOROBUTANOL'))) {
+    return {
+      voie: 'Bain de bouche local après dilution',
+      standard: 'Bain de bouche antiseptique utilisé 2 à 3 fois par jour après brossage, en gardant la solution en bouche environ 1 minute avant de recracher.',
+      adulte: 'Adulte : 10 à 15 ml dans le gobelet doseur, compléter avec de l’eau tiède jusqu’au trait supérieur, 1 bain de bouche 2 ou 3 fois/j. Selon la base publique ANSM, la dose standard est de 10 à 15 ml 2 fois/j, pouvant aller jusqu’à 20 ml dilués 3 fois/j au maximum.',
+      enfant: 'Enfant de plus de 6 ans : même schéma que l’adulte pour 1 bain de bouche 2 à 3 fois/j ; contre-indiqué avant 6 ans.',
+      adaptation: 'Ne pas avaler. Durée sans avis médical : ne pas dépasser 2 semaines. Éviter tout contact avec les yeux, le nez ou les oreilles.',
+      conseil: 'Se brosser les dents puis se rincer la bouche à l’eau avant usage ; éviter de boire ou manger immédiatement après le bain de bouche.',
+      source: 'Vidal — ELUDRILPRO ; Base publique des médicaments — chlorhexidine/chlorobutanol',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/eludrilpro-49053.html'
+    };
+  }
+
+  if (name.includes('NIFLURIL') && rectal) {
+    return {
+      voie: 'Voie rectale',
+      standard: 'AINS suppositoire pédiatrique administré en 2 prises par jour chez le nourrisson et selon le poids chez l’enfant.',
+      adulte: 'Pas d’indication adulte pour cette présentation enfant à 400 mg suppositoire sécable.',
+      enfant: 'Nourrisson de 6 à 30 mois : 1/2 suppositoire à 400 mg, 2 fois/j. Enfant de 30 mois à 12 ans : 1 suppositoire à 400 mg par 10 kg et par jour, sans dépasser 3 suppositoires/j ; par exemple 20 kg : 1 suppositoire matin et soir.',
+      adaptation: 'Administrer la dose minimale efficace pendant la durée la plus courte possible. Prudence digestive, rénale et en cas de déshydratation.',
+      conseil: 'Éviter en cas d’antécédent d’ulcère, d’allergie aux AINS ou de varicelle sans avis médical. Contre-indiqué à partir du 6e mois de grossesse.',
+      source: 'Vidal — NIFLURIL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/nifluril-6644.html'
+    };
+  }
+
+  if (name.includes('HUMEX') && name.includes('MAL DE GORGE') && dci.includes('BENZALKONIUM') && dci.includes('LIDOCAINE')) {
+    return {
+      voie: 'Voie oropharyngée par pulvérisation',
+      standard: 'Collutoire antiseptique et anesthésique local, avec prises espacées d’au moins 4 heures.',
+      adulte: 'Adulte : 1 pulvérisation, 4 à 6 fois par jour.',
+      enfant: 'Enfant de 6 à 18 ans : 1 pulvérisation, 2 à 3 fois par jour. Réservé à l’enfant de plus de 6 ans.',
+      adaptation: 'Ne pas utiliser avant les repas ou avant une boisson en raison du risque de fausse route lié à l’anesthésie locale.',
+      conseil: 'Consulter si la douleur s’accompagne de fièvre, gêne importante à la déglutition ou si les symptômes persistent au-delà de quelques jours.',
+      source: 'Base publique des médicaments — HUMEX mal de gorge lidocaïne/benzalkonium',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/62302190/extrait'
+    };
+  }
+
+  if (name.includes('PEVARYL') || (dci.includes('ECONAZOLE') && topical)) {
+    return {
+      voie: 'Application cutanée',
+      standard: 'Antifongique topique généralement appliqué 2 à 3 fois par jour sur les zones atteintes.',
+      adulte: 'Adulte : appliquer sur la peau 2 à 3 fois par jour, sans dépasser 3 applications quotidiennes.',
+      enfant: 'Schéma local identique en pratique selon la notice consultée, sous surveillance parentale et médicale si terrain particulier.',
+      adaptation: 'Poursuivre le traitement 2 à 4 semaines selon l’évolution clinique. Appliquer sur peau propre et sèche.',
+      conseil: 'Éviter le contact avec les yeux et ne pas interrompre trop tôt pour limiter les récidives de mycose.',
+      source: 'Base publique des médicaments — PEVARYL 1 % émulsion fluide',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/65063233/extrait'
+    };
+  }
+
+  if (name.includes('HIDROFEROL') || dci.includes('CALCIFEDIOL')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Supplémentation en calcifédiol à rythme espacé, en prise mensuelle dans la plupart des situations documentées à 266 microgrammes.',
+      adulte: 'Adulte : 1 capsule de 266 microgrammes par mois pour le traitement ou la prévention de la carence en vitamine D, ainsi qu’en adjuvant de l’ostéoporose. Des doses plus élevées peuvent être nécessaires après bilan biologique, sans dépasser 1 capsule par semaine.',
+      enfant: 'Pas de schéma pédiatrique standard retenu ici à partir de la source consultée.',
+      adaptation: 'Ne pas prendre quotidiennement. Espacer ou arrêter lorsque le taux de 25(OH)D se stabilise ; surveiller la calcémie et éviter l’association non contrôlée avec d’autres apports en vitamine D/calcium.',
+      conseil: 'Utiliser sur prescription ou conseil médical, surtout en cas d’insuffisance rénale, de lithiase calcique ou de traitements pouvant majorer l’hypercalcémie.',
+      source: 'Base publique des médicaments — LUZADEL 266 microgrammes (calcifédiol)',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/67563301/extrait'
+    };
+  }
+
+  if (name.includes('MONOSOPT') || dci.includes('DORZOLAMIDE')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Collyre antiglaucomateux administré plusieurs fois par jour selon qu’il est utilisé seul ou avec un bêtabloquant ophtalmique.',
+      adulte: 'En monothérapie : 1 goutte dans l’œil atteint, 3 fois/j. En association à un bêtabloquant ophtalmique : 1 goutte, 2 fois/j.',
+      enfant: 'Pas de schéma pédiatrique standard ajouté ici dans la source consultée.',
+      adaptation: 'Respecter la technique d’instillation et l’intervalle avec les autres collyres selon prescription. Réévaluer en cas d’irritation oculaire persistante.',
+      conseil: 'Éviter que l’embout touche l’œil ; retirer puis remettre les lentilles selon les recommandations du professionnel de santé.',
+      source: 'Base publique des médicaments — dorzolamide 2 % collyre',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/65013910/extrait'
+    };
+  }
+
+  if (name.includes('LUBREX') || dci.includes('CARBOXYMETHYLCELLULOSE') || dci.includes('CARMELLOSE')) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Substitut lacrymal administré à la demande, généralement plusieurs fois par jour selon l’intensité de la sécheresse oculaire.',
+      adulte: '1 goutte dans l’œil ou les yeux à traiter, 2 à 4 fois/j ; possibilité d’aller jusqu’à 8 fois/j si la sécheresse persiste.',
+      enfant: 'Pas de schéma pédiatrique spécifique documenté ici ; suivre l’avis spécialisé si nécessaire.',
+      adaptation: 'Adapter la fréquence aux symptômes. Respecter une technique d’instillation propre et ne pas conserver une unidose ouverte.',
+      conseil: 'Consulter si douleur, baisse de vision, rougeur importante ou absence d’amélioration.',
+      source: 'Base publique des médicaments — CELLUVISC (carmellose sodique)',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/66976254/extrait'
+    };
+  }
+
   if (name.includes('FERVEX')) {
     if (name.includes('ENFANT')) {
       return {
@@ -12477,6 +12621,123 @@ function buildSupplementalBrandPosology(m = {}) {
       conseil: 'Les comprimés peuvent être croqués ou pris avec un peu d’eau pendant les repas. En cas d’oxyures, traiter en même temps les proches et renforcer l’hygiène des mains et des ongles.',
       source: 'Vidal — FLUVERMAL',
       source_url: 'https://www.vidal.fr/medicaments/gammes/fluvermal-3835.html'
+    };
+  }
+
+  if (same('ACETATE DE NORETHISTERONE', 'NORETHISTERONE ACETATE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Progestatif oral dont la posologie dépend de l’indication gynécologique ; l’exemple officiel consulté concerne surtout le décalage des règles et certains troubles du saignement.',
+      adulte: 'Repère issu de la notice Bayer Primolut Nor 10 mg : 1/2 comprimé (5 mg), 2 à 3 fois/j pendant au plus 10 à 14 jours, en débutant environ 3 jours avant la date présumée des règles quand l’objectif est de retarder les menstruations. Pour les autres indications, suivre strictement l’ordonnance.',
+      enfant: 'Pas de posologie pédiatrique standard retenue dans cette application.',
+      adaptation: 'Toujours vérifier l’indication exacte, les antécédents thromboemboliques, hépatiques et hormonodépendants avant dispensation ; éviter toute extrapolation à d’autres schémas sans prescription.',
+      conseil: 'Avaler avec un peu de liquide à heure fixe ; si la spécialité locale est dosée à 5 mg au lieu de 10 mg, ajuster selon la notice correspondante.',
+      source: 'Bayer — Primolut Nor 10 mg tablets (SmPC / PIL, résultat officiel)',
+      source_url: 'https://www.bayer.com/sites/default/files/primolut-nor-10-smpc-may-2020.pdf'
+    };
+  }
+
+  if (same('VITAMINE E', 'ALPHA-TOCOPHEROL', 'ALPHA TOCOPHEROL', 'ALPHA-TOCOPHEROL ACETATE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Vitamine E utilisée en prévention ou traitement d’une carence documentée, en prise quotidienne unique.',
+      adulte: 'Patient à partir de 15 ans : 1 capsule à 500 mg, 1 fois/j.',
+      enfant: 'Pas de schéma pédiatrique standard détaillé dans la source Vidal consultée.',
+      adaptation: 'Prudence en cas de traitement anticoagulant, de traitement prolongé, de posologies élevées ou de risque thromboembolique ; espacer d’au moins 2 heures avec résines chélatrices, topiques digestifs et antiacides.',
+      conseil: 'Administrer entier avec un verre d’eau, de préférence au petit-déjeuner ; vérifier que l’indication correspond bien à une carence documentée.',
+      source: 'Vidal — Alpha-tocophérol acétate 500 mg',
+      source_url: 'https://www.vidal.fr/medicaments/substances/alpha-tocopherol-245.html'
+    };
+  }
+
+  if (same('EAU POUR PREPARATION INJECTABLE') || name.includes('EAU POUR PREPARATION INJECTABLE')) {
+    return {
+      voie: 'Voie parentérale indirecte (solvant/diluant)',
+      standard: 'Solvant destiné à la dilution ou à la dissolution extemporanée d’un autre médicament injectable ; il n’existe pas de dose fixe autonome.',
+      adulte: 'Posologie : selon la préparation injectable à réaliser. Ne jamais injecter seule l’eau pour préparations injectables.',
+      enfant: 'Même principe : quantité déterminée uniquement par le médicament à reconstituer ou à diluer.',
+      adaptation: 'Toujours vérifier la solubilité/stabilité du médicament à ajouter et la compatibilité en cas de mélange de plusieurs principes actifs ; utiliser immédiatement après préparation aseptique.',
+      conseil: 'Ne pas perfuser seule : administrée seule, elle peut provoquer une hémolyse. Vérifier la limpidité, l’intégrité du conditionnement et se référer à la notice du produit à reconstituer.',
+      source: 'Base de données publique des médicaments — Eau pour préparations injectables Lavoisier',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/63478704/extrait'
+    };
+  }
+
+  if (same('LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CHLORURE DE CALCIUM')) {
+    return {
+      voie: 'Voie IV par perfusion',
+      standard: 'Solution de remplissage et de rééquilibration hydro-électrolytique avec volume et débit adaptés à l’âge, au poids et à l’état clinique.',
+      adulte: 'Adulte, sujet âgé et adolescent : 500 mL à 3 L/24 h ; débit habituel d’environ 40 mL/kg/24 h.',
+      enfant: 'Nourrisson et enfant : 20 à 100 mL/kg/24 h ; débit moyen d’environ 5 mL/kg/h, avec adaptation selon l’âge et la situation clinique.',
+      adaptation: 'Surveiller équilibre hydrique, électrolytes plasmatiques et équilibre acido-basique avant et pendant l’administration ; prudence en insuffisance cardiaque, pulmonaire, rénale, chez le sujet âgé et en pédiatrie.',
+      conseil: 'Après correction d’une déshydratation aiguë, réévaluer la nécessité d’une solution d’entretien plus adaptée. Utiliser sous prescription et surveillance clinique/biologique.',
+      source: 'eMC SmPC — Ringer’s Solution for Infusion',
+      source_url: 'https://www.medicines.org.uk/emc/product/1865/smpc'
+    };
+  }
+
+  if (same('BROMHEXINE HCL + GUAIFENESINE + ETHANOL')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Expectorant pour toux grasse pris 3 fois/j selon l’âge.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 10 mL, 3 fois/j.',
+      enfant: 'Enfant de 6 à 12 ans : 5 mL, 3 fois/j. Pas de schéma standard retenu ici avant 6 ans.',
+      adaptation: 'Réévaluer en cas de fièvre, dyspnée, expectoration purulente ou persistance des symptômes ; prudence si le sirop contient de l’alcool et chez les patients à risque de rétention des sécrétions.',
+      conseil: 'Agiter avant emploi et conserver à moins de 30 °C, à l’abri du soleil direct.',
+      source: 'Kalbe Consumer Health — WOODS\' Peppermint Expectorant',
+      source_url: "https://www.kalbeconsumerhealth.com/en/brands/respiratory-care/woods'"
+    };
+  }
+
+  if (same('DEXTOMETHORPHANE BROMHYDRATE + DIPHENIDRAMINE CHLORHYDRATE')) {
+    return {
+      voie: 'Voie orale usuelle',
+      standard: 'Antitussif pour toux sèche, généralement 3 prises/j selon l’âge.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 10 mL, 3 fois/j.',
+      enfant: 'Enfant de 6 à 12 ans : 5 mL, 3 fois/j. Pas de schéma standard retenu ici avant 6 ans.',
+      adaptation: 'Prudence en raison du risque de somnolence, de vertiges et de constipation ; éviter les associations avec d’autres sédatifs sans avis médical.',
+      conseil: 'Agiter avant emploi ; déconseiller la conduite si somnolence. Réévaluer si la toux persiste ou s’accompagne de fièvre/dyspnée.',
+      source: 'Kalbe Consumer Health — WOODS\' Peppermint Antitussive',
+      source_url: "https://www.kalbeconsumerhealth.com/en/brands/respiratory-care/woods'"
+    };
+  }
+
+  if (same('ACIDE ASCORBIQUE + ZINC ELEMENT')) {
+    return {
+      voie: 'Voie orale usuelle (comprimé effervescent)',
+      standard: 'Association vitamine C + zinc en prise quotidienne unique.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 1 comprimé effervescent/j dissous dans un verre d’eau.',
+      enfant: 'Pas de schéma standard retenu ici avant 12 ans d’après l’information officielle retrouvée.',
+      adaptation: 'Éviter de dépasser la dose recommandée ; prudence en cas de régime contrôlé en sodium selon la spécialité exacte.',
+      conseil: 'Dissoudre complètement dans un verre d’eau avant administration et vérifier la formulation exacte si la teneur locale en zinc diffère.',
+      source: 'Bayer — Cal-C-Vita Combo Effervescent Tablets (résultat officiel)',
+      source_url: 'https://www.bayer.com/sites/default/files/Cal-C-Vita%20Combo%20Effervescent%20Tablets%20PI.pdf'
+    };
+  }
+
+  if (same('ACIDE ASCORBIQUE + CARBONATE DE CALCIUM', 'ACIDE ASCORBIQUE + GLUCONOLACTATE DE CALCIUM')) {
+    return {
+      voie: 'Voie orale usuelle (comprimé effervescent)',
+      standard: 'Association calcium + vitamine C en prise quotidienne unique.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 1 comprimé effervescent/j dissous dans un verre d’eau.',
+      enfant: 'Pas de schéma standard retenu ici avant 12 ans à partir de l’information officielle retrouvée.',
+      adaptation: 'Ne pas dépasser la dose recommandée ; tenir compte de l’apport sodé et calcique selon la spécialité exacte, notamment en cas de régime restreint ou de lithiase calcique.',
+      conseil: 'Dissoudre complètement dans un verre d’eau avant administration ; vérifier la composition exacte si la spécialité locale diffère du produit Bayer consulté.',
+      source: 'Bayer — Cal-C-Vita Effervescent Tablets (résultat officiel)',
+      source_url: 'https://www.bayer.com/sites/default/files/cal-c-vita-eng-pi.pdf'
+    };
+  }
+
+  if (same("CITRATE D'AMMONIUM FERRIQUE + ACIDE FOLIQUE + VIT B12") || name.includes('TONIFER') || name.includes('GYNOFER')) {
+    return {
+      voie: 'Voie orale usuelle (sirop)',
+      standard: 'Supplément fer + folates ± vitamine B12 ; la dose dépend du poids et de la situation clinique (curatif/préventif) ou du produit exact.',
+      adulte: 'Tonifer sirop (5 mL = 40 mg de fer) : traitement curatif 100 à 200 mg de fer/j en 2 prises ; traitement préventif adulte 60 mg de fer/j en 2 prises. Gynofer B12 sirop : adulte 5 à 10 mL, 1 fois/j.',
+      enfant: 'Tonifer sirop : 20 à 30 kg = 100 à 150 mg de fer/j en 2 prises ; moins de 20 kg = 3 à 6 mg de fer/kg/j en 2 prises. Gynofer B12 sirop : enfant 2,5 à 5 mL, 1 fois/j.',
+      adaptation: 'Prendre de préférence en dehors des repas selon le RCP Tonifer ; ne pas dépasser la dose recommandée et rechercher la cause de l’anémie avant traitement.',
+      conseil: 'Toujours vérifier le dosage exact en fer élémentaire du sirop dispensé ; prudence en cas d’antécédent digestif, rénal, hépatique ou de surcharge martiale.',
+      source: 'Frilab — RCP Tonifer / IMEX Pharma — Gynofer B12 sirop',
+      source_url: 'https://frilab.ch/wp-content/uploads/2019/07/RCP-TONIFER.pdf'
     };
   }
 
@@ -14550,7 +14811,7 @@ function renderHopDirectory() {
 }
 
 (function init() {
-  console.log('[MedMada] v68 — corrections bugs critiques chargement sections');
+  console.log('[MedMada] v70 — corrections bugs critiques chargement sections');
   var _sm = document.getElementById('statMeds'); if (_sm) _sm.textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
   var _sp = document.getElementById('statPharms'); if (_sp) _sp.textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
 
@@ -15217,8 +15478,14 @@ function switchCert(type, btn) {
   document.querySelectorAll('.cert-dropdown-item').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   else {
-    const activeItem = document.querySelector('.cert-dropdown-item[onclick*=\'' + type + '\']');
+    // BUG FIX v70: utiliser data-certtype au lieu d'analyser l'attribut onclick
+    const activeItem = document.querySelector('.cert-dropdown-item[data-certtype="' + type + '"]');
     if (activeItem) activeItem.classList.add('active');
+    else {
+      // Fallback: ancienne méthode si data-certtype absent
+      const fallback = document.querySelector('.cert-dropdown-item[onclick*=\'' + type + '\']');
+      if (fallback) fallback.classList.add('active');
+    }
   }
   const cfg = CERT_TYPES[type];
   if (!cfg) return; // type invalide, on s'arrête proprement
@@ -16028,7 +16295,7 @@ function renderMedications() {
 
   if (currentView === 'table') {
     var _tb = document.getElementById('tableBody'); if (_tb) _tb.innerHTML = page.map((m, i) => `
-      <tr onclick="openModal(${start + i})">
+      <tr onclick="openModal('${esc(m.code)}')">
         <td class="col-nom" style="white-space:nowrap;"><button class="tbl-star-btn${catalogIsFavori(m.nom) ? ' starred' : ''}" onclick="event.stopPropagation();catalogToggleFavori(m.nom, m.dci||'', m.presentation||'', this)" title="${catalogIsFavori(m.nom) ? 'Désépingler' : 'Épingler'}">${catalogIsFavori(m.nom) ? '★' : '☆'}</button> ${hl(m.nom, searchQ)}</td>
         <td class="col-dci">${hl(m.dci, searchQ)}</td>
         <td class="col-code">${hl(m.code, searchQ)}</td>
@@ -16042,7 +16309,7 @@ function renderMedications() {
 
   if (currentView === 'cards') {
     var _cvr = document.getElementById('cardsView'); if (_cvr) _cvr.innerHTML = page.map((m, i) => `
-      <div class="med-card" style="position:relative;" onclick="openModal(${start + i})">
+      <div class="med-card" style="position:relative;" onclick="openModal('${m.code}')">
         <button class="med-star-btn${catalogIsFavori(m.nom) ? ' starred' : ''}" onclick="event.stopPropagation();catalogToggleFavori(m.nom, m.dci||'', m.presentation||'', this)" title="${catalogIsFavori(m.nom) ? 'Désépingler' : 'Épingler dans mes favoris'}">${catalogIsFavori(m.nom) ? '★' : '☆'}</button>
         <div class="med-card-title">${hl(m.nom, searchQ)}</div>
         <div class="med-card-dci">${hl(m.dci, searchQ)}</div>
@@ -16168,7 +16435,13 @@ function modalToggleFavori() {
 // MEDICAMENT MODAL
 // ====================
 function openModal(idx) {
-  const m = filteredMeds[idx];
+  // BUG FIX v70: si idx est une string (code produit), recherche par code; sinon index numérique
+  let m;
+  if (typeof idx === 'string') {
+    m = MEDICINES_WITH_NOTICE.find(x => x.code === idx);
+  } else {
+    m = filteredMeds[idx];
+  }
   if (!m) return;
   _modalCurrentMed = m;
   const posologyHtml = buildStandardPosologyHtml(m);
@@ -17277,8 +17550,6 @@ if (document.readyState === 'loading') {
 
 
 <!-- Cloudflare beacon supprimé — incompatible mode offline/local -->
-
-<script>
-if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js");});}
-</script></body>
+<!-- BUG FIX v70: beacon dupliqué supprimé (était chargé 2 fois) -->
+</body>
 </html>

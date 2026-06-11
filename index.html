@@ -5,14 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Catalogue des médicaments enregistrés à Madagascar, annuaire des pharmacies et hôpitaux, outil d'ordonnance et de certificats médicaux.">
 <meta name="theme-color" content="#061F16">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments &amp; Pharmacies — Madagascar — v70</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Médicaments &amp; Pharmacies — Madagascar — v72</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Google Fonts — chargement non-bloquant pour compatibilité offline Android WebView -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
 <style>
   /* =========================================
      DESIGN SYSTEM — MÉDICAMENTS MADAGASCAR v26
@@ -3968,7 +3970,15 @@
             img.src = dataUrl;
             img.style.display = 'block';
             emoji.style.display = 'none';
-            try { localStorage.setItem('appLogoDataUrl', dataUrl); } catch(e){}
+            // FIX: vérifier la taille avant de stocker (base64 ~1.37x la taille originale)
+            // localStorage Android WebView limité à ~5MB
+            var sizeKb = Math.round(dataUrl.length * 0.75 / 1024);
+            try {
+              localStorage.setItem('appLogoDataUrl', dataUrl);
+            } catch(e) {
+              // QuotaExceededError — logo visible cette session mais non mémorisé
+              alert('Logo trop volumineux (' + sizeKb + ' Ko) pour être mémorisé sur cet appareil.\nIl sera affiché uniquement pour cette session.');
+            }
           };
           reader.readAsDataURL(file);
         });
@@ -14190,11 +14200,558 @@ const DCI_TO_CLASSE = {
   'COFFEA CRUDA + GELSEMIUM + IGNATIA AMARA + PASSIFLORA INCARNATA': 'Homéopathie',
   'CUPRUM METALLICUM + DROSERA ROTENDIFOLIA + IPECA + RUMEX': 'Homéopathie',
   'PHOSPHORICUM ACIDUM + APIS MELLIFICA + COLCHICUM AUTOMNALE + LYCOPODIUM CLAVATUM': 'Homéopathie',
+  // ── PATCH v71 — Nouvelles classes thérapeutiques ──────────────────
+  "CHLORHYDRATE D\'AZELASTINE": 'Antihistaminiques',
+  "PHOSPHATE D' ALUMINIUM": 'Gastroentérologie — Antiacides',
+  'GLIMEPIRIDE + METFORMINE CHLORHYDRATE': 'Antidiabétiques — Association',
+  "CHLORHYDRATE D\'AMITRIPTYLINE": 'Neurologie — Antidépresseurs tricycliques',
+  "BESILATE D\'AMLODIPINE": 'Cardiovasculaires — Inhibiteurs calciques',
+  'AMOXICILLINETRIHYDRATE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE TRIHYDRATE + CLAVULANATE DE POTASSIUM DILUE': 'Antibiotiques — Pénicillines',
+  'acide β-glycyrrhétinique + chlorure de déqualinium + tyrothricine + acétate d’hydrocortisone + chlorhydrate de lidocaïne': 'Corticoïdes',
+  "ACETATE D\'HYDROCORTISONE + LIDOCAINE + OXYDE DE ZINC + ALLANTOÏNE": 'Dermatologie — Anti-inflammatoires topiques',
+  'PARACETAMOL + MAGNESIUM TRISILICATE + DICLOFENAC SODIUM + CHLORPHENIRAMINE MALEATE': 'Anti-inflammatoires (AINS)',
+  "ARTESUNATE + CHLORHYDRATE D\'AMODIAQUINE": 'Antiparasitaires — Antipaludéens',
+  'ACIDE ACETYLSALICYLIQUE + ACIDE ASCORBIQUE': 'Vitamines / Minéraux',
+  "CHLORHYDRATE D\'OXYTETRACYCLINE + SULFATE DE POLYMYXINE B + PHOSPHATE SODIQUE DE DEXAMETHASONE + NYSTATINE": 'Antibiotiques — Autres (topiques)',
+  'AZITHROMYCINE AZITHROMYCINE': 'Antibiotiques — Macrolides',
+  'BUTYLSCOPOLAMINE': 'Gastroentérologie — Antispasmodiques',
+  'Calcium + Acide Ascorbique': 'Vitamines / Minéraux',
+  'BROMO- GALACTOGLUCONATE DE CALCIUM': 'Vitamines / Minéraux',
+  'CALCIUM + VITAMINE D3 ~ CHOLECALCIFEROL': 'Vitamines / Minéraux',
+  'CALCIUM ELEMENT + CHOLECALCIFEROL + LEVURE SACCHAROMYCES CEREVISIAE': 'Vitamines / Minéraux',
+  'extraits de carottes + bêta-carotène en dispersion 7,5% + acide ascorbique + vitamine E acétate + sulfate de zinc - selenium dioxyde': 'Vitamines / Minéraux — Multivitamines',
+  "CHLORHYDRATE D\'OXYBUPROCAINE": 'Ophtalmologie — Anesthésiques locaux',
+  'CHLORHYDRATE DE CIPROFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'CEFIXIM': 'Antibiotiques — Céphalosporines',
+  "huile de soja + lécithine d\'œufs + glycérol": 'Nutrition parentérale',
+  'VITAMINE C (ACIDE ASCORBIQUE) + CALCIUM': 'Vitamines / Minéraux',
+  'CHLORURE DE SODIUM + GLUCOSE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'CIPROFLOXACINE USP + SODIUM CHLORYDRATE': 'Antibiotiques — Fluoroquinolones',
+  "SULFATE D\'ATROPINE": 'Urgences — Anticholinergiques',
+  'CALCIUM + CHOLECALCIFEROL': 'Vitamines / Minéraux',
+  'VITAMINE A- VITAMINE B1- VITAMINE B2- + VITAMINE B6- VITAMINE B12- NIACINAMIDE + VITAMINE C- DEXPANTHENOL- VITAMINE D3- + COMPLEXE CITRUS BIOFLAVONOIDE': 'Vitamines / Minéraux — Multivitamines',
+  'PARACETAMOL + CAFEINE + CHLORPHENIRAMINE MALEATE': 'Analgésiques / Antipyrétiques',
+  "SULFAGUANIDINE + BI- IODOXYQUINOLEINE + CHARBON ACTIVE + POUDRE D\'OPIUM": 'Gastroentérologie — Antidiarrhéiques',
+  "CHLORHYDRATE DE LIDOCAINE + DIISETHIONATE D\'HEXAMIDINE": 'Anesthésiques — Locaux',
+  'HYDROXIDE DE METHYLTHIONINIUM + NITRATE DE NAPHAZOLINE + CHLORURE DE SODIUM + EAU PURIFIEE': 'Ophtalmologie — Antiseptiques',
+  'LOSARTAN + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  "D\'ISOSORBIDE DINITRATE": 'Cardiovasculaires — Dérivés nitrés',
+  'DICLOFENAC + PARACETAMOL + CHLORPHENIRAMINE': 'Anti-inflammatoires (AINS)',
+  'PARACETAMOL + extrait hydroalcoolique mou de grindélia + extrait hydroalcoolique mou de gelsémium': 'Analgésiques / Antipyrétiques',
+  'PARACETAMOL + extrait hydroalcoolique mou de grindélia + extrait hydroalcoolique mou de gelsémium + -': 'Analgésiques / Antipyrétiques',
+  'GLYCEROL': 'Gastroentérologie — Laxatifs',
+  'XTRAIT D’ARTEMISIA ANNUA A 150 MG D’ARTEMISININE + FLAVONOÏDES ET D’EXTRAITS TERPENIQUES + HUILE ESSENTIELLE DE RAVINTSARA': 'Antiparasitaires — Antipaludéens',
+  "SOLUTION CONCENTREE D\'HYPOCHLORITE DE SODIUM (CHLORE ACTIF)": 'Antiseptiques / Désinfectants',
+  'CHLORHYDRATE DE PYRIDOXINE': 'Vitamines / Minéraux — Complexe B',
+  'DICLOFENAC (SEL DE SODIUM)': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC + PARACETAMOL': 'Anti-inflammatoires (AINS)',
+  'BETAMETHASONE DIPROPIONATE': 'Corticoïdes',
+  'BETAMETHASONE DIPROPIONATE + ACIDE SALICYLIQUE': 'Dermatologie — Kératolytiques',
+  'ROSUVASTATINE CALCIQUE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'METHOCARBAMOL + PARACETAMOL': 'Myorelaxants',
+  'SULFATE DE ZINC MONOHYDRATE': 'Vitamines / Minéraux',
+  'PARACETAMOL + ACIDE ASCORBIQUE': 'Vitamines / Minéraux',
+  'CHLORHYDRATE DE TRAMADOL + PARACETAMOL': 'Analgésiques — Opioïdes',
+  'PARACETAMOL + IBUPROFENE + CEFEINE': 'Anti-inflammatoires (AINS)',
+  'DOXYCYCLINE BASE': 'Antibiotiques — Tétracyclines',
+  'DOXYCYCLINE MONOHYDRATE': 'Antibiotiques — Tétracyclines',
+  'DOXYCYCLINE HYCLATE': 'Antibiotiques — Tétracyclines',
+  'DOXYCYCLINE HYDROCHLORIDE': 'Antibiotiques — Tétracyclines',
+  'CAMPHRE + MENTHOL + HUILE D’EUCALYPTUS + HUILE DE TEREBENTHINE + HUILE DE GAULTHERIE': 'Phytothérapie — Huiles essentielles',
+  'CHLORHYDRATE D’AMBROXOL': 'Pneumologie — Mucolytiques',
+  'PARACETAMOL + MALEATE DE CHLORPHENIRAMINE': 'Analgésiques / Antipyrétiques',
+  'TRAVOPROST + TIMOLOL': 'Ophtalmologie — Antiglaucomateux (association)',
+  'MEBEVERINE HCL': 'Gastroentérologie — Antispasmodiques',
+  'DUTASTERIDE + TAMSULOSINE CHLORHYDRATE': 'Urologie — Hypertrophie bénigne de la prostate',
+  'SITAGLIPTINE + METFORMINE CHLORHYDRATE': 'Antidiabétiques — Gliptines + biguanide',
+  'METFORMINE CHLORHYDRATE': 'Antidiabétiques — Biguanides',
+  'DICLOFENAC SODIUM + PARACETAMOL': 'Anti-inflammatoires (AINS)',
+  "SOLUTION DE PEROXYDE D\'HYDROGENE": 'Antiseptiques / Désinfectants',
+  "PEROXYDE D\'HYDROGENE": 'Antiseptiques / Désinfectants',
+  'PARACETAMOL + CODEINE': 'Analgésiques — Opioïdes',
+  'PARACETAMOL + phosphate de codéine hémihydraté': 'Analgésiques / Antipyrétiques',
+  'SRO + ZINC': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'EMPAGLIFLOZINE + METFORMINE HCl': 'Antidiabétiques — Gliflozines + biguanide',
+  'ENALAPRIL MALEATE + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — IEC + diurétique',
+  'ENOXAPARINE SODIQUE + .': 'Cardiovasculaires — Anticoagulants',
+  'ENOXAPARINE SODIQUE': 'Cardiovasculaires — Anticoagulants',
+  'ENOXAPARINE SODIUM': 'Cardiovasculaires — Anticoagulants',
+  'ENOXAPARINE SODIQUE D’ACTIVITE ANTI-XA': 'Cardiovasculaires — Anticoagulants',
+  'FUROATE DE DILOXANIDE + METRONIDAZOLE': 'Antiparasitaires — Antiprotozoaires',
+  "FRAGMENTS D\'IMMUNOGLOBULINES ANTIRABIQUES EQUINE": 'Vaccins',
+  'ERYTHROMYCINE BASE': 'Antibiotiques — Macrolides',
+  'ESCITALOPRAM': 'Neurologie — Antidépresseurs (ISRS)',
+  'ESOMEPRAZOLE + CLARITHROMYCINE + AMOXICILLINE': 'Antibiotiques — Pénicillines',
+  'AMOXICILLINE + CLARITHROMYCINE + OMEPRAZOLE': 'Antibiotiques — Pénicillines',
+  'ESOMEPRAZOLE MAGNESIUM DIHYDRATE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'ACIDE ASCORBIQUE + ZINC ELEMENT': 'Vitamines / Minéraux',
+  'ACETYLCYSTEINE': 'Pneumologie — Mucolytiques',
+  'CELECOXIBE': 'Anti-inflammatoires (AINS)',
+  'ALCOOL ETHYLIQUE 70°': 'Antiseptiques / Désinfectants',
+  'CHLORHYDRATE DE LIDOCAÏNE + EPINEPHRINE': 'Anesthésiques — Locaux',
+  'PARACETAMOL + DEXTROMETHORPHANE + MALEATE DE CHLORPHENAMINE': 'Pneumologie — Antitussifs',
+  'PARACETAMOL + MALEATE DE CHLORPHENIRAMINE + CHLORHYDRATE DE PHENYLEPHRINE': 'Analgésiques / Antipyrétiques',
+  'FER + ACIDE FOLIQUE + CYANOCOBALAMINE + ACIDE ASCORBIQUE + ZINC': 'Vitamines / Minéraux — Fer',
+  'FER + ACIDE FOLIQUE + PYRIDOXINE HCl + CYANOCOBALAMINE': 'Vitamines / Minéraux — Fer',
+  'FER + ACIDE FOLIQUE': 'Vitamines / Minéraux — Fer',
+  'SULFATE FERREUX + ACIDE FOLIQUE': 'Vitamines / Minéraux — Fer',
+  'FER ELEMENT + ACIDE FOLIQUE + ACIDE ASCORBIQUE': 'Vitamines / Minéraux — Fer',
+  'FER ELEMENT + ACIDE FOLIQUE + CYANOCOBALAMINE': 'Vitamines / Minéraux — Fer',
+  'PARACETAMOL + ACIDE ASCORBIQUE + PHENIRAMINE MALEATE': 'Vitamines / Minéraux',
+  'PARACETAMOL + ACIDE ASCORBIQUE + MALEATE DE PHENIRAMINE': 'Vitamines / Minéraux',
+  'METRONIDAZOLE BENZOATE': 'Antibiotiques — Nitroimidazolés',
+  'CLOPIDOGREL BISULFATE': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'METHOCARBAMOL + IBUPROFENE': 'Myorelaxants',
+  'FLUTICASONE PROPIONATE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'PROPIONATE DE FLUTICASONE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'HORMONE STIMULANTE FOLLICULAIRE HUMAINE RECOMBINANTE': "Gynécologie — Stimulateurs de l'ovulation",
+  'FORMOTEROL FUMARATEDIHYDRATE + BUDESONIDE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'MACROGOL 4000 PEG + SULFATE DE SODIUM ANHYDRE + BICARBONATE DE SODIUM + CHLORURE DE POTASSIUM': 'Gastroentérologie — Laxatifs',
+  'FRAMYCETINE SULFATE + DEXAMETHASONE PHOSPHATE SODIQUE': 'Corticoïdes',
+  'FLUCLOXACILLINE SODIQUE': 'Antibiotiques — Pénicillines',
+  'TERBINAFINE': 'Antifongiques',
+  'PANTOPRAZOLE SODIQUE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'VILDAGLIPTINE + METFORMINE CHLORHYDRATE': 'Antidiabétiques — Gliptines + biguanide',
+  'VILDAGLIPTINE + METFORMINE': 'Antidiabétiques — Gliptines + biguanide',
+  'AMOXICILLINE TRIHYDRATE + CLAVULANATE DE POTASIUM': 'Antibiotiques — Pénicillines',
+  'BIMATOPROST + TIMOLOL': 'Ophtalmologie — Antiglaucomateux (association)',
+  'ESOMEPRAZOLE MAGNESIUM': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'FAMOTIDINE + HYDROXYDE DE MAGNESIUM + CARBONATE DE CALCIUM': 'Gastroentérologie — Antiacides',
+  "HYDROXYDE D\'ALUMINIUM": 'Gastroentérologie — Antiacides',
+  'GENTAMICINE SULFATE': 'Antibiotiques — Aminosides',
+  'LISINOPRIL DIHYDRATE': 'Cardiovasculaires — IEC',
+  'GLUCONATE DE CALCIUM + GLUCOHEPTONATE DE CALCIUM': 'Vitamines / Minéraux',
+  'GLUCOSE': 'Nutrition / Perfusion — Solutés',
+  'GLUCOSE ANHYDRE + CHLORURE DE SODIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'METFORMINE HYDROCHLORIDE': 'Antidiabétiques — Biguanides',
+  'CEFIXIME TRIHYDRATE USP': 'Antibiotiques — Céphalosporines',
+  'PARACETAMOL + PSEUDOEPHEDRINE HCl + DEXTROMETHORPHAN HBr (150MG/100ML) + CHLORPHENIRAMINE MALEATE (20MG/100ML)': 'Pneumologie — Antitussifs',
+  'PARACETAMOL + PSEUDOEPHEDRINE + DEXTROMETHORPHANE': 'Pneumologie — Antitussifs',
+  'METRONIDAZOLE + NEOMYCINE SULFATE + NYSTATINE': 'Antibiotiques — Autres (topiques)',
+  'CLOTRIMAZOLE + TINIDAZOLE': 'Antifongiques',
+  'LACTOBACILLUS CASEI CULTURE LYOLISEE': 'Gastroentérologie — Probiotiques',
+  'PYRANTEL BASE': 'Antiparasitaires — Antihelminthiques',
+  "CITRATE D\'AMMONIUM FERRIQUE + CYANOCOBALAMINE + ACIDE FOLIQUE": 'Vitamines / Minéraux — Fer',
+  'HYDROCORTISONE ACETATE': 'Corticoïdes',
+  'FER ELEMENT + ACIDE ASCORBIQUE + .ACIDE FOLIQUE + CYANOCOBALAMINE + SULFATE DE ZINC': 'Vitamines / Minéraux — Fer',
+  'FER ELEMENT + ACIDE FOLIQUE + .CYANOCOBALAMINE + ZINC ELEMENT': 'Vitamines / Minéraux — Fer',
+  'HEPARINE SODIQUE': 'Cardiovasculaires — Anticoagulants',
+  'AMOXICILLINE TRIHYDRATE EQ. A AMOXICILLINE': 'Antibiotiques — Pénicillines',
+  'DICLOFENAC SODIUM + METHYL SALICYLATE + MENTHOL + CAPSAICINE': 'Anti-inflammatoires (AINS)',
+  'GONADOTROPHINE CHORIONIQUE': "Gynécologie — Stimulateurs de l'ovulation",
+  'BENZALKONIUM CHLORURE + LIDOCAINE CHLORHYDRATE': 'Anesthésiques — Locaux',
+  // ── PATCH v73 — DCIs manquantes (clés normalisées via PRIORITY_DCI_ALIASES) ──
+  'INSULINE HUMAINE (ADNr)': 'Antidiabétiques — Insulines',
+  'ALFUZOSINE': 'Urologie — Hypertrophie bénigne de la prostate',
+  'PERINDOPRIL + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  'PERINDOPRIL + INDAPAMIDE + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique + diurétique',
+  'Ampicilline': 'Antibiotiques — Pénicillines',
+  'TRAMADOL + PARACETAMOL': 'Analgésiques — Opioïdes',
+  'IRBESARTAN + AMLODIPINE': 'Cardiovasculaires — Sartans (ARA II) + inhibiteur calcique',
+  'CHLORTETRACYCLINE CHLORHYDRATE': 'Antibiotiques — Tétracyclines',
+  'Azithromycine': 'Antibiotiques — Macrolides',
+  'IMIPENEME + CILASTATINE': 'Antibiotiques — Autres (carbapénèmes)',
+  'BECLOMETASONE DIPROPIONATE (anhydre)': 'Corticoïdes',
+  'Cefixime trihydrate': 'Antibiotiques — Céphalosporines',
+  'Ceftriaxone': 'Antibiotiques — Céphalosporines',
+  'CHLORHYDRATE D’EPHEDRINE': 'Pneumologie — Bronchodilatateurs bêta2',
+  'N ACETYLCYSTEINE': 'Pneumologie — Mucolytiques',
+  'FORMOTEROL + BUDESONIDE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'PHLOROGLUCINOL + TRIMETHYLPHLOROGLUCINOL': 'Gastroentérologie — Antispasmodiques',
+  'clopidogrel': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'LEVOCETIRIZINE': 'Antihistaminiques',
+  'loratadine': 'Antihistaminiques',
+  'Cefixime': 'Antibiotiques — Céphalosporines',
+  'ACIDE MYCOPHENOLIQUE': 'Immunosuppresseurs',
+  'XYLOMETAZOLINE': 'ORL — Décongestionnants',
+  'BRINZOLAMIDE + BRIMONIDINE': 'Ophtalmologie — Antiglaucomateux (association)',
+  'ATORVASTATINE + PERINDOPRIL + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  'SOLIFENACINE': 'Urologie — Anticholinergiques (vessie hyperactive)',
+  'PARACETAMOL + PSEUDOEPHEDRINE CHLORHYDRATE + CHLORPHENAMINE MALEATE': 'Analgésiques / Antipyrétiques',
+  'HYDROCORTISONE HEMISUCCINATE SODIUM': 'Corticoïdes',
+  'HYDROCORTISONE SODIUM SUCCINATE': 'Corticoïdes',
+  'VITAMINE A SYNTHETIQUE (CONCENTRAT DE) FORME : HUILEUSE + VITAMINE D2 + VITAMINE E + VITAMINE B1 + VITAMINE B2': 'Vitamines / Minéraux — Multivitamines',
+  'CYPROHEPTADINE HYDROCHLORIDE': 'Antihistaminiques',
+  'IBUPROFENE + PARACETAMOL': 'Anti-inflammatoires (AINS)',
+  'LOPERAMIDE HCl': 'Gastroentérologie — Antidiarrhéiques',
+  'IMIPENEME ANHYDRE + CILASTATINE': 'Antibiotiques — Autres (carbapénèmes)',
+  'ACETATE DE MEDROXYPROGESTERONE': 'Gynécologie — Progestatifs',
+  'ACIDE AMINE': 'Vitamines / Minéraux — Acides aminés',
+  'FRAGMENTS F (ab’)2 D’IMMUNOGLOBULINE TETANIQUE EQUINE': 'Vaccins',
+  'ACIDE ASCORBIQUE + GLUCONOLACTATE DE CALCIUM': 'Vitamines / Minéraux',
+  'DEXAMETHASONE SODIUM PHOSPHATE': 'Corticoïdes',
+  'CLOPIDOGREL + ASPIRINE': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'EMPAGLIFLOZINE + METFORMINE': 'Antidiabétiques — Gliflozines + biguanide',
+  'IODE': 'Antiseptiques / Désinfectants',
+  "TRIHYDRATE D\'AMOXICILLINE + CLAVULANATE DE POTASSIUM": 'Antibiotiques — Pénicillines',
+  'KETAMINE BASE': 'Anesthésiques — Dissociatifs',
+  'PARACETAMOL + CODEINE PHOSPHATE HEMIHYDRATE': 'Analgésiques — Opioïdes',
+  "DIPHENHHYDRAMINE CHLORHYDRATE + CHLORURE D\'AMMONIUM + MENTHOL": 'Pneumologie — Antitussifs',
+  'DEXTROMETHORPHANE + CHLORPHENIRAMINE + MENTHOL': 'Pneumologie — Antitussifs',
+  'LATANOPROST + TIMOLOL MALEATE': 'Ophtalmologie — Antiglaucomateux (association)',
+  'VALSARTAN + AMLODIPINE + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Inhibiteurs calciques + sartan + diurétique',
+  'LEVONOGESTREL + ETHINYLESTRADIOL + FUMARATE FERREUX': 'Vitamines / Minéraux — Fer',
+  'DICHLORHYDRATE DE LEVOCETIRIZINE': 'Antihistaminiques',
+  'INSULINE DETEMIR': 'Antidiabétiques — Insulines',
+  'HEMIHYDRATE DE LEVOFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'LEVOFLOXACINE HEMIHYDRATEE': 'Antibiotiques — Fluoroquinolones',
+  'CHLORHYDRATE DE LEVOFLOXACINE': 'Antibiotiques — Fluoroquinolones',
+  'LEVOCABASTINE CHLORHYDRATE': 'Ophtalmologie — Antiallergiques',
+  'LEVOTHYROXINE SODIQUE': 'Endocrinologie — Hormones thyroïdiennes',
+  'SULFATE DE GENTAMICINE': 'Antibiotiques — Aminosides',
+  'LIDOCAÏNE CHLORHYDRATE + ADRENALINE BITARTRATE': 'Anesthésiques — Locaux',
+  'CHLORHYDRATE DE LIDOCAINE HYDRATEE + ADRENALINE': 'Anesthésiques — Locaux',
+  'ROSUVASTATINE + EZETIMIBE': 'Cardiovasculaires — Hypolipémiants (statines)',
+  "FUROSEMIDE + CHLORHYDRATE D\'AMLORIDE": 'Cardiovasculaires — Diurétiques (association)',
+  'CHLORHYDRATE DE LOPERAMIDE': 'Gastroentérologie — Antidiarrhéiques',
+  'TIMOLOL MALEATE': 'Ophtalmologie — Antiglaucomateux',
+  'METOPROLOL TARTRATE': 'Cardiovasculaires — Bêtabloquants',
+  'LOSARTAN POTASSIQUE + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  'LOSARTAN POTASSIQUE': 'Cardiovasculaires — Sartans (ARA II)',
+  'HYDROXYDE DE MAGNESIUM + OXYDE D’ALUMINIUM': 'Gastroentérologie — Antiacides',
+  'EXTRAIT DE CENTELLA ASIATICA + EXTRAIT D’ALOES + EXTRAIT DE CINNAMOMUM': 'Phytothérapie malgache',
+  'TEINTURE DE DROSERA + TEINTURE DE MOLLUGO NUDICAULIS + TEINTURE D’EUPHORBIA HIRTA + ESSENCE D’EUCALYPTUS + ESSENCE DE RAVINTSARA AROMATICA': 'Phytothérapie malgache',
+  'MAGNESIUM': 'Vitamines / Minéraux',
+  'LACTATE DE MAGNESIUM DIHYDRATE + PYRIDOXINE CHLORHYDRATE + PIDOLATE DE MAGNESIUM': 'Vitamines / Minéraux — Complexe B',
+  'LACTATE DE MAGNESIUM DIHYDRATE + PIDOLATE DE MAGNESIUM + CHLORHYDRATE DE PYRIDOXINE': 'Vitamines / Minéraux — Complexe B',
+  'COMPLEXE HYDROXYDE DE FER (III)-POLYMALTOSE + ACIDE FOLIQUE': 'Vitamines / Minéraux — Fer',
+  "HYDROXYDE D\'ALUMINIUM SECHE": 'Gastroentérologie — Antiacides',
+  'MAGNESIUM TRISILACATE + ALUMINIUM HYDROXYDE + ESSENCE DE MENTHE': 'Gastroentérologie — Antiacides',
+  'VITAMINE A + VITAMINE D3 + BITAMINE B1': 'Vitamines / Minéraux — Multivitamines',
+  'METFORMIN HYDROCHLORIDE + GLICLAZIDE': 'Antidiabétiques — Association',
+  'METFORMINE HCL': 'Antidiabétiques — Biguanides',
+  'CHLORHYDRATE DE MEPIVACAINE + EPINEPHRINE': 'Anesthésiques — Locaux dentaires',
+  'TARTRATE DE METOPROLOL': 'Cardiovasculaires — Bêtabloquants',
+  'ALVERINE CITRATE + SIMETICONE': 'Gastroentérologie — Antispasmodiques',
+  'PHLOROGLUCINOL DIHYDRATE + SIMETICONE': 'Gastroentérologie — Antispasmodiques',
+  'METOCLOPRAMIDE CHLORHYDRATE ANHYDRE': 'Gastroentérologie — Procinétiques',
+  'METOCLOPRAMIDE CHLORHYDRATE': 'Gastroentérologie — Procinétiques',
+  'CHLORHYDRATE DE MEBEVERINE': 'Gastroentérologie — Antispasmodiques',
+  'MICONAZOLE NITRATE': 'Antifongiques',
+  'NITRATE DE MICONAZOLE': 'Antifongiques',
+  'LEVONORGESTREL + ETHINYLESTRADIOL': 'Gynécologie — Contraceptifs',
+  'LEVONORGESTREL + ETHINYLESTRADIOL + FUMARATE DE FER': 'Gynécologie — Contraceptifs',
+  'PARACETAMOL + CAFEINE + ERGOTAMINE TARTRATE + ALCALOIDES DE BELLADONE': 'Pneumologie — Antitussifs',
+  'AMOXICILLINE TRIHYDRATEE': 'Antibiotiques — Pénicillines',
+  'DORZOLAMIDE CHLORHYDRATE + MALEATE DE TIMOLOL': 'Ophtalmologie — Antiglaucomateux (inhibiteurs anhydrase)',
+  'AMLODIPINE + LOSARTAN POTASSIUM': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'CHLORHYDRATE DE METFORMINE + GLIMEPIRIDE': 'Antidiabétiques — Association',
+  'MOMETASONE FUROATE': 'Corticoïdes',
+  'MONTELUKAST SODIUM': 'Pneumologie — Antileucotriènes',
+  'OXACILLINE': 'Antibiotiques — Pénicillines',
+  'PARACETAMOL + CHLORHYDRATE DE TRAMADOL': 'Analgésiques — Opioïdes',
+  "GLUCONATE DE CALCIUM GLUCONATE DE CALCIUM + GLYCEROPHOSPHATE DE CALCIUM + CALCIUM D\'HYDROGENE PHOSPHORIQUE + VITAMINE B1 + VITAMINE D2": 'Vitamines / Minéraux',
+  'VITAMINE A + VITAMINE D3 + THIAMINE MONONITRATE + RIBOFLAVINE + NIACINAMIDE': 'Vitamines / Minéraux — Multivitamines',
+  'VITAMINE A- B1- B2- B5- B6- B12-C + CHOLECALCIFEROL': 'Vitamines / Minéraux — Multivitamines',
+  "CHLORHYDRATE D\'ALFUZOSINE": 'Urologie — Alpha-bloquants',
+  'AMBROXOL CHLORYDRATE': 'Pneumologie — Mucolytiques',
+  'ACIDE ASCORBIQUE (VITAMINE C)': 'Vitamines / Minéraux — Multivitamines',
+  'NAPROXENE + ESOMEPRAZOLE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'FUROATE DE MOMETASONE': 'Corticoïdes',
+  'INDAPAMIDE + AMLODIPINE': 'Cardiovasculaires — Inhibiteurs calciques + IEC',
+  'NEBIVOLOL HYDROCHLORIDE': 'Cardiovasculaires — Bêtabloquants',
+  'NEBIVOLOL CHLORHYDRATE': 'Cardiovasculaires — Bêtabloquants',
+  'NEBIVOLOL + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Bêtabloquants',
+  'CHLORHYDRATE DE NEBIVOLOL': 'Cardiovasculaires — Bêtabloquants',
+  'PHOSPHATE SODIQUE DE DEXAMETHASONE + SULFATE DE NEOMYCINE': 'Ophtalmologie — Antibiotiques + corticoïde',
+  'FLUTICASONE FUROATE MICRONISE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'LIDOCAINE + EPINEPHRINE': 'Anesthésiques — Locaux',
+  'TARTRATE DE NORADRENALINE': 'Urgences — Amines vasoactives',
+  'BITARTRATE DE NORADRENALINE': 'Urgences — Amines vasoactives',
+  'ATENOLOL + AMLODIPINE': 'Cardiovasculaires — Bêtabloquants',
+  'INSULINE ASPARTE': 'Antidiabétiques — Insulines',
+  'ciytidine-5’- monophosphate, sel disodique + UMP DISODIQUE': 'Vitamines / Minéraux — Acides aminés',
+  'CLOPIDOGREL BISULFATE USP': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'CLOPIDOGREL BISULFATE + ASPIRINE': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'vitamine A + vitamine B1 + vitamine B2 + vitamine B6 + …': 'Vitamines / Minéraux — Multivitamines',
+  'SILDENAFIL CITRATE': 'Urologie — Dysfonction érectile',
+  'OLMESARTAN MEDOXOMIL + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — Sartans (ARA II) + diurétique',
+  'OLMESARTAN MEDOXOMIL + AMLODIPINE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'OLMEZARTAN MEDOXOMIL + AMLODIPINE BESILATE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'OMEPRAZOLE SOUS FORME SODIUM': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'NEOMYCINE + DEXAMETHASONE PHOSPHATE': 'Ophtalmologie — Antibiotiques + corticoïde',
+  'CEFPODOXIME PROXETIL': 'Antibiotiques — Céphalosporines',
+  'SODIUM DE CEFOTAXIME': 'Antibiotiques — Céphalosporines',
+  'ORNIDAZOLE + OFLOXACINE': 'Antiparasitaires — Antiprotozoaires',
+  'PHENAZONE + LIDOCAINE CHLORHYDRATE': 'Anesthésiques — Locaux',
+  'OXACILLINE SODIQUE': 'Antibiotiques — Pénicillines',
+  'CHLORHYDRATE DE QUININE': 'Antiparasitaires — Antipaludéens',
+  'POLYMYXINE B SULFATE + NEOMYCINE SULFATE + FLUDROCORTISONE ACETATE + LIDOCAINE CHLORHYDRATE': 'Antibiotiques — Autres (topiques)',
+  'PANTOPRAZOLE SODIUM SESQUIHYDRATE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'PANTOPRAZOLE SODIUM SEQUIHYDRATE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'PARACETAMOL + IBUPROFENE': 'Anti-inflammatoires (AINS)',
+  'PARACETAMOL + CODEINE PHOSPATE HEMIHYDRATE': 'Analgésiques — Opioïdes',
+  'PARACETAMOL + DICLOFENAC': 'Anti-inflammatoires (AINS)',
+  'PARACETAMOL + DICLOFENAC SODIQUE': 'Anti-inflammatoires (AINS)',
+  'RETINOL- CHOLECALCIFEROL - MANGANESE-ZINC + CHLORHYDRATE DE THIAMINE ,CALCIUM + RIBOFLAVINE 1,2MG, NICOTINAMIDE 10MG, PYRIDOXINE 1MG, + CYANOCOBALAMINE 3MCG, ACIDE ASCORBIQUE 50MG, IODE 98MCG': 'Vitamines / Minéraux',
+  'PARACETAMOL + MALEATE DE PHENIRAMINE + VITAMINE C': 'Vitamines / Minéraux — Multivitamines',
+  'PERINDOPRIL TERT- BUTYLAMINE + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  'NITRATE D’ECONAZOLE': 'Antifongiques',
+  'CHLORURE DE BENZALKONIUM': 'Antiseptiques / Désinfectants',
+  'PHOSPHATE SODIQUE DE DEXAMETHASONE': 'Corticoïdes',
+  'NEOMYCINE + POLYMYXINE B SULFATE + DEXAMETHASONE METASULFOBENZOATE SODIQUE': 'Ophtalmologie — Antibiotiques + corticoïde',
+  'NEOMYCINE SULFATE + POLYMYXINE B SULFATE + NYSTATINE': 'Antibiotiques — Autres (topiques)',
+  'NEOMYCINE SULFATE + POLYMYXINE B SULFATE + NYSTATINE + DIMETHYLPOLYSILOXANE': 'Antibiotiques — Autres (topiques)',
+  'TRIAMCINOLONE ACETONIDE + NEOMYCINE SULFATE + NYSTATINE': 'Dermatologie — Anti-inflammatoires topiques',
+  "ASPARTATE D\'ARGININE": 'Hépatologie — Hépatoprotecteurs',
+  "MALEATE D\'ENALAPRIL": 'Cardiovasculaires — IEC',
+  'CAPROATE D’HYDROXYPROGESTERON E': 'Gynécologie — Progestatifs',
+  'PARACETAMOL + CAFEINE + CODEINE PHOSPHATE HEMIHYDRATE': 'Analgésiques — Opioïdes',
+  'CHLORHYDRATE DE PROPRANOLOL': 'Cardiovasculaires — Bêtabloquants',
+  'CEFUROXIME AXETIL': 'Antibiotiques — Céphalosporines',
+  'BROMHYDRATE DE DEXTROMETHORPHANE': 'Pneumologie — Antitussifs',
+  'DEXTROMETHORPHAN HYDROBROMIDE + CHLORPHENIRAMINE': 'Pneumologie — Antitussifs',
+  'CODEINE + GAÏACOL': 'Pneumologie — Antitussifs',
+  'VALERATE DE BETAMETHASONE + CHLORYDRATE DE PHENYLEPHRINE + CHLORHYDRATE DE LIDOCAINE': 'Corticoïdes',
+  'DICHLORHYDRATE DE QUININE': 'Antiparasitaires — Antipaludéens',
+  'QUININE DIHYDROCHLORIDE': 'Antiparasitaires — Antipaludéens',
+  'RABEPRAZOLE SODIQUE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'ESOMEPRAZOLE MAGNESIUM AMORPHE': 'Gastroentérologie — Antiulcéreux (IPP)',
+  'RANITIDINE CHLORHYDRATE': 'Gastroentérologie — Anti-H2',
+  'RAMIPRIL + HYDROCHLOROTHIAZIDE': 'Cardiovasculaires — IEC + diurétique',
+  'ACIDE ASCORBIQUE (VITAMINE C) + ASPARTATE DE MAGNESIUM DIHYDRATE + L-LEUCINE + MONOCHLORHYDRATE DE L-LYSINE + L- PHENYLALANINE': 'Vitamines / Minéraux — Multivitamines',
+  'N-ACETYLCYSTEINE + TUAMINOHEPTANE SULFATE + BENZALKONIUM CHLORURE': 'Pneumologie — Mucolytiques',
+  'LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASIUM + CHLORURE DE CALCIUM DIHYDRATE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CHLORURE DE CALCIUM DIHYDRATE + LACTATE DE SODIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASIUM + CHLORURE DE CALCIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CHHLORURE DE CALCIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'SODIUM LACTATE + SODIUM CHLORURE + POTASSIUM CHLORURE + CALCIUM CHLORURE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'CHLORURE DE POTASSIUM + CHLORURE DE CALCIUM DIHYDRATE + CHLORURE DE SODIUM + SODIUM LACTATE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CALCIUM CHLORURE DIHYDRATE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'CHLORURE DE POTASSIUM + CHLORURE DE CALCIUM TRIHYDRATE + CHLORURE DE SODIUM + SODIUM LACTATE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'MALEATE DE CHLORPHENIRAMINE + PARACETAMOL + ACIDE ASCORBIQUE': 'Vitamines / Minéraux',
+  'SOLUTION DE LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CHLORURE DE CALCIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'ROSYVASTATINE CALCIUM': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'DICLOFENAC DIETHYLAMONIUM + OLEUM LINI + METHYL SALICYLATE + MENTHOL': 'Anti-inflammatoires (AINS)',
+  'ERYTHROMYCINE STEARATE': 'Antibiotiques — Macrolides',
+  'SULFATE DE SALBUTAMOL': 'Pneumologie — Bronchodilatateurs bêta2',
+  'CETIRIZINE CHLORHYDRATE': 'Antihistaminiques',
+  'VITAMINE B1 + VITAMINE B6 + VITAMINE B12 + NICOTINAMIDE + DEXPANTHENOL': 'Vitamines / Minéraux — Multivitamines',
+  'LIDOCAINE CHLORHYDRATE + ADRENALINE ACIDE TARTRATE': 'Anesthésiques — Locaux',
+  'SECNIDAZOLE ANHYDRE': 'Antibiotiques — Nitroimidazolés',
+  "CHLORHYDRATE D\'AMBROXOL": 'Pneumologie — Mucolytiques',
+  'DEXTROSE ANHYDRE + CHLORURE DE SODIUM + CITRATE DE SODIUM + CHLORURE DE POTASSIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'PROPIONATE DE FLUTICASONE + SALMETEROL': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'SALMETEROL + PROPIONATE DE FLUTICASONE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'PROPIONATE DE FLUTICASONE + SALMETEROL + - + - + -': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  "SULFADIAZINE D\'ARGENT": 'Dermatologie — Antiseptiques',
+  'BRINZOLAMIDE + TARTRATE DE BRIMONIDINE': 'Ophtalmologie — Antiglaucomateux (association)',
+  "CHLORHYDRATE D\'OXYMETAZOLINE": 'ORL — Décongestionnants',
+  "CODETHYLINE CHLORHYDRATE + TEINTURE D\'ACONIT + TEINTURE DE GRINDELIA + EAU DE LAURIER CERISE + TEINTURE DE BELLADONE": 'Pneumologie — Antitussifs',
+  "ACIDE ASCORBIQUE + BROMURE DE SODIUM + TEINTURE DE GRINDELIA + EXTRAIT CONCENTRE D\'ESPECES PECTORALES + BENZOATE DE SODIUM": 'Pneumologie — Antitussifs',
+  'CHLORHYDRATE DE METFORMINE + SITAGLIPTINE': 'Antidiabétiques — Gliptines + biguanide',
+  'SITAGLIPTINE + METFORMINE': 'Antidiabétiques — Gliptines + biguanide',
+  'SITAGLIPTINE + CHLORHYDRATE DE METFORMINE': 'Antidiabétiques — Gliptines + biguanide',
+  'FER ELEMENT + ACIDE FOLIQUE': 'Vitamines / Minéraux — Fer',
+  'MENTHE POIVREE + HUILE ESSENTIELLE D’EUCALYPTUS': 'Phytothérapie — Huiles essentielles',
+  'BROMHEXINE HYDROCHLORIDE': 'Pneumologie — Mucolytiques',
+  'SULFADOXINE + PYRIMETHAMINE + AMODIAQUINE': 'Antiparasitaires — Antipaludéens',
+  'QUININE DIHYDROCHLORIDE + RESORCINOL': 'Antiparasitaires — Antipaludéens',
+  'CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CITRATE DE SODIUM + GLUCOSE ANHYDRE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'DEXAMETHASONE + OXYTETRACYCLINE': 'Antibiotiques — Autres (topiques)',
+  'TRAMADOL CHLORYDRATE + PARACETAMOL': 'Analgésiques — Opioïdes',
+  'SUCCINATE SODIQUE DE METHYLPREDNISOLONE': 'Corticoïdes',
+  'PROGESTERONE + ESTRONE': 'Hormones sexuelles',
+  'TAMSULOSINE CHLORHYDRATE': 'Urologie — Alpha-bloquants',
+  'FER': 'Vitamines / Minéraux — Fer',
+  'CHLORHYDRATE DE TRAMADOL': 'Analgésiques — Opioïdes',
+  'TRAMADOL HYDROCHLORIDE': 'Analgésiques — Opioïdes',
+  'THEOPHYLLINE + RACEPHEDRINE + PHENOBARBITAL': 'Pneumologie — Bronchodilatateurs bêta2',
+  'ATENOLOL + CHLORTALIDONE': 'Cardiovasculaires — Bêtabloquants',
+  "TERPINE + HUILE ESSENTIELLE DE PIN DE SIBERIE + HUILE ESSENTIELLE DE NIAOULI + HUILE ESSENTIELLE D\'EUCALYPTUS": 'Pneumologie — Antitussifs',
+  'TETRACYCLINE': 'Antibiotiques — Tétracyclines',
+  'LEVOTHYROXINE SODIQUE ANHYDRE': 'Endocrinologie — Hormones thyroïdiennes',
+  'SULFATE FERREUX DESSECHE (FER ELEMENT) + ACIDE ASCORBIQUE': 'Vitamines / Minéraux — Fer',
+  'TIOTROPIUM BROMIDE': 'Pneumologie — Bronchodilatateurs anticholinergiques',
+  "SOLUTION DE GLUCOSE 150G/L + SOLUTION D\'ACIDES AMINES A 10% (CELEMIN 10 PLUS) + SOLUTION LIPIDIQUE (CELEPID MCT-LCT 20%)": 'Nutrition parentérale',
+  "CITRATE D\'AMMONIUM FERRIQUE + ACIDE FOLIQUE + VIT B12": 'Vitamines / Minéraux — Fer',
+  'TRAMADOL HYDROCHLORIDE + PARACETAMOL': 'Analgésiques — Opioïdes',
+  'OROTATE DE CYPROHEPTADINE + LYSINE CHLORHYDRATE + CARNITINE CHLORHYDRATE + VITAMINE B1 + VITAMINE B6- B12': 'Vitamines / Minéraux — Acides aminés',
+  'IBUPROFENE + PARACETAMOL + CAFEINE': 'Anti-inflammatoires (AINS)',
+  "CHLORHYDRATE D\'ANTAZOLINE + CHLORHYDRATE DE TETRYZOLINE": 'Ophtalmologie — Antiallergiques',
+  'PARACETAMOL + PROPYPHENAZONE + CAFEINE ANHYDRE': 'Analgésiques / Antipyrétiques',
+  'ATORVASTATINE + PERINDOPRIL ARGININE + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  'CEFTRIAXONE SODIUM': 'Antibiotiques — Céphalosporines',
+  'DICHLORHYDRATE DE CETIRIZINE': 'Antihistaminiques',
+  'CARBONATE DE CALCIUM + VITAMINE D3': 'Vitamines / Minéraux',
+  'CIPROFLOXACINE HYDROCHLORIDE': 'Antibiotiques — Fluoroquinolones',
+  'VALERATE DE BETAMETHASONE': 'Corticoïdes',
+  "BESILATE D\'AMLODIPINE + VALSARTAN": 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  "BESILATE D\'AMLODIPINE + -VALSARTAN": 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'DICHLORHYDRATE DE TRIMETAZIDINE': 'Cardiovasculaires — Autres',
+  'MOXIFLOXACIN': 'Antibiotiques — Fluoroquinolones',
+  'VILDAGLIPTINE + CHLORHYDRATE DE METFORMINE': 'Antidiabétiques — Gliptines + biguanide',
+  'ASCORBATE FERREUX + ACIDE FOLIQUE + SULFATE DE ZIC MONOHYDRATE': 'Vitamines / Minéraux — Fer',
+  'LACTATE DE SODIUM + CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CHLORURE DE CALCIUM': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'VITAMINE B1 + VITAMINE B2 + VITAMINE B6 + NIACINAMIDE + DEXPANTHENOL': 'Vitamines / Minéraux — Multivitamines',
+  'ACIDE ASCORBIQUE + CARBONATE DE CALCIUM': 'Vitamines / Minéraux',
+  'VITAMINE E': 'Vitamines / Minéraux — Multivitamines',
+  'ACIDE ASCORBIQUE (VITAMINE C) + ASCORBATE DE SODIUM': 'Vitamines / Minéraux — Multivitamines',
+  'VITAMINE B1 ~ THIAMINE CHLORHYDRATE + VITAMINE B6 ~ PYRIDOXINE CHLORHYDRATE': 'Vitamines / Minéraux — Multivitamines',
+  'DICLOFENAC SODIUM + HUILE DE LIN + SALICYLATE DE METHYLE + MENTHOL': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC SODIQUE + PARACETAMOL': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC DE POTASSIUM': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC DIEHTYLAMINE + HUILE DE LIN - SALICYLATE DE METHYLE + MENTHOL (5%) + ALCOOL BENZYYLIQUE (1%)': 'Anti-inflammatoires (AINS)',
+  'DICLOFENAC POTASSIQUE': 'Anti-inflammatoires (AINS)',
+  'ACIDE BENZOIQUE + ACIDE SALICYLIQUE': 'Dermatologie — Kératolytiques',
+  'BROMHEXINE HCL + GUAIFENESINE + ETHANOL': 'Pneumologie — Mucolytiques',
+  'LEVOCETIRIZINE + MONTELUKAST': 'Pneumologie — Antileucotriènes',
+  'CHLORHYDRATE DE FEXOFENADINE': 'Antihistaminiques',
+  'ARTOVASTATINE CALCIUM': 'Cardiovasculaires — Hypolipémiants (statines)',
+  'PARACETAMOL + THIOCOLCHICOSIDE': 'Myorelaxants',
+  'LEVOCETIRIZINE DICHLORHYDRATE': 'Antihistaminiques',
+  'DEXTROSE + FRUCTOSE + CITRATE DE POTASSIUM + CHLORURE DE SODIUM + ACIDE CITRIQUE': 'Nutrition / Perfusion — Solutés électrolytiques',
+  'SALICYLAMIDE + PARACETAMOL + CAFEINE ANHYDRE + CHLORPHENIRAMINE MALEATE': 'Analgésiques / Antipyrétiques',
+  'PARACETAMOL + CAFEINE + MALEATE DE CHLORPHENAMINE': 'Analgésiques / Antipyrétiques',
+  'ENALAPRIL + LERCANIDIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  'LIDOCAINE CHLORHYDRATE': 'Anesthésiques — Locaux',
+  'LOSARTAN POTASSIQUE + AMLODIPINE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'LIDOCAINE CHLORHYDRATE + EPINEPHRINE': 'Anesthésiques — Locaux',
+  'ZINCUM + VITAMINE D': 'Vitamines / Minéraux — Multivitamines',
+  'DIGLUCONATE DE CHLORHEXIDINE': 'Antiseptiques / Désinfectants',
+  'CHLORHEXIDINE DIGLUCONATE': 'Antiseptiques / Désinfectants',
+  'CYPROHEPTADINE OROTATE + CARNITINE CHLORHYDRATE + LYSINE CHLORHYDRATE + VITAMINE B1 + VITAMINE B6 + VITAMINE B12': 'Vitamines / Minéraux — Acides aminés',
+  // ── PATCH v71c — Entrées finales ──
+  'CALCIUM élément': 'Vitamines / Minéraux',
+  'PERINDOPRIL ARGININE + ARGININE': 'Cardiovasculaires — IEC',
+  'ENALAPRIL MALEATE': 'Cardiovasculaires — IEC',
+  "CHLORHYDRATE D'EPHEDRINE": 'Pneumologie — Bronchodilatateurs bêta2',
+  'PHENOBARBITAL SODIUM': 'Neurologie — Antiépileptiques',
+  "CHLORURE DE SODIUM + GLUCONATE DE SODIUM + ACETATE DE SODIUM TRIHYDRATE + CHLORURE DE POTASSIUM + -": 'Nutrition / Perfusion — Solutés électrolytiques',
+  'RIFAMPICINE + ISONIAZIDE': 'Antituberculeux',
+  'RIFAMPICINE + ISONIAZIDE + PYRAZINAMIDE + ETHAMBUTOL': 'Antituberculeux',
+  'FER ELEMENT': 'Vitamines / Minéraux — Fer',
+
+  // ── PATCH v71d — Entrées avec apostrophes échappées ──
+  "ACETATE D\'HYDROCORTISONE + LIDOCAINE + OXYDE DE ZINC + ALLANTOÏNE": 'Dermatologie — Anti-inflammatoires topiques',
+  "ACIDE ASCORBIQUE + BROMURE DE SODIUM + TEINTURE DE GRINDELIA + EXTRAIT CONCENTRE D\'ESPECES PECTORALES + BENZOATE DE SODIUM": 'Pneumologie — Antitussifs',
+  "ARTESUNATE + CHLORHYDRATE D\'AMODIAQUINE": 'Antiparasitaires — Antipaludéens',
+  "ASPARTATE D\'ARGININE": 'Hépatologie — Hépatoprotecteurs',
+  "BESILATE D\'AMLODIPINE": 'Cardiovasculaires — Inhibiteurs calciques',
+  "BESILATE D\'AMLODIPINE + -VALSARTAN": 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  "BESILATE D\'AMLODIPINE + VALSARTAN": 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  "BUTYLBROMURE D' HYOSCINE": 'Gastroentérologie — Antispasmodiques',
+  "CHLORHYDRATE DE LIDOCAINE + DIISETHIONATE D\'HEXAMIDINE": 'Anesthésiques — Locaux',
+  "CHLORHYDRATE D\'ALFUZOSINE": 'Urologie — Alpha-bloquants',
+  "CHLORHYDRATE D\'AMBROXOL": 'Pneumologie — Mucolytiques',
+  "CHLORHYDRATE D\'AMITRIPTYLINE": 'Neurologie — Antidépresseurs tricycliques',
+  "CHLORHYDRATE D\'ANTAZOLINE + CHLORHYDRATE DE TETRYZOLINE": 'Ophtalmologie — Antiallergiques',
+  "CHLORHYDRATE D\'AZELASTINE": 'Antihistaminiques',
+  "CHLORHYDRATE D\'OXYBUPROCAINE": 'Ophtalmologie — Anesthésiques locaux',
+  "CHLORHYDRATE D\'OXYMETAZOLINE": 'ORL — Décongestionnants',
+  "CHLORHYDRATE D\'OXYTETRACYCLINE + SULFATE DE POLYMYXINE B + PHOSPHATE SODIQUE DE DEXAMETHASONE + NYSTATINE": 'Ophtalmologie — Antibiotiques + corticoïde',
+  "CITRATE D\'AMMONIUM FERRIQUE + ACIDE FOLIQUE + VIT B12": 'Vitamines / Minéraux — Fer',
+  "CITRATE D\'AMMONIUM FERRIQUE + CYANOCOBALAMINE + ACIDE FOLIQUE": 'Vitamines / Minéraux — Fer',
+  "CODETHYLINE CHLORHYDRATE + TEINTURE D\'ACONIT + TEINTURE DE GRINDELIA + EAU DE LAURIER CERISE + TEINTURE DE BELLADONE": 'Pneumologie — Antitussifs',
+  "DIPHENHHYDRAMINE CHLORHYDRATE + CHLORURE D\'AMMONIUM + MENTHOL": 'Pneumologie — Antitussifs',
+  "D\'ISOSORBIDE DINITRATE": 'Cardiovasculaires — Dérivés nitrés',
+  "FRAGMENTS D\'IMMUNOGLOBULINES ANTIRABIQUES EQUINE": 'Vaccins',
+  "FUROSEMIDE + CHLORHYDRATE D\'AMLORIDE": 'Cardiovasculaires — Diurétiques (association)',
+  "GLUCONATE DE CALCIUM GLUCONATE DE CALCIUM + GLYCEROPHOSPHATE DE CALCIUM + CALCIUM D\'HYDROGENE PHOSPHORIQUE + VITAMINE B1 + VITAMINE D2": 'Vitamines / Minéraux',
+  "huile de soja + lécithine d\'œufs + glycérol": 'Nutrition parentérale',
+  "HYDROXYDE D\'ALUMINIUM": 'Gastroentérologie — Antiacides',
+  "HYDROXYDE D\'ALUMINIUM SECHE": 'Gastroentérologie — Antiacides',
+  "MALEATE D\'ENALAPRIL": 'Cardiovasculaires — IEC',
+  "PEROXYDE D\'HYDROGENE": 'Antiseptiques / Désinfectants',
+  "PHOSPHATE D' ALUMINIUM": 'Gastroentérologie — Antiacides',
+  "SOLUTION CONCENTREE D\'HYPOCHLORITE DE SODIUM (CHLORE ACTIF)": 'Antiseptiques / Désinfectants',
+  "SOLUTION DE GLUCOSE 150G/L + SOLUTION D\'ACIDES AMINES A 10% (CELEMIN 10 PLUS) + SOLUTION LIPIDIQUE (CELEPID MCT-LCT 20%)": 'Nutrition parentérale',
+  "SOLUTION DE PEROXYDE D\'HYDROGENE": 'Antiseptiques / Désinfectants',
+  "SOLUTION DE PEROXYDSE D\'HYDROGENE + .": 'Antiseptiques / Désinfectants',
+  "SULFADIAZINE D\'ARGENT": 'Dermatologie — Antiseptiques',
+  "SULFAGUANIDINE + BI- IODOXYQUINOLEINE + CHARBON ACTIVE + POUDRE D\'OPIUM": 'Gastroentérologie — Antidiarrhéiques',
+  "SULFATE D\'ATROPINE": 'Urgences — Anticholinergiques',
+  "TERPINE + HUILE ESSENTIELLE DE PIN DE SIBERIE + HUILE ESSENTIELLE DE NIAOULI + HUILE ESSENTIELLE D\'EUCALYPTUS": 'Pneumologie — Antitussifs',
+  "TRIHYDRATE D\'AMOXICILLINE + CLAVULANATE DE POTASSIUM": 'Antibiotiques — Pénicillines',
+  "CHLORHYDRATE D'EPHEDRINE": 'Pneumologie — Bronchodilatateurs bêta2',
+
+  // ── PATCH v71e — DCIs avec apostrophes (forme runtime) ──
+  "CHLORHYDRATE D'AZELASTINE": 'Antihistaminiques',
+  "CHLORHYDRATE D'AMITRIPTYLINE": 'Neurologie — Antidépresseurs tricycliques',
+  "BESILATE D'AMLODIPINE": 'Cardiovasculaires — Inhibiteurs calciques',
+  "ACETATE D'HYDROCORTISONE + LIDOCAINE + OXYDE DE ZINC + ALLANTOÏNE": 'Dermatologie — Anti-inflammatoires topiques',
+  "ARTESUNATE + CHLORHYDRATE D'AMODIAQUINE": 'Antiparasitaires — Antipaludéens',
+  "CHLORHYDRATE D'OXYTETRACYCLINE + SULFATE DE POLYMYXINE B + PHOSPHATE SODIQUE DE DEXAMETHASONE + NYSTATINE": 'Ophtalmologie — Antibiotiques + corticoïde',
+  "CHLORHYDRATE D'OXYBUPROCAINE": 'Ophtalmologie — Anesthésiques locaux',
+  "huile de soja + lécithine d'œufs + glycérol": 'Nutrition parentérale',
+  "SULFATE D'ATROPINE": 'Urgences — Anticholinergiques',
+  "SULFAGUANIDINE + BI- IODOXYQUINOLEINE + CHARBON ACTIVE + POUDRE D'OPIUM": 'Gastroentérologie — Antidiarrhéiques',
+  "CHLORHYDRATE DE LIDOCAINE + DIISETHIONATE D'HEXAMIDINE": 'Anesthésiques — Locaux',
+  "D'ISOSORBIDE DINITRATE": 'Cardiovasculaires — Dérivés nitrés',
+  "SOLUTION CONCENTREE D'HYPOCHLORITE DE SODIUM (CHLORE ACTIF)": 'Antiseptiques / Désinfectants',
+  "SOLUTION DE PEROXYDE D'HYDROGENE": 'Antiseptiques / Désinfectants',
+  "PEROXYDE D'HYDROGENE": 'Antiseptiques / Désinfectants',
+  // ❓ SOLUTION DE PEROXYDSE D'HYDROGENE + .
+  "FRAGMENTS D'IMMUNOGLOBULINES ANTIRABIQUES EQUINE": 'Vaccins',
+  "HYDROXYDE D'ALUMINIUM": 'Gastroentérologie — Antiacides',
+  "CITRATE D'AMMONIUM FERRIQUE + CYANOCOBALAMINE + ACIDE FOLIQUE": 'Vitamines / Minéraux — Fer',
+  "TRIHYDRATE D'AMOXICILLINE + CLAVULANATE DE POTASSIUM": 'Antibiotiques — Pénicillines',
+  "DIPHENHHYDRAMINE CHLORHYDRATE + CHLORURE D'AMMONIUM + MENTHOL": 'Pneumologie — Antitussifs',
+  "FUROSEMIDE + CHLORHYDRATE D'AMLORIDE": 'Cardiovasculaires — Diurétiques (association)',
+  "HYDROXYDE D'ALUMINIUM SECHE": 'Gastroentérologie — Antiacides',
+  "GLUCONATE DE CALCIUM GLUCONATE DE CALCIUM + GLYCEROPHOSPHATE DE CALCIUM + CALCIUM D'HYDROGENE PHOSPHORIQUE + VITAMINE B1 + VITAMINE D2": 'Vitamines / Minéraux',
+  "CHLORHYDRATE D'ALFUZOSINE": 'Urologie — Alpha-bloquants',
+  "ASPARTATE D'ARGININE": 'Hépatologie — Hépatoprotecteurs',
+  "MALEATE D'ENALAPRIL": 'Cardiovasculaires — IEC',
+  "CHLORHYDRATE D'AMBROXOL": 'Pneumologie — Mucolytiques',
+  "SULFADIAZINE D'ARGENT": 'Dermatologie — Antiseptiques',
+  "CHLORHYDRATE D'OXYMETAZOLINE": 'ORL — Décongestionnants',
+  "CODETHYLINE CHLORHYDRATE + TEINTURE D'ACONIT + TEINTURE DE GRINDELIA + EAU DE LAURIER CERISE + TEINTURE DE BELLADONE": 'Pneumologie — Antitussifs',
+  "ACIDE ASCORBIQUE + BROMURE DE SODIUM + TEINTURE DE GRINDELIA + EXTRAIT CONCENTRE D'ESPECES PECTORALES + BENZOATE DE SODIUM": 'Pneumologie — Antitussifs',
+  "TERPINE + HUILE ESSENTIELLE DE PIN DE SIBERIE + HUILE ESSENTIELLE DE NIAOULI + HUILE ESSENTIELLE D'EUCALYPTUS": 'Pneumologie — Antitussifs',
+  "SOLUTION DE GLUCOSE 150G/L + SOLUTION D'ACIDES AMINES A 10% (CELEMIN 10 PLUS) + SOLUTION LIPIDIQUE (CELEPID MCT-LCT 20%)": 'Nutrition parentérale',
+  "CITRATE D'AMMONIUM FERRIQUE + ACIDE FOLIQUE + VIT B12": 'Vitamines / Minéraux — Fer',
+  "CHLORHYDRATE D'ANTAZOLINE + CHLORHYDRATE DE TETRYZOLINE": 'Ophtalmologie — Antiallergiques',
+  "BESILATE D'AMLODIPINE + VALSARTAN": 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  "BESILATE D'AMLODIPINE + -VALSARTAN": 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+
+  "CHLORHYDRATE D'EPHEDRINE": 'Pneumologie — Bronchodilatateurs bêta2',
+
+  // ── PATCH v74 — DCIs sans classe thérapeutique (casse différente, variantes, combinaisons) ──
+  'INSULINE HUMAINE (ADNr)': 'Antidiabétiques — Insulines',
+  'ALFUZOSINE CHLORHYDRATE': 'Urologie — Hypertrophie bénigne de la prostate',
+  'AMLODIPINE + PERINDOPRIL ERBUMINE': 'Cardiovasculaires — Inhibiteurs calciques + IEC',
+  'AMLODIPINE + PERINDOPRIL ERBUMINE + INDAPAMIDE': 'Cardiovasculaires — Inhibiteurs calciques + IEC + diurétique',
+  'Ampicilline': 'Antibiotiques — Pénicillines',
+  'PARACETAMOL + TRAMADOL CHLORHYDRATE': 'Analgésiques — Opioïdes',
+  'IBESARTAN + AMLODIPINE BESILATE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'IRBESARTAN + AMLODIPINE BESILATE': 'Cardiovasculaires — Inhibiteurs calciques + sartan',
+  'CHLORTETRACYCLINE HCL': 'Antibiotiques — Tétracyclines',
+  'Azithromycine': 'Antibiotiques — Macrolides',
+  'IMIPENEME ANHYDRE + CILASTATINE BICARBONATE DE SODIUM': 'Antibiotiques — Autres (carbapénèmes)',
+  'IMIPENEME ANHYDRE + CILASTATINE': 'Antibiotiques — Autres (carbapénèmes)',
+  'BECLOMETASONE DIPROPIONATE (anhydre)': 'Corticoïdes',
+  'Cefixime trihydrate': 'Antibiotiques — Céphalosporines',
+  'Cefixime': 'Antibiotiques — Céphalosporines',
+  'Ceftriaxone': 'Antibiotiques — Céphalosporines',
+  'PERINDOPRIL ARGININE + AMLODIPINE': 'Cardiovasculaires — IEC + inhibiteur calcique',
+  "CHLORHYDRATE D’EPHEDRINE": 'Pneumologie — Bronchodilatateurs bêta2',
+  'ACETYLCYSTEINE': 'Pneumologie — Mucolytiques',
+  'FORMOTEROL FUMARATEDIHYDRATE + BUDESONIDE': 'Pneumologie — Bronchodilatateurs + corticoïde',
+  'PHLOROGLUCINOL HYDRATE + TRIMETHYLPHLOROGLUCIN OL': 'Gastroentérologie — Antispasmodiques',
+  'clopidogrel': 'Cardiovasculaires — Antiagrégants plaquettaires',
+  'DICHLORHYDRATE DE LEVOCETIRIZINE': 'Antihistaminiques',
+  'loratadine': 'Antihistaminiques',
+  'MYCOPHENOLIC ACIDE': 'Immunosuppresseurs',
+  'CHLORHYDRATE DE XYLOMETAZOLINE': 'ORL — Décongestionnants',
+  'XYLOMETAZOLINE CHLORHYDRATE': 'ORL — Décongestionnants',
+  'BRINZOLAMIDE + TARTRATE DE BRIMONIDINE': 'Ophtalmologie — Antiglaucomateux (association)',
+  'PERINDOPRIL ARGININE + INDAPAMIDE + AMLODIPINE': 'Cardiovasculaires — IEC + diurétique + inhibiteur calcique',
+  'ATORVASTATINE + PERINDOPRIL ARGININE + AMLODIPINE': 'Cardiovasculaires — Hypolipémiants + IEC + inhibiteur calcique',
+  'SOLIFENACINE SUCCINATE': 'Urologie — Anticholinergiques (vessie hyperactive)',
+  'LEVOCETIRIZINE DICHLORHYDRATE': 'Antihistaminiques',
+  'RTA': 'Phytothérapie / Produits divers',
+  'NA': 'Dispositifs médicaux / Hygiène / Diagnostics',
+
 };
 
 // Fonction pour obtenir la classe thérapeutique d'un médicament
 function getClasseTherapeutique(m) {
   if (!m || !m.dci) return 'Non classifié';
+  const nomUpper = (m.nom || '').toUpperCase();
+  // Surclassement par nom de produit (cas où la DCI seule est ambiguë)
+  if (nomUpper.includes('BEPANTHEN')) return 'Dermatologie — Cicatrisants / Protecteurs cutanés';
   const dciUpper = (m.dci || '').toUpperCase().trim();
   // Recherche exacte d'abord
   if (DCI_TO_CLASSE[dciUpper]) return DCI_TO_CLASSE[dciUpper];
@@ -14248,7 +14805,8 @@ function esc(s) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // esc2 : alias de esc utilisé dans le module ordonnance (IIFE)
@@ -14257,7 +14815,8 @@ function esc2(s) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function hl(text, q) {
@@ -16004,6 +16563,11 @@ function switchTab(name, btn) {
     }
     updateCertPreview();
   }
+  // FIX: case 'gardes' — le panel gardes est un modal overlay, pas un .panel standard
+  // Si switchTab est appelé avec 'gardes' (ex: lien direct), ouvrir le modal proprement
+  if (name === 'gardes') {
+    if (typeof openGardeModal === 'function') openGardeModal();
+  }
 }
 window.switchTab = switchTab;
 
@@ -16257,6 +16821,8 @@ function applyHeaderSortState() {
 }
 
 function applyMedFilters() {
+  // Réinitialiser la pagination à chaque nouveau filtre (évite de rester sur une page inexistante)
+  currentPage = 1;
   filteredMeds = MEDICINES_WITH_NOTICE.filter(m => {
     if (formeQ && (m.forme || '') !== formeQ) return false;
     if (classeQ && (m.classeTherapeutique || '') !== classeQ) return false;
@@ -16972,6 +17538,12 @@ function renderGardeData() {
     </div>`;
 
   bodyEl.innerHTML = html;
+  // FIX: restaurer le focus et la position du curseur sur l'input de recherche après innerHTML
+  // (innerHTML recrée l'élément → focus perdu sur Android WebView)
+  if (gardeSearchQ) {
+    const _gs = document.getElementById('gardeSearch');
+    if (_gs) { _gs.focus(); _gs.setSelectionRange(9999, 9999); }
+  }
 }
 </script>
 <!-- Cloudflare beacon removed for offline compatibility -->
@@ -17118,6 +17690,7 @@ function closeSug(id) {
   const sug = document.getElementById('ordo-sug-' + id);
   if (sug) sug.classList.remove('open');
 }
+window.closeSug = closeSug;
 
 function ordoMedUpdate(id, field, val) {
   const med = ordoMeds.find(m => m.id === id);
@@ -17163,7 +17736,7 @@ function updateOrdoPreview() {
           <div>
             <div class="op-rx-name">${esc2(m.nom) || '<em style="color:#9CA3AF;font-weight:400;">Médicament non renseigné</em>'}</div>
             ${m.dci ? `<div class="op-rx-dci">${esc2(m.dci)}</div>` : ''}
-            ${m.dosage || m.posologie || m.duree ? `<div class="op-rx-dose">${[m.dosage, m.posologie, m.duree ? 'Durée : ' + m.duree : ''].filter(Boolean).join(' — ')}</div>` : ''}
+            ${m.dosage || m.posologie || m.duree ? `<div class="op-rx-dose">${[m.dosage ? esc2(m.dosage) : null, m.posologie ? esc2(m.posologie) : null, m.duree ? 'Durée : ' + esc2(m.duree) : null].filter(Boolean).join(' — ')}</div>` : ''}
             ${m.note ? `<div class="op-rx-note">ℹ ${esc2(m.note)}</div>` : ''}
           </div>
         </div>
@@ -17466,9 +18039,11 @@ function renderOrdoFavoris() {
 window.renderOrdoFavoris = renderOrdoFavoris;
 window.renderOrdoMeds = renderOrdoMeds;
 
-// Init favoris au chargement (readyState guard : évite le manque de déclenchement si DOM déjà chargé)
+// Init favoris au chargement — readyState guard uniquement (évite la race condition du double DOMContentLoaded)
+// Le bloc DOMContentLoaded unifié (ligne ~16502) gère déjà l'init principale.
+// Ici on s'assure que renderOrdoFavoris() s'exécute quelle que soit la vitesse du WebView.
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() { renderOrdoFavoris(); });
+  document.addEventListener('DOMContentLoaded', function() { renderOrdoFavoris(); }, { once: true });
 } else {
   renderOrdoFavoris();
 }
@@ -17553,5 +18128,8 @@ if (document.readyState === 'loading') {
 
 <!-- Cloudflare beacon supprimé — incompatible mode offline/local -->
 <!-- BUG FIX v70: beacon dupliqué supprimé (était chargé 2 fois) -->
-</body>
+
+<script>
+if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js");});}
+</script></body>
 </html>

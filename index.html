@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments &amp; Pharmacies — Madagascar — v72</title>
+<title>Médicaments &amp; Pharmacies — Madagascar — v74</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <!-- Google Fonts — chargement non-bloquant pour compatibilité offline Android WebView -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -13058,6 +13058,136 @@ function buildAdditionalReliablePosology(m = {}) {
     };
   }
 
+  if ((name.includes('DEXERYL') || (contains('GLYCEROL', 'VASELINE') && containsAny('PARAFFINE'))) && /CREME|BAUME|POMMADE/.test(route)) {
+    return {
+      voie: 'Voie cutanée',
+      standard: 'Émollient protecteur à appliquer en couche fine sur peau propre et sèche, 1 à 2 fois/j selon la sécheresse.',
+      adulte: 'Adulte : 1 à 2 applications/j ; en pratique, une augmentation de fréquence peut être envisagée si la sécheresse cutanée l’exige.',
+      enfant: 'Même repère pratique chez l’enfant, avec application sur peau propre et sèche ; réévaluer chez le nourrisson ou si lésions étendues.',
+      adaptation: 'Éviter l’application sur plaies profondes, muqueuses ou lésions surinfectées ; surveiller toute irritation ou intolérance locale.',
+      conseil: 'Appliquer après la toilette, sur peau bien séchée ; noter la date d’ouverture du tube et l’utiliser selon la durée de conservation indiquée par le fabricant.',
+      source: 'Vidal — DEXERYL DM crème / GLYCEROL-VASELINE-PARAFFINE ARROW',
+      source_url: 'https://www.vidal.fr/parapharmacie/dexeryl-dm-creme-pour-application-cutanee-252684.html'
+    };
+  }
+
+  if (name.includes('CARBOSYLANE') || (contains('CHARBON ACTIF', 'SIMETICONE') && !contains('OXYDE DE MAGNESIUM'))) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Adsorbant/carminatif utilisé pour les ballonnements, généralement en 3 prises/j.',
+      adulte: 'Adulte et enfant de plus de 6 ans : 1 dose (soit 1 gélule bleue + 1 gélule rouge), 3 fois/j.',
+      enfant: 'Même repère à partir de 6 ans ; pas de schéma standard retenu ici avant 6 ans.',
+      adaptation: 'Espacer d’au moins 2 heures avec les autres médicaments en raison d’un risque de diminution d’absorption digestive ; traitement court à réévaluer si les symptômes persistent.',
+      conseil: 'Prendre avec un verre d’eau ; corriger si possible les facteurs alimentaires favorisant l’aérophagie et les flatulences.',
+      source: 'Vidal — CARBOSYLANE',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/carbosylane-14216.html'
+    };
+  }
+
+  if (name.includes('CARBOSYMAG') || contains('CHARBON ACTIF', 'SIMETICONE', 'OXYDE DE MAGNESIUM')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Adsorbant/carminatif à visée symptomatique, administré en 3 prises/j.',
+      adulte: 'Adulte : 1 dose, 3 fois/j.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans la source consultée.',
+      adaptation: 'Espacer d’au moins 2 heures avec les autres médicaments oraux ; réévaluer en cas de douleurs persistantes, amaigrissement ou troubles du transit associés.',
+      conseil: 'Prendre avec de l’eau et privilégier une mastication lente ainsi qu’une réduction des aliments très fermentescibles.',
+      source: 'Vidal — CARBOSYMAG',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/carbosymag-17784.html'
+    };
+  }
+
+  if (name.includes('BOLINAN') || containsAny('POLYVINYLPOLYPYRROLID', 'CROSPOVIDONE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Adsorbant digestif pris au moment des repas, après délayage dans l’eau.',
+      adulte: 'Posologie usuelle : 4 comprimés/j.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans la source consultée.',
+      adaptation: 'Espacer la prise d’au moins 2 heures avec les autres médicaments oraux en raison du risque d’adsorption digestive.',
+      conseil: 'Délayer les comprimés dans un demi-verre d’eau et les prendre au moment des repas.',
+      source: 'Vidal — BOLINAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/bolinan-1274.html'
+    };
+  }
+
+  if (name.includes('IMPORTAL') || containsAny('LACTITOL')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Laxatif osmotique en 1 prise/j, avec adaptation progressive selon la réponse clinique.',
+      adulte: 'Adulte et enfant de plus de 15 ans : 2 sachets à 10 g/j en 1 prise.',
+      enfant: 'Enfant de 7 à 14 ans : 1 sachet à 10 g/j ou 2 sachets à 5 g/j. Pas de schéma standard retenu ici avant 7 ans à partir du résultat Vidal retrouvé.',
+      adaptation: 'Adapter la dose à l’effet clinique recherché ; veiller à une hydratation suffisante et réévaluer si la constipation persiste.',
+      conseil: 'Diluer selon la présentation, de préférence à heure fixe ; prévenir le patient d’un possible ballonnement initial.',
+      source: 'Vidal — IMPORTAL',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/importal-4883.html'
+    };
+  }
+
+  if ((same('ONDANSETRON') || containsAny('ONDANSETRON', 'ONDASETRON')) && !injectable) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antagoniste 5-HT3 en 1 à 2 prises/j selon le contexte, surtout pour prévenir ou traiter nausées et vomissements induits.',
+      adulte: 'Adulte : 1 comprimé à 8 mg toutes les 12 heures pendant 2 à 5 jours ; selon l’indication, une première prise de 8 mg peut être administrée avant la chimiothérapie.',
+      enfant: 'Enfant de plus de 6 mois : la dose est calculée en fonction du poids et de la surface corporelle selon la spécialité ; un schéma pédiatrique spécialisé reste nécessaire.',
+      adaptation: 'Prudence en cas d’allongement du QT, de troubles électrolytiques ou d’association avec d’autres médicaments pro-arythmogènes.',
+      conseil: 'Respecter strictement le dosage de la spécialité (4 mg ou 8 mg) et vérifier la forme orodispersible avant administration chez l’enfant.',
+      source: 'Vidal — ONDANSETRON BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/ondansetron-biogaran-30028.html'
+    };
+  }
+
+  if (containsAny('PALONOSETRON', 'PALONOSETRAN') && injectable) {
+    return {
+      voie: 'Voie intraveineuse',
+      standard: 'Antagoniste 5-HT3 injectable administré en dose unique préventive le jour de la chimiothérapie.',
+      adulte: 'Adulte : 250 microgrammes en dose unique le jour de la chimiothérapie.',
+      enfant: 'Enfant de 1 mois à 18 ans : 20 microgrammes/kg en dose unique, sans dépasser 1 500 microgrammes.',
+      adaptation: 'Administrer avant le début de la chimiothérapie selon le protocole local ; prudence en cas de risque d’allongement du QT ou d’association avec d’autres antiémétiques sérotoninergiques.',
+      conseil: 'Vérifier la dilution et la durée d’administration selon la spécialité hospitalière utilisée.',
+      source: 'Vidal — Palonosétron (fiche DCI)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/palonosetron-22697.html'
+    };
+  }
+
+  if ((same('PANTOPRAZOLE') || containsAny('PANTOPRAZOLE')) && !injectable) {
+    return {
+      voie: 'Voie orale',
+      standard: 'IPP à administrer en 1 prise/j, idéalement 1 heure avant le repas ; schéma renforcé possible pour l’éradication d’Helicobacter pylori.',
+      adulte: 'Adulte : 20 à 40 mg/j selon l’indication. Éradication d’Helicobacter pylori : 40 mg 2 fois/j pendant 7 jours en association antibiotique, puis 40 mg 1 fois/j pendant au moins 3 semaines.',
+      enfant: 'Pas de schéma pédiatrique simple retenu ici à partir du résultat Vidal retrouvé pour les spécialités consultées.',
+      adaptation: 'Avaler le comprimé entier sans croquer ni écraser ; réévaluer en cas de persistance des symptômes au-delà de quelques semaines.',
+      conseil: 'Administrer avant le repas, à heure régulière ; vérifier la dose exacte selon la spécialité locale (20 mg ou 40 mg).',
+      source: 'Vidal — PANTOPRAZOLE ALTER',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/pantoprazole-alter-37439.html'
+    };
+  }
+
+  if ((same('RABEPRAZOLE') || containsAny('RABEPRAZOLE')) && !injectable) {
+    return {
+      voie: 'Voie orale',
+      standard: 'IPP administré en 1 prise/j, avec schéma renforcé si éradication d’Helicobacter pylori.',
+      adulte: 'Adulte : 10 à 20 mg/j en 1 prise. En cas d’éradication d’Helicobacter pylori : 20 mg 2 fois/j pendant 7 jours, puis 20 mg 1 fois/j selon l’indication.',
+      enfant: 'Pas de schéma pédiatrique standard retenu dans la source consultée.',
+      adaptation: 'Prendre selon la spécialité consultée en respectant le dosage gastro-résistant ; prudence en automédication prolongée.',
+      conseil: 'Avaler le comprimé gastro-résistant entier ; vérifier la durée exacte de traitement selon l’indication clinique.',
+      source: 'Vidal — RABEPRAZOLE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/rabeprazole-biogaran-55784.html'
+    };
+  }
+
+  if (name.includes('WHITFIELD') || contains('ACIDE BENZOIQUE', 'ACIDE SALICYLIQUE')) {
+    return {
+      voie: 'Voie cutanée',
+      standard: 'Pommade kératolytique/antifongique à appliquer régulièrement sur peau propre et sèche.',
+      adulte: 'Adulte : appliquer 2 fois/j sur la zone atteinte.',
+      enfant: 'Enfant : appliquer 2 fois/j sur la zone atteinte avec prudence sur petites surfaces ; réévaluer en cas d’irritation.',
+      adaptation: 'Éviter le contact avec les yeux, les muqueuses et les lésions très inflammatoires ou étendues ; interrompre en cas d’irritation marquée.',
+      conseil: 'Nettoyer puis sécher soigneusement la zone avant application ; se laver les mains après usage.',
+      source: 'eMC SmPC — Salicylic Acid Ointment BP',
+      source_url: 'https://www.medicines.org.uk/emc/product/4961/smpc'
+    };
+  }
+
   return null;
 }
 
@@ -15372,7 +15502,7 @@ function renderHopDirectory() {
 }
 
 (function init() {
-  console.log('[MedMada] v70 — corrections bugs critiques chargement sections');
+  console.log('[MedMada] v74 — corrections bugs critiques: beacon CF, goPage scroll, double listeners, ordo tel/addr, debounce garde, cert init');
   var _sm = document.getElementById('statMeds'); if (_sm) _sm.textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
   var _sp = document.getElementById('statPharms'); if (_sp) _sp.textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
 
@@ -16090,8 +16220,9 @@ function renderCertFields(fields) {
 }
 
 function onCertRadioChange(fieldId, value) {
-  // Show/hide conditional fields
-  document.querySelectorAll('[data-show-if]').forEach(el => {
+  // BUG FIX v74: restreindre au container pour eviter les faux positifs sur d'autres panels
+  const container = document.getElementById('cert-dynamic-fields') || document;
+  container.querySelectorAll('[data-show-if]').forEach(function(el) {
     el.style.display = el.dataset.showIf === value ? '' : 'none';
   });
   updateCertPreview();
@@ -16171,6 +16302,7 @@ function printCertificat() {
 
   // Post-process certContent: replace the whole .cp-sign block
   // so that "Fait à ... le ..." appears ABOVE the signature box
+  // BUG FIX v74: si le replace ne match pas (structure HTML changee), garder certContent intact
   const finalContent = certContent.replace(
     /<div class="cp-sign">\s*<div class="cp-sign-lieu">([^<]*)<\/div>\s*<div class="cp-sign-label">[^<]*<\/div>\s*<\/div>/g,
     (match, dateText) => `<div class="cp-sign">
@@ -16597,15 +16729,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // ── 2. Initialiser le certificat par défaut ──
-  switchCert('inaptitude', null);
+  // BUG FIX v74: initialiser la date avant switchCert pour que le preview soit correct dès le premier rendu
   var certDateEl = document.getElementById('cert-date');
-  if (certDateEl) {
+  if (certDateEl && !certDateEl.value) {
     var today = new Date();
     certDateEl.value = today.getFullYear() + '-'
       + String(today.getMonth()+1).padStart(2,'0') + '-'
       + String(today.getDate()).padStart(2,'0');
   }
-  updateCertPreview();
+  switchCert('inaptitude', null); // appelle renderCertFields + updateCertPreview en interne
 
   // ── 3. Attacher les listeners de recherche ──
   var pharmInput = document.getElementById('pharm-search');
@@ -16661,8 +16793,13 @@ document.addEventListener('DOMContentLoaded', function() {
   if (_cvInit)   _cvInit.style.display   = currentView === 'cards' ? 'grid' : 'none';
   // Forcer le rendu du panneau actif (pharmacies) et des médicaments en différé
   renderPharm();
-  // Différer applyMedFilters pour ne pas bloquer le thread principal au chargement
-  setTimeout(function() { applyMedFilters(); }, 100);
+  // BUG FIX v74: applyMedFilters() déjà appelé par le IIFE init() au chargement.
+  // On ne le rappelle ici que si le panel médicaments est actif au démarrage.
+  // Évite le double-render qui bloquait le thread principal sur Android WebView.
+  if (document.getElementById('panel-medicaments') &&
+      document.getElementById('panel-medicaments').classList.contains('active')) {
+    setTimeout(function() { applyMedFilters(); }, 150);
+  }
 });
 
 // ====================
@@ -16941,7 +17078,15 @@ function goPage(p) {
   const totalPages = Math.max(1, Math.ceil(filteredMeds.length / PER_PAGE));
   currentPage = Math.max(1, Math.min(totalPages, p));
   renderMedications();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // BUG FIX v74: scroller vers le haut du panel medicaments (Android WebView)
+  var _medPanel = document.getElementById('panel-medicaments');
+  if (_medPanel) {
+    _medPanel.scrollTop = 0;
+    var _topAnchor = document.getElementById('paginationTop');
+    if (_topAnchor) _topAnchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 // ====================
@@ -17458,9 +17603,12 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+var _gardeSearchTimer = null;
 function onGardeSearch() {
   var _gs = document.getElementById('gardeSearch'); if (_gs) gardeSearchQ = _gs.value.trim().toLowerCase();
-  renderGardeData();
+  // BUG FIX v74: debounce 200ms pour eviter les re-renders sur chaque frappe (Android WebView)
+  clearTimeout(_gardeSearchTimer);
+  _gardeSearchTimer = setTimeout(function() { renderGardeData(); }, 200);
 }
 
 function filterGardeVille(ville, el) {
@@ -17717,7 +17865,9 @@ function updateOrdoPreview() {
   const docNom  = gv('ordo-doc-nom')   || 'Dr —';
   const docSpec = gv('ordo-doc-spec')  || '';
   const docOrdre= gv('ordo-doc-ordre') || '';
-  const docEtab = gv('ordo-doc-etab') || '';
+  const docEtab = gv('ordo-doc-etab')  || '';
+  const docTel  = gv('ordo-doc-tel')   || '';
+  const docAddr = gv('ordo-doc-addr')  || '';
   const patNom  = gv('ordo-pat-nom')   || '—';
   const patAge  = gv('ordo-pat-age')   || '';
   const patPoids= gv('ordo-pat-poids') || '';
@@ -17750,6 +17900,8 @@ function updateOrdoPreview() {
         ${docSpec ? `<div class="op-doc-spec">${esc2(docSpec)}</div>` : ''}
         ${docOrdre ? `<div class="op-doc-ordre">N° ${esc2(docOrdre)}</div>` : ''}
         ${docEtab ? `<div class="op-doc-etab">${esc2(docEtab)}</div>` : ''}
+        ${docTel ? `<div class="op-doc-etab">📞 ${esc2(docTel)}</div>` : ''}
+        ${docAddr ? `<div class="op-doc-etab">📍 ${esc2(docAddr)}</div>` : ''}
       </div>
     </div>
     <div class="op-divider"></div>
@@ -17859,6 +18011,7 @@ function ordoExportPDF() {
   <button class="print-btn" onclick="window.print()">🖨️ Imprimer / Enregistrer PDF</button>
 </div>
 ${cardHtml}
+<script>setTimeout(function(){ window.print(); }, 600);<\/script>
 </body>
 </html>`;
     try {
@@ -18039,16 +18192,14 @@ function renderOrdoFavoris() {
 window.renderOrdoFavoris = renderOrdoFavoris;
 window.renderOrdoMeds = renderOrdoMeds;
 
-// Init favoris au chargement — readyState guard uniquement (évite la race condition du double DOMContentLoaded)
-// Le bloc DOMContentLoaded unifié (ligne ~16502) gère déjà l'init principale.
-// Ici on s'assure que renderOrdoFavoris() s'exécute quelle que soit la vitesse du WebView.
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() { renderOrdoFavoris(); }, { once: true });
-} else {
-  renderOrdoFavoris();
-}
+// BUG FIX v74: init favoris via setTimeout pour eviter la race condition avec le bloc
+// DOMContentLoaded unifie qui appelle aussi renderOrdoFavoris() via ordoInit().
+// Un seul appel difere suffit — on n'enregistre plus de second listener DOMContentLoaded.
+setTimeout(function() {
+  if (typeof renderOrdoFavoris === 'function') renderOrdoFavoris();
+}, 0);
 // Re-render favoris quand l'onglet ordonnance est ouvert
-// Note: ordoInit() appelé par switchTab appelle déjà renderOrdoFavoris() — pas de wrapper nécessaire
+// Note: ordoInit() appele par switchTab appelle deja renderOrdoFavoris() — pas de wrapper necessaire
 
 })(); // end IIFE
 
@@ -18126,8 +18277,7 @@ if (document.readyState === 'loading') {
 
 
 
-<!-- Cloudflare beacon supprimé — incompatible mode offline/local -->
-<!-- BUG FIX v70: beacon dupliqué supprimé (était chargé 2 fois) -->
+<!-- Cloudflare beacon SUPPRIMÉ — incompatible mode offline/Android WebView local (BUG FIX v74) -->
 
 <script>
 if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js");});}

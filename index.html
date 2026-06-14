@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments &amp; Pharmacies — Madagascar — v77</title>
+<title>Médicaments &amp; Pharmacies — Madagascar — v80</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <!-- Google Fonts — chargement non-bloquant pour compatibilité offline Android WebView -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -5944,6 +5944,17 @@ const PRIORITY_DCI_ALIASES = {
   "CALCIUM + CHOLECALCIFEROL": "CALCIUM + VITAMINE D3",
   "SOLUTION DE PEROXYDE D HYDROGENE": "PEROXYDE D HYDROGENE",
   "HUMAN PAPILLOMAVIRUS TYPE 16 L1 PROTEIN + HUMAN PAPILLOMAVIRUS TYPE 18 L1 PROTEIN": "HPV TYPE 16 + HPV TYPE 18",
+  "DUTASTERIDE + TAMSULOSINE CHLORHYDRATE": "DUTASTERIDE + TAMSULOSINE",
+  "BROMHYDRATE DE DEXTROMETHORPHANE": "DEXTROMETHORPHANE",
+  "DEXTROMETHORPHANE BROMHYDRATE": "DEXTROMETHORPHANE",
+  "CROMOGLYCATE SODIUM": "CROMOGLICATE DE SODIUM",
+  "CHLORHYDRATE D’EPHEDRINE": "EPHEDRINE",
+  "D'ISOSORBIDE DINITRATE": "ISOSORBIDE DINITRATE",
+  "FENTANYL BASE": "FENTANYL",
+  "SODIUM BICARBONATE": "BICARBONATE DE SODIUM",
+  "DEXTROSE ANHYDRE + CHLORURE DE SODIUM + CITRATE DE SODIUM + CHLORURE DE POTASSIUM": "SELS DE REHYDRATATION ORALE",
+  "CHLORURE DE SODIUM + CHLORURE DE POTASSIUM + CITRATE DE SODIUM + GLUCOSE ANHYDRE": "SELS DE REHYDRATATION ORALE",
+  "SULFATE DE ZINC MONOHYDRATE": "ZINC SULFATE",
   "IBUBROFEN": "IBUPROFENE"
 };
 
@@ -13948,6 +13959,7 @@ function buildResidualPosology(m = {}) {
   const topical = /CREME|POMMADE|GEL|CUTAN/.test(route);
   const injectable = /INJECT|PERFUSION|PARENTER|IM\/IV|SC\/IV|SC\/IM| IV | IM /.test(` ${route} `);
   const rectal = /RECT|SUPPOSITOIRE/.test(route);
+  const ocular = /COLLYRE|OCULAIRE|OPHT/.test(route);
   const same = (...names) => names.includes(dci);
   const containsName = (...fragments) => fragments.some(f => name.includes(f));
 
@@ -14032,6 +14044,181 @@ function buildResidualPosology(m = {}) {
       conseil: 'Réserver strictement à un cadre obstétrical surveillé avec évaluation hémodynamique continue.',
       source: 'AccessData FDA — HEMABATE (carboprost tromethamine) label',
       source_url: 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/017989s019lbl.pdf'
+    };
+  }
+
+  if (same('DUTASTERIDE + TAMSULOSINE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Association pour les troubles urinaires liés à l’adénome de la prostate, en une prise quotidienne régulière.',
+      adulte: 'Adulte : 1 gélule/j.',
+      enfant: 'Pas d’indication chez la femme ni chez l’enfant ou l’adolescent de moins de 18 ans.',
+      adaptation: 'Prendre 30 minutes après le même repas chaque jour. Prudence en cas d’hypotension orthostatique, d’insuffisance rénale grave ou d’insuffisance hépatique ; prévenir avant chirurgie de la cataracte.',
+      conseil: 'Avaler la gélule entière avec un verre d’eau, sans l’ouvrir ni la mâcher. Se relever progressivement en début de traitement si vertiges.',
+      source: 'Vidal — DUTASTÉRIDE/TAMSULOSINE EG',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/dutasteride-tamsulosine-eg-94394.html'
+    };
+  }
+
+  if (same('DEXTROMETHORPHANE') && oralLiquid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antitussif des toux sèches ; prises espacées d’au moins 4 heures et traitement court.',
+      adulte: 'Adulte : 15 mL, 3 à 4 fois/j.',
+      enfant: '12 à 15 ans : 5 mL, 4 à 6 fois/j ; 6 à 12 ans : 5 mL, 3 à 4 fois/j ; 30 mois à 6 ans : 2,5 mL, 4 à 6 fois/j. Contre-indiqué avant 30 mois.',
+      adaptation: 'Diminuer la posologie initiale de moitié en cas d’insuffisance hépatique. Ne pas dépasser 5 jours sans avis médical.',
+      conseil: 'Réservé aux toux sèches ; éviter alcool, sédatifs et conduite si somnolence.',
+      source: 'Vidal — DEXTROMÉTHORPHANE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/dextromethorphane-biogaran-86981.html'
+    };
+  }
+
+  if (same('CROMOGLICATE DE SODIUM') && ocular) {
+    return {
+      voie: 'Voie ophtalmique',
+      standard: 'Collyre antiallergique à instiller dans le cul-de-sac conjonctival.',
+      adulte: 'Adulte : 1 goutte dans l’œil concerné, 2 à 6 fois/j.',
+      enfant: 'Enfant : 1 goutte, 2 à 6 fois/j ; avis médical souhaitable avant utilisation chez l’enfant.',
+      adaptation: 'Respecter un intervalle de 15 minutes avec un autre collyre. Ne pas instiller pendant le port de lentilles hydrophiles.',
+      conseil: 'Éviter le contact de l’embout avec l’œil ou les doigts ; ne pas conserver le flacon au-delà de 28 jours après ouverture.',
+      source: 'Vidal — CROMOGLICATE DE SODIUM VIATRIS',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/cromoglicate-de-sodium-viatris-68860.html'
+    };
+  }
+
+  if (same('CITRATE DE CAFEINE')) {
+    return {
+      voie: injectable ? 'Voie intraveineuse en perfusion ; certaines spécialités permettent aussi la voie orale' : 'Voie orale / injectable selon la spécialité',
+      standard: 'Traitement de l’apnée du nouveau-né prématuré sous surveillance spécialisée.',
+      adulte: 'Pas d’indication usuelle chez l’adulte dans les sources retenues.',
+      enfant: 'Nouveau-né prématuré : dose de charge 20 mg/kg en 1 perfusion IV, puis dose d’entretien 5 mg/kg toutes les 24 heures en débutant 24 h après la dose de charge.',
+      adaptation: 'Vérifier impérativement la concentration de l’ampoule avant administration ; surveillance clinique néonatale et de la caféinémie recommandée pour maintenir une concentration thérapeutique.',
+      conseil: 'Ne pas mélanger à d’autres médicaments en l’absence d’étude de compatibilité ; attention au risque de confusion entre spécialités à 10 mg/mL et 25 mg/mL.',
+      source: 'Vidal — CITRATE DE CAFEINE COOPER ; Vidal Actualités — GENCEBOK',
+      source_url: 'https://www.vidal.fr/actualites/30217-nouvelle-specialite-de-cafeine-injectable-gencebok-attention-au-risque-derreur-medicamenteuse.html'
+    };
+  }
+
+  if (same('METHOCARBAMOL') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Myorelaxant réservé à l’adulte, à prendre au début du repas avec de l’eau, pour une courte durée.',
+      adulte: 'Posologie standard : 1 000 mg, 2 à 3 fois/j ; maximum 4 000 mg/j et 8 jours de traitement. En état sévère : 1 500 mg, 4 fois/j pendant 48 à 72 h, puis 1 000 mg 2 à 3 fois/j ; maximum initial 8 000 mg/j.',
+      enfant: 'Pas d’utilisation pédiatrique standard retenue : spécialité réservée à l’adulte.',
+      adaptation: 'Adapter chez le sujet âgé et en insuffisance hépatique. Respecter si possible un intervalle d’au moins 2 heures avec antiacides, adsorbants, colestipol ou résines chélatrices.',
+      conseil: 'Éviter l’alcool et la conduite en cas de somnolence ou de baisse de vigilance.',
+      source: 'Vidal — Méthocarbamol',
+      source_url: 'https://www.vidal.fr/medicaments/substances/methocarbamol-2344.html'
+    };
+  }
+
+  if (same('EPHEDRINE') && injectable) {
+    return {
+      voie: 'Voie intraveineuse',
+      standard: 'Sympathomimétique injectable utilisé notamment dans l’hypotension au cours de l’anesthésie ; administration IV adaptée à l’état clinique.',
+      adulte: 'À partir de 15 ans : 3 à 6 mg par injection, renouvelables toutes les 5 à 10 minutes si besoin ; maximum 150 mg/24 h.',
+      enfant: 'De 1 mois à 15 ans : 0,1 à 0,2 mg/kg toutes les 4 à 6 heures.',
+      adaptation: 'Administrer en bolus IV ou en injection lente/perfusion selon la situation. Ne pas mélanger avec d’autres médicaments en raison d’incompatibilités physicochimiques.',
+      conseil: 'Surveiller la réponse hémodynamique et ajuster la dose au contexte anesthésique.',
+      source: 'Vidal — Éphédrine',
+      source_url: 'https://www.vidal.fr/medicaments/substances/ephedrine-1354.html'
+    };
+  }
+
+  if (same('BICARBONATE DE SODIUM')) {
+    return {
+      voie: injectable ? 'Voie intraveineuse lente ou perfusion continue' : 'Voie orale',
+      standard: 'Médicament d’alcalinisation dont la posologie dépend strictement de l’indication clinique.',
+      adulte: injectable
+        ? 'Acidose métabolique sévère : administrer une quantité adaptée au déficit en bases ; en pratique BNF, injection lente avec solution forte jusqu’à 8,4 % ou perfusion continue avec solution plus faible, généralement 1,26 %.'
+        : 'Par voie orale : alcalinisation des urines 3 g toutes les 2 heures jusqu’à obtention d’un pH urinaire > 7 ; entretien 5 à 10 g/j. États acidosiques chroniques : 4,8 g/j, à ajuster à la réponse.',
+      enfant: 'Pas de schéma pédiatrique standard résumé ici ; vérifier la spécialité et le protocole local.',
+      adaptation: 'Surveiller régulièrement pH plasmatique et électrolytes. Prudence en cas d’hypokaliémie, rétention sodée, hypernatrémie, hypocalcémie, alcalose ou antécédent de calculs urinaires.',
+      conseil: 'Par voie orale, espacer si possible de 1 à 2 heures avec les autres médicaments pour limiter les interactions d’absorption.',
+      source: 'BNF — Sodium bicarbonate',
+      source_url: 'https://bnf.nice.org.uk/drugs/sodium-bicarbonate/'
+    };
+  }
+
+  if (same('SELS DE REHYDRATATION ORALE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Poudre à diluer dans 1 litre d’eau propre pour prévenir ou traiter la déshydratation liée à la diarrhée.',
+      adulte: 'Prévention : 200 à 400 mL après chaque selle liquide. Déshydratation modérée : 2 200 à 4 000 mL sur les 4 premières heures si poids ≥ 30 kg, puis réévaluation.',
+      enfant: 'Prévention : < 24 mois 50 à 100 mL après chaque selle ; 2 à 10 ans 100 à 200 mL ; > 10 ans 200 à 400 mL. Déshydratation modérée sur 4 h : < 5 kg 200 à 400 mL ; 5 à 7,9 kg 400 à 600 mL ; 8 à 10,9 kg 600 à 800 mL ; 11 à 15,9 kg 800 à 1 200 mL ; 16 à 29,9 kg 1 200 à 2 200 mL.',
+      adaptation: 'Si vomissements : interrompre 10 minutes puis reprendre plus lentement en petites quantités fréquentes. En déshydratation sévère, associer ou débuter une réhydratation IV selon protocole.',
+      conseil: 'Utiliser la solution reconstituée dans les 24 heures et conserver en dessous de 25 °C.',
+      source: 'MSF Medical Guidelines — Oral rehydration salts',
+      source_url: 'https://medicalguidelines.msf.org/en/viewport/EssDr/english/oral-rehydration-salts-ors-16684387.html'
+    };
+  }
+
+  if (same('ZINC SULFATE')) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Traitement adjuvant à la réhydratation orale dans la diarrhée aiguë ou persistante chez l’enfant de moins de 5 ans.',
+      adulte: 'Pas de posologie usuelle retenue ici chez l’adulte.',
+      enfant: 'Moins de 6 mois : 10 mg (1/2 comprimé dispersible) 1 fois/j pendant 10 jours ; de 6 mois à 5 ans : 20 mg (1 comprimé) 1 fois/j pendant 10 jours.',
+      adaptation: 'Si l’enfant vomit dans les 30 minutes suivant la prise, redonner la dose. Administrer à au moins 2 heures des sels de fer.',
+      conseil: 'Dissoudre le demi-comprimé ou le comprimé dans une petite quantité d’eau dans une cuillère et administrer immédiatement ; ne remplace jamais la SRO.',
+      source: 'MSF Medical Guidelines — Zinc sulfate oral',
+      source_url: 'https://medicalguidelines.msf.org/en/viewport/EssDr/english/zinc-sulfate-oral-16684806.html'
+    };
+  }
+
+  if (same('ISOSORBIDE DINITRATE')) {
+    return {
+      voie: /SUBLING|SPRAY/.test(route) ? 'Voie sublinguale' : 'Voie orale',
+      standard: 'Dérivé nitré anti-angineux dont la fréquence de prise doit ménager un intervalle sans nitrate pour limiter la tolérance.',
+      adulte: /SUBLING|SPRAY/.test(route)
+        ? 'Repère usuel : 2,5 à 5 mg en sublingual environ 15 minutes avant l’effort déclenchant une crise ; pour la forme spray ISOCARD, 1 pulvérisation, renouvelable 1 à 2 fois après 2 à 3 minutes si besoin.'
+        : 'Formes orales immédiates : dose initiale 5 à 20 mg, 2 à 3 fois/j ; dose d’entretien 10 à 40 mg, 2 à 3 fois/j. Formes LP : 40 à 160 mg/j selon la spécialité.',
+      enfant: 'Pas de posologie pédiatrique standard établie dans les sources retenues.',
+      adaptation: 'Prévoir un intervalle libre d’au moins 14 heures par jour avec les formes à libération immédiate pour limiter la tolérance ; surveiller l’hypotension et les céphalées.',
+      conseil: 'Ne pas associer aux inhibiteurs de la phosphodiestérase de type 5 ; utiliser la dose minimale efficace.',
+      source: 'Vidal — ISOCARD ; Drugs.com — Isosorbide dinitrate dosage',
+      source_url: 'https://www.drugs.com/dosage/isosorbide-dinitrate.html'
+    };
+  }
+
+  if (same('FILGRASTIM') && injectable) {
+    return {
+      voie: 'Voie sous-cutanée ou perfusion IV courte/continue',
+      standard: 'Facteur de croissance granulocytaire dont la dose dépend de l’indication hématologique et de la numération neutrophile.',
+      adulte: 'Neutropénie post-chimiothérapie : 5 µg/kg 1 fois/j par SC ou IV. Après greffe de moelle : 10 µg/kg/j initialement, puis adaptation secondaire à 5 µg/kg/j selon l’ANC.',
+      enfant: 'Schémas pédiatriques variables selon l’indication spécialisée ; non résumés ici hors protocole.',
+      adaptation: 'Débuter au moins 24 h après la chimiothérapie cytotoxique ou après la perfusion de moelle. Contrôler NFS/plaquettes régulièrement, souvent 2 fois/semaine au début.',
+      conseil: 'Surveiller douleur osseuse, splénomégalie, syndrome de fuite capillaire et signes respiratoires ; interrompre/réévaluer si hyperleucocytose importante.',
+      source: 'Vidal — NEUPOGEN ; Drugs.com — Filgrastim dosage',
+      source_url: 'https://www.drugs.com/dosage/filgrastim.html'
+    };
+  }
+
+  if (same('FENTANYL') && injectable) {
+    return {
+      voie: 'Voie injectable IV/IM ; parfois péridurale selon la spécialité',
+      standard: 'Opioïde puissant utilisé en anesthésie et analgésie peropératoire, sous surveillance rapprochée.',
+      adulte: 'Prémédication anesthésique : 50 à 100 µg IM 30 à 60 minutes avant l’intervention. Anesthésie générale : faible dose totale 2 µg/kg ; dose modérée 2 à 20 µg/kg avec entretien 25 à 100 µg IV/IM ; chirurgie prolongée 20 à 50 µg/kg avec entretien de 25 µg à la moitié de la dose initiale. En postopératoire : 50 à 100 µg IM, renouvelables après 1 à 2 h si besoin.',
+      enfant: 'Schéma pédiatrique non résumé ici ; utilisation spécialisée avec surveillance anesthésique.',
+      adaptation: 'Surveiller étroitement dépression respiratoire, sédation, hypotension, bradycardie et toxicité accrue en cas d’insuffisance hépatique/rénale ou d’association avec benzodiazépines et autres dépresseurs du SNC.',
+      conseil: 'Administration en milieu disposant du matériel de réanimation ; éviter l’alcool et vérifier les interactions CYP3A4.',
+      source: 'Vidal — FENTANYL RENAUDIN ; Drugs.com — Fentanyl dosage',
+      source_url: 'https://www.drugs.com/dosage/fentanyl.html'
+    };
+  }
+
+  if (same('CHLORURE DE SODIUM')) {
+    return {
+      voie: injectable ? 'Voie intraveineuse' : (ocular ? 'Voie ophtalmique' : 'Voie orale'),
+      standard: 'Solution ou préparation de remplissage / supplémentation sodée dont la quantité dépend de l’indication et de l’état clinique.',
+      adulte: injectable
+        ? 'Remplissage/remplacement hydro-électrolytique : volume à ajuster au déficit ; en acidocétose diabétique avec PAS < 90 mmHg, repère BNF de 500 mL de NaCl 0,9 % en 10 à 15 minutes, renouvelable si besoin.'
+        : (ocular ? 'Collyre/irrigation oculaire : appliquer selon besoin ; utiliser les préparations ophtalmiques adaptées (0,9 % en lubrification courante).' : 'Déficit sodé : 4 à 8 comprimés LP/j en prises fractionnées, ajustables jusqu’à 20 comprimés/j si besoin ; solution orale 40 à 80 mmol/j en prises fractionnées.'),
+      enfant: ocular ? 'Préparations ophtalmiques : utiliser selon besoin avec des formes adaptées à l’œil.' : 'Enfant : la supplémentation orale ou IV doit être individualisée et surveillée étroitement selon les électrolytes et l’état d’hydratation.',
+      adaptation: 'En IV, surveiller état volémique, pression veineuse, crépitants pulmonaires et électrolytes ; prudence en cas d’insuffisance rénale, cardiaque, HTA, œdèmes ou risque d’hyponatrémie de dilution.',
+      conseil: 'Toujours vérifier la concentration et la voie d’administration exactes avant dispensation.',
+      source: 'BNF — Sodium chloride',
+      source_url: 'https://bnf.nice.org.uk/drugs/sodium-chloride/'
     };
   }
 
@@ -14809,8 +14996,234 @@ function buildJune2026ContinuationPosology(m = {}) {
   return null;
 }
 
+function buildJune2026MadagascarPosology(m = {}) {
+  const rawDci = canonicalizeDci(m.dci);
+  const dci = PRIORITY_DCI_ALIASES[rawDci] || rawDci;
+  const forme = canonicalizeDci(m.forme);
+  const presentation = canonicalizeDci(m.presentation);
+  const route = `${forme} ${presentation}`;
+  const oralSolid = /COMPRIME|GELULE|CAPSULE|SACHET/.test(route);
+  const oralLiquid = /SUSPENSION|SIROP|SOLUTION ORALE|SOLUTION BUVABLE|BUVABLE/.test(route);
+  const oral = oralSolid || oralLiquid;
+  const prolonged = /LIBERATION PROLONGEE|LIBERATION CONTROLEE| LP | SR /.test(` ${route} `);
+  const topical = /CREME|POMMADE|GEL|CUTAN/.test(route);
+  const injectable = /INJECT|PERFUSION|PARENTER|IM\/IV|SC\/IV|SC\/IM| IV | IM /.test(` ${route} `);
+  const dispersible = /DISPERSIBLE/.test(route);
+  const same = (...names) => names.includes(dci);
+
+  if (same('AMOXICILLINE + ACIDE CLAVULANIQUE', 'AMOXICILLINE TRIHYDRATE + CLAVULANATE DE POTASSIUM', 'AMOXICILLINE ANHYDRE + ACIDE CLAVULANIQUE') && oral) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antibiotique bêta-lactamine administré le plus souvent en 2 à 3 prises/j selon l’âge, le poids et la présentation.',
+      adulte: 'Adulte et enfant de plus de 40 kg : 1 g d’amoxicilline par prise, 2 à 3 fois/j.',
+      enfant: 'Nourrisson et enfant de moins de 40 kg : 80 mg/kg/j d’amoxicilline en 3 prises, sans dépasser 3 g/j.',
+      adaptation: 'Privilégier le début du repas si mauvaise tolérance digestive. Dissoudre les sachets dans un verre d’eau ; pour les suspensions, agiter avant chaque prise et conserver la préparation reconstituée 1 semaine au réfrigérateur.',
+      conseil: 'Vérifier la spécialité exacte avant dispensation, surtout si la présentation est pédiatrique ou injectable.',
+      source: 'Vidal — AMOXICILLINE/ACIDE CLAVULANIQUE ARROW',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/amoxicilline-acide-clavulanique-arrow-21468.html'
+    };
+  }
+
+  if (same('IBUPROFENE', 'IBUPROFEN') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'AINS antalgique/antipyrétique à utiliser à la dose minimale efficace pendant la durée la plus courte.',
+      adulte: 'Adulte et enfant de plus de 30 kg : 200 à 400 mg par prise, à renouveler si besoin toutes les 6 heures, sans dépasser 1 200 mg/j en automédication.',
+      enfant: 'Enfant de 20 à 30 kg : 200 mg par prise toutes les 6 heures si besoin, sans dépasser 600 mg/j. Les comprimés ne sont pas adaptés avant 6 ans.',
+      adaptation: 'Sans avis médical : durée maximale de 5 jours en cas de douleur et 3 jours en cas de fièvre. Prendre au cours des repas si fragilité digestive ; à jeun, l’effet peut être plus rapide en douleur aiguë.',
+      conseil: 'Éviter l’association avec d’autres AINS ; arrêter et réévaluer en cas de douleur gastrique, selles noires, éruption ou crise d’asthme.',
+      source: 'Vidal — IBUPROFÈNE BIOGARAN 200 mg',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/ibuprofene-biogaran-4816.html'
+    };
+  }
+
+  if (same('ARTEMETHER + LUMEFANTRINE') && (oralSolid || dispersible)) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Traitement en 6 prises sur 3 jours : 1re dose à H0, 2e dose 8 à 12 h plus tard, puis 2 prises/j à J2 et J3.',
+      adulte: 'À partir de 35 kg : 4 comprimés à 20/120 mg par prise (ou 1 comprimé à 80/480 mg par prise), 2 fois/j pendant 3 jours.',
+      enfant: '5 à <15 kg : 1 comprimé dispersible 20/120 mg, 2 fois/j pendant 3 jours ; 15 à <25 kg : 2 comprimés 2 fois/j ; 25 à <35 kg : 3 comprimés 2 fois/j.',
+      adaptation: 'En cas de vomissements dans les 30 minutes : redonner la dose complète ; entre 30 et 60 minutes : redonner la moitié. Prudence si médicaments allongeant le QT.',
+      conseil: 'Administrer au cours des repas ou avec une boisson riche en graisses (ex. lait) pour améliorer l’absorption.',
+      source: 'MSF Medical Guidelines — ARTÉMÉTHER/LUMÉFANTRINE oral',
+      source_url: 'https://medicalguidelines.msf.org/fr/viewport/EssDr/francais/artemether-lumefantrine-al-oral-16685131.html'
+    };
+  }
+
+  if (same('AMOXICILLINE', 'AMOXICILLINE TRIHYDRATE') && oral) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antibiotique à adapter à l’infection, au poids et à la fonction rénale, en 2 à 3 prises/j.',
+      adulte: 'Adulte et enfant de plus de 40 kg : 1 à 3 g/j en 2 ou 3 prises ; dans certaines infections, augmentation possible jusqu’à 6 g/j. Cystite : 3 g, 2 fois/j pendant 1 jour.',
+      enfant: 'Nourrisson et enfant de moins de 40 kg : 40 à 90 mg/kg/j en 2 ou 3 prises.',
+      adaptation: 'Diminuer la posologie en cas d’insuffisance rénale. Les suspensions doivent être reconstituées avec de l’eau puis agitées avant chaque prise.',
+      conseil: 'Les repas ne modifient pas l’absorption ; boire abondamment en cas de fortes doses pour limiter le risque de cristallurie.',
+      source: 'Vidal — AMOXICILLINE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/amoxicilline-biogaran-420.html'
+    };
+  }
+
+  if (same('AMLODIPINE', 'AMLODIPINE BESILATE', 'AMLODIPINE BESYLATE', 'BESILATE D AMLODIPINE') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antihypertenseur/calcique en 1 prise quotidienne, à heure régulière.',
+      adulte: 'Adulte : 5 mg 1 fois/j en traitement initial, augmentation possible jusqu’à 10 mg/j selon la réponse.',
+      enfant: 'Enfant et adolescent de 6 à 17 ans : 2,5 mg 1 fois/j en initial, augmentation possible à 5 mg/j après 4 semaines si nécessaire.',
+      adaptation: 'Chez l’insuffisant hépatique : commencer à la dose la plus faible et augmenter lentement. Pas d’ajustement systématique en insuffisance rénale ; augmentation prudente chez la personne âgée.',
+      conseil: 'Contrôler régulièrement la tension artérielle et vérifier la présentation disponible si le dosage de 2,5 mg n’est pas directement commercialisé.',
+      source: 'Base publique du médicament — AMLODIPINE BIOGARAN',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/68158195/extrait'
+    };
+  }
+
+  if (same('DICLOFENAC', 'DICLOFENAC SODIQUE', 'DICLOFENAC SODIUM') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'AINS oral, de préférence au milieu des repas, avec respect de la dose minimale efficace.',
+      adulte: 'Traitement d’attaque en rhumatologie : 50 mg, 3 fois/j ou 75 mg LP, 2 fois/j pendant 7 jours max. Entretien : 50 mg, 2 fois/j ou 75 mg LP, 1 fois/j. Règles douloureuses : 50 mg, 2 fois/j.',
+      enfant: 'Pas de repère pédiatrique standard simplifié retenu ici pour les formes orales adultes consultées.',
+      adaptation: 'Ne pas dépasser 150 mg/j. Avaler les comprimés entiers avec un verre d’eau, sans croquer ni écraser.',
+      conseil: 'Réévaluer rapidement en cas de douleur gastrique, saignement digestif, éruption ou absence d’amélioration clinique.',
+      source: 'Vidal — DICLOFENAC VIATRIS',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/diclofenac-viatris-42109.html'
+    };
+  }
+
+  if (same('DICLOFENAC', 'DICLOFENAC SODIQUE', 'DICLOFENAC SODIUM') && topical) {
+    return {
+      voie: 'Voie cutanée',
+      standard: 'Traitement local de courte durée des douleurs musculo-tendineuses ou traumatismes bénins.',
+      adulte: 'Adulte et adolescent de plus de 15 ans : 2 à 4 applications/j.',
+      enfant: 'Contre-indiqué avant 15 ans dans la source consultée.',
+      adaptation: 'Durée maximale sans avis médical : 4 jours pour un traumatisme bénin et 7 jours pour douleur tendino-ligamentaire ou arthrose.',
+      conseil: 'Appliquer un ruban de gel de 6 à 10 cm en massage doux, puis se laver les mains et éviter les yeux, muqueuses et pansements occlusifs.',
+      source: 'Vidal — DICLOFÉNAC REF 1 % gel',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/diclofenac-ref-43029.html'
+    };
+  }
+
+  if (same('CIPROFLOXACINE', 'CIPROFLOXACINE CHLORHYDRATE') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Fluoroquinolone en 2 prises/j, avec durée variable selon le foyer infectieux.',
+      adulte: 'Adulte : 250 à 750 mg matin et soir pendant 5 à 21 jours selon l’infection. En cas d’infection génitale à gonocoque : 500 mg en prise unique.',
+      enfant: 'Posologie pédiatrique à adapter au poids ; utilisation réservée à certaines infections graves, notamment urinaires ou broncho-pulmonaires chez l’enfant atteint de mucoviscidose.',
+      adaptation: 'Peut être pris pendant ou en dehors des repas, mais hors repas ne pas l’associer à des produits laitiers ou boissons enrichies en minéraux. Espacer de 4 h avec pansements digestifs contenant Al/Mg/Ca et de 2 h avec fer, zinc, sucralfate ou didanosine.',
+      conseil: 'Faire boire abondamment et éviter les prises concomitantes de grandes quantités de café ou de thé.',
+      source: 'Vidal — CIPROFLOXACINE BIOGARAN',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/ciprofloxacine-biogaran-24213.html'
+    };
+  }
+
+  if (same('CEFTRIAXONE', 'CEFTRIAXONE SODIQUE', 'CEFTRIAXONE ANHYDRE') && injectable) {
+    return {
+      voie: 'Voie IM profonde ou IV selon la présentation',
+      standard: 'Céphalosporine injectable le plus souvent en 1 administration/j, avec schéma renforcé dans les infections sévères.',
+      adulte: 'À partir de 12 ans : 1 à 2 g/j dans de nombreuses infections ; 2 g/j dans certaines formes sévères ; 2 à 4 g/j dans des infections majeures telles que bactériémie, endocardite ou méningite.',
+      enfant: 'Avant 15 jours : 20 à 50 mg/kg/j. De 15 jours à 12 ans et <50 kg : 50 à 80 mg/kg/j dans les infections usuelles, 50 à 100 mg/kg/j selon la sévérité (max 2 g par prise ; max 4 g/j dans certains contextes).',
+      adaptation: 'Adapter la posologie en insuffisance rénale. Au-delà de 2 g, fractionner en 2 prises ; ne pas administrer plus de 1 g dans un même site IM et éviter la voie IM pour des doses >2 g.',
+      conseil: 'Reconstituer juste avant administration et vérifier la voie exacte IM/IV mentionnée sur la spécialité.',
+      source: 'Vidal — Ceftriaxone (substance active)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/ceftriaxone-6723.html'
+    };
+  }
+
+  if (same('AZITHROMYCINE', 'AZITHROMYCINE ANHYDRE', 'AZITHROMYCINE DIHYDRATE') && oral) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Macrolide en 1 prise quotidienne, avec schéma variable selon l’indication et l’âge.',
+      adulte: 'Repères adultes fréquents : 500 mg/j pendant 3 jours (angine, infection stomatologique) ou 500 mg à J1 puis 250 mg/j de J2 à J5 (surinfection bronchique, pneumonie atypique, coqueluche selon les référentiels).',
+      enfant: 'Repères MSF : angine streptococcique si allergie aux pénicillines 20 mg/kg/j pendant 3 jours (max 500 mg/j) ; coqueluche ou pneumonie atypique 10 mg/kg à J1 puis 5 mg/kg/j de J2 à J5 (max 500 mg puis 250 mg/j).',
+      adaptation: 'Comprimés : 1 prise unique/j pendant ou en dehors des repas. Respecter un intervalle de 2 h avec les antiacides à base d’aluminium ou de magnésium. Prudence si risque d’allongement du QT ; chez le nourrisson de moins de 6 semaines, surveillance clinique renforcée.',
+      conseil: 'Pour certaines gélules, la prise doit être éloignée des repas ; toujours vérifier la notice de la présentation exacte disponible.',
+      source: 'Base publique du médicament — AZITHROMYCINE TEVA ; MSF Medical Guidelines — AZITHROMYCINE oral',
+      source_url: 'https://base-donnees-publique.medicaments.gouv.fr/medicament/68654914/extrait'
+    };
+  }
+
+  if (same('CEFIXIME', 'CEFIXIME ANHYDRE', 'CEFIXIME TRIHYDRATE') && oral) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Céphalosporine orale en 1 à 2 prises/j selon la présentation et l’âge.',
+      adulte: 'Adulte et enfant de plus de 12 ans : 200 mg matin et soir. Dans les infections génitales à gonocoques : 400 mg en prise unique.',
+      enfant: 'Enfant de plus de 6 mois (suspension) : 8 mg/kg/j en 2 prises espacées de 12 h, soit 4 mg/kg par prise.',
+      adaptation: 'Réduire la posologie en cas d’insuffisance rénale grave. Pour les suspensions, reconstituer avec de l’eau jusqu’au trait puis agiter avant l’emploi.',
+      conseil: 'Peut être pris pendant ou en dehors des repas ; vérifier la présentation nourrisson/enfant la plus adaptée à l’âge.',
+      source: 'Vidal — CÉFIXIME BIOGARAN ; Santé Ouest-France — Céfixime suspension buvable enfant',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/cefixime-biogaran-33147.html'
+    };
+  }
+
+  if (same('CHLORHYDRATE DE METFORMINE', 'METFORMINE CHLORHYDRATE', 'METFORMINE HYDROCHLORIDE', 'METFORMINE') && oral && !prolonged) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Biguanide en plusieurs prises quotidiennes au cours ou à la fin des repas.',
+      adulte: 'Adulte : dose initiale de 500 mg ou 850 mg, 2 à 3 fois/j, puis adaptation selon la glycémie.',
+      enfant: 'Enfant de plus de 10 ans : 500 mg ou 850 mg/j en initial, puis adaptation selon la glycémie.',
+      adaptation: 'Cette fiche correspond surtout aux formes à libération immédiate. Interrompre avant ou lors d’un examen avec produit de contraste iodé ou d’une chirurgie, puis reprendre au moins 48 h plus tard si la fonction rénale est stable.',
+      conseil: 'Prendre au cours ou à la fin des repas pour limiter l’intolérance digestive ; éviter l’alcool et surveiller la fonction rénale.',
+      source: 'Vidal — METFORMINE EG',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/metformine-eg-6072.html'
+    };
+  }
+
+  if (same('LOSARTAN POTASSIUM', 'LOSARTAN POTASSIQUE', 'LOSARTAN') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antagoniste de l’angiotensine II en 1 prise/j, avec adaptation progressive selon l’indication.',
+      adulte: 'Hypertension : 50 à 100 mg/j. Insuffisance rénale du diabétique ou prévention de l’AVC : début à 50 mg/j, augmentation possible à 100 mg/j. Insuffisance cardiaque : début à 12,5 mg/j puis augmentation progressive jusqu’à 50 mg/j.',
+      enfant: 'Enfant de 6 à 18 ans hypertendu : 25 mg/j si poids 20 à 50 kg ; 50 mg/j si poids >50 kg.',
+      adaptation: 'Débuter à faible dose en cas d’insuffisance hépatique, de traitement diurétique préalable, de régime désodé ou chez la personne âgée ; ajuster selon les chiffres tensionnels.',
+      conseil: 'Surveiller la créatinine et le potassium, surtout en cas d’insuffisance rénale ou de diabète.',
+      source: 'Vidal — LOSARTAN EG',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/losartan-eg-42780.html'
+    };
+  }
+
+  if (same('GENTAMICINE', 'GENTAMICINE SULFATE') && injectable) {
+    return {
+      voie: 'Voie IV (perfusion) ou IM',
+      standard: 'Aminoside injectable à dose pondérale, le plus souvent en 1 à 2 prises/j sur courte durée.',
+      adulte: 'À partir de 15 ans : 3 à 8 mg/kg/j en 1 à 2 prises pendant 7 à 10 jours, sans dépasser 8 mg/kg/j.',
+      enfant: 'Jusqu’à 1 mois : 4 à 7 mg/kg/j en 1 prise ; de 1 mois à 2 ans : 4,5 à 7,5 mg/kg/j en 1 à 2 prises ; de 2 à 15 ans : 3 à 6 mg/kg/j en 1 à 2 prises.',
+      adaptation: 'Adapter en insuffisance rénale. Surveiller la fonction rénale avant, pendant et après traitement, ainsi que l’audition pendant le traitement.',
+      conseil: 'Réserver aux situations documentées ou sévères et réévaluer sans délai en cas de baisse des urines, vertiges, hypoacousie ou diarrhée sévère.',
+      source: 'Vidal — Gentamicine (substance active)',
+      source_url: 'https://www.vidal.fr/medicaments/substances/gentamicine-1610.html'
+    };
+  }
+
+  if (same('ACICLOVIR', 'ACYCLOVIR') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antiviral à débuter le plus précocement possible dans les poussées herpétiques.',
+      adulte: 'Comprimé à 200 mg : poussée d’herpès 5 à 10 comprimés/j répartis dans la journée pendant 5 à 10 jours ; nouvelle poussée d’herpès génital : 5 comprimés/j pendant 5 jours ; prévention des récidives fréquentes : 2 comprimés, 2 fois/j. Comprimé à 800 mg : 5 comprimés/j pendant 7 jours dans la prévention des complications du zona ophtalmique.',
+      enfant: 'Enfant de plus de 6 ans : mêmes repères que l’adulte pour le comprimé à 200 mg dans les indications validées par la notice consultée.',
+      adaptation: 'Adapter la dose en cas d’insuffisance rénale, en particulier chez le sujet âgé ; risque accru d’effets neurologiques en cas de surdosage ou d’insuffisance rénale.',
+      conseil: 'Prendre avec un verre d’eau et bien s’hydrater pendant le traitement, surtout s’il fait chaud ou en cas de fièvre.',
+      source: 'Vidal — ACICLOVIR EG',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/aciclovir-eg-11623.html'
+    };
+  }
+
+  if (same('MONTELUKAST', 'MONTELUKAST SODIQUE') && oralSolid) {
+    return {
+      voie: 'Voie orale',
+      standard: 'Antileucotriène en prise quotidienne, de préférence le soir.',
+      adulte: 'Adulte et adolescent de plus de 15 ans : 10 mg, 1 fois/j le soir.',
+      enfant: 'Enfant de 6 à 14 ans : 5 mg, 1 fois/j le soir. Repère Vidal complémentaire : enfant de 2 à 5 ans, 4 mg/j selon la présentation adaptée.',
+      adaptation: 'Le comprimé à croquer doit être pris à distance des repas (au moins 1 h avant ou 2 h après le dîner). Le comprimé à 10 mg peut être pris avec ou sans nourriture.',
+      conseil: 'Ce médicament n’est pas destiné à traiter la crise d’asthme ; toujours conserver le bronchodilatateur de secours si indiqué.',
+      source: 'Vidal — MONTÉLUKAST EG / Accord',
+      source_url: 'https://www.vidal.fr/medicaments/gammes/montelukast-eg-51637.html'
+    };
+  }
+
+  return null;
+}
+
 function buildStandardPosology(m = {}) {
-  return buildJune2026ReliablePosologyBatch2(m) || buildJune2026ContinuationPosology(m) || buildJune2026ReliablePosology(m) || buildResidualPosology(m) || buildFurtherPosology(m) || buildSupplementalBrandPosology(m) || buildAdditionalReliablePosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
+  return buildJune2026MadagascarPosology(m) || buildJune2026ReliablePosologyBatch2(m) || buildJune2026ContinuationPosology(m) || buildJune2026ReliablePosology(m) || buildResidualPosology(m) || buildFurtherPosology(m) || buildSupplementalBrandPosology(m) || buildAdditionalReliablePosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
 }
 
 function buildStandardPosologyHtml(m = {}) {
@@ -20028,7 +20441,9 @@ setTimeout(function() {
 
 
 
-<!-- BUG FIX v77 : Cloudflare beacon définitivement supprimé — incompatible mode offline/Android WebView local -->
-<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").then(function(r){console.log("[SW] enregistré:",r.scope);}).catch(function(e){console.warn("[SW] échec:",e);});});}</script>
+<!-- BUG FIX v80 : Cloudflare beacon supprimé (incompatible mode offline/Android WebView local) -->
+<script>
+if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js");});}
+</script>
 </body>
 </html>

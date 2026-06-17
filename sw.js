@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medicaments-mada-v80';
+const CACHE_NAME = 'medicaments-mada-v83';
 const BASE = '/medicament_madagascar';
 const ASSETS = [
   BASE + '/',

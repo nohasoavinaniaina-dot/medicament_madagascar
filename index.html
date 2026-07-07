@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Catalogue des médicaments enregistrés à Madagascar, annuaire des pharmacies et hôpitaux, outil d'ordonnance et de certificats médicaux.">
+<meta name="description" content="Catalogue des médicaments enregistrés à Madagascar, annuaire des pharmacies et hôpitaux, outil d'ordonnance, de certificats médicaux et de correspondance médicale.">
 <meta name="theme-color" content="#061F16">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Médicaments &amp; Pharmacies — Madagascar — v90</title>
+<title>Médicaments &amp; Pharmacies — Madagascar — v91</title>
 <!-- Supabase SDK not used (native fetch) - removed for offline compatibility -->
 <!-- Google Fonts — chargement non-bloquant pour compatibilité offline Android WebView -->
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -2218,6 +2218,11 @@
   .tab-btn-cert.active { color: #fff; }
   .tab-btn-cert::after { background: linear-gradient(to right, var(--cobalt), #6366F1) !important; }
 
+  /* ── Tab Correspondance ── */
+  .tab-btn-corr { }
+  .tab-btn-corr.active { color: #fff; }
+  .tab-btn-corr::after { background: linear-gradient(to right, #B45309, #D97706) !important; }
+
   /* ─── Onglet Grossistes ─── */
   .tab-btn-grossistes { }
   .tab-btn-grossistes.active { color: #fff; }
@@ -2687,6 +2692,278 @@
   .cp-sign-lieu { font-size: 0.95rem; }
   .cp-sign-label { margin-top: 50px; font-size: 0.95rem; letter-spacing: 0.04em; }
   .cp-nb { margin-top: 28px; padding-top: 18px; border-top: 1px solid #ccc; font-size: 0.82rem; color: #555; line-height: 1.6; font-style: italic; }
+
+  /* ══════════════════════════════════
+     CORRESPONDANCE MÉDICALE (lettres)
+  ══════════════════════════════════ */
+  .corr-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  /* ── Dropdown sélecteur ── */
+  .corr-dropdown-wrap {
+    position: relative;
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border-mid);
+    box-shadow: var(--shadow-xs);
+    padding: 14px 18px 16px;
+  }
+
+  .corr-dropdown-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #B45309;
+    margin-bottom: 10px;
+  }
+
+  .corr-dropdown-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #FFFBEB;
+    border: 1.5px solid #FCD34D;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+
+  .corr-dropdown-selector:hover { background: #FEF3C7; border-color: #B45309; }
+
+  .corr-dropdown-selected {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #B45309;
+  }
+
+  .corr-dropdown-arrow {
+    font-size: 0.75rem;
+    color: #B45309;
+    transition: transform 0.2s ease;
+  }
+
+  .corr-dropdown-arrow.open { transform: rotate(180deg); }
+
+  .corr-dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 18px; right: 18px;
+    top: calc(100% - 8px);
+    background: var(--surface);
+    border: 1.5px solid var(--border-mid);
+    border-radius: var(--r-sm);
+    box-shadow: var(--shadow);
+    z-index: 200;
+    overflow: hidden;
+    max-height: 380px;
+    overflow-y: auto;
+  }
+
+  .corr-dropdown-menu.open { display: block; }
+
+  .corr-dropdown-item {
+    padding: 13px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.12s ease;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .corr-dropdown-item:last-child { border-bottom: none; }
+  .corr-dropdown-item:hover { background: #FEF3C7; color: #B45309; }
+  .corr-dropdown-item.active { background: #B45309; color: white; font-weight: 700; }
+
+  /* Main area */
+  .corr-main { display: flex; flex-direction: column; gap: 20px; }
+
+  .corr-form-header {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border-mid);
+    box-shadow: var(--shadow-xs);
+    padding: 20px 24px 22px;
+  }
+
+  .corr-form-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #B45309;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .corr-form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+
+  .corr-field { display: flex; flex-direction: column; gap: 5px; }
+
+  .corr-label {
+    font-size: 0.71rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .corr-input, .corr-textarea, .corr-select {
+    border: 1.5px solid var(--border-mid);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    width: 100%;
+  }
+
+  .corr-input:focus, .corr-textarea:focus, .corr-select:focus {
+    border-color: #FCD34D;
+    box-shadow: 0 0 0 3px rgba(217,119,6,0.12);
+  }
+
+  .corr-textarea { resize: vertical; min-height: 80px; }
+
+  .corr-dynamic-fields {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border-mid);
+    box-shadow: var(--shadow-xs);
+    padding: 20px 24px 22px;
+  }
+
+  .corr-dynamic-fields .corr-form-row { margin-bottom: 14px; }
+  .corr-dynamic-fields .corr-form-row:last-child { margin-bottom: 0; }
+
+  /* Actions */
+  .corr-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .corr-print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border: none;
+    border-radius: var(--r-full);
+    background: linear-gradient(135deg, #B45309, #D97706);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.22s var(--ease-out);
+    letter-spacing: 0.01em;
+  }
+
+  .corr-print-btn:hover {
+    background: linear-gradient(135deg, #92400E, #B45309);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .corr-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    border: 1.5px solid var(--border-mid);
+    border-radius: var(--r-full);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+
+  .corr-reset-btn:hover { border-color: var(--border-strong); color: var(--text); }
+
+  /* Preview */
+  .corr-preview-wrap {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border-mid);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .corr-preview-label {
+    padding: 14px 24px 12px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #B45309;
+    border-bottom: 1px solid var(--border);
+    background: #FFFBEB;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .corr-preview-label::before {
+    content: '👁';
+    font-size: 0.9rem;
+  }
+
+  .corr-preview {
+    padding: 32px 40px;
+    font-family: Georgia, serif;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #1a1a1a;
+    min-height: 240px;
+  }
+
+  /* Printed letter styles (réutilise la nomenclature .lp-*) */
+  .lp-header {
+    margin-bottom: 28px;
+    border-bottom: 2px solid #B45309;
+    padding-bottom: 14px;
+  }
+  .lp-dest-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #B45309;
+    margin-bottom: 4px;
+  }
+  .lp-dest { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .lp-dest-sub { font-size: 0.85rem; color: var(--text-muted); }
+  .lp-from { font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-top: 6px; }
+  .lp-meta-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; flex-wrap: wrap; gap: 8px; }
+  .lp-object { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .lp-object span { font-weight: 400; color: var(--text-2); }
+  .lp-lieu-date { font-size: 0.88rem; color: var(--text-muted); white-space: nowrap; }
+  .lp-salut { margin: 18px 0 14px; font-size: 0.95rem; font-style: italic; }
+  .lp-body { margin-bottom: 24px; line-height: 1.9; }
+  .lp-body p { margin-bottom: 12px; text-align: justify; }
+  .lp-body ul { margin: 8px 0 12px 26px; }
+  .lp-body li { margin-bottom: 5px; }
+  .lp-field { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .lp-closing { margin-top: 8px; font-size: 0.95rem; }
+  .lp-sign { text-align: right; margin-top: 36px; }
+  .lp-sign-label { margin-top: 50px; font-size: 0.95rem; letter-spacing: 0.04em; }
+  .lp-cc { margin-top: 26px; padding-top: 14px; border-top: 1px solid #ccc; font-size: 0.82rem; color: #555; }
+  .lp-nb { margin-top: 22px; padding-top: 16px; border-top: 1px solid #ccc; font-size: 0.82rem; color: #555; line-height: 1.6; font-style: italic; }
 
   /* ── Radio groupe certificats ── */
   .cert-radio-group {
@@ -4209,6 +4486,7 @@
       <button type="button" class="tab-btn tab-btn-grossistes" data-tab="grossistes" onclick="switchTab('grossistes', this)">🏭 Grossistes</button>
       <button type="button" class="tab-btn tab-btn-ordo" data-tab="ordonnance" onclick="switchTab('ordonnance', this)">📋 Ordonnance</button>
       <button type="button" class="tab-btn tab-btn-cert" data-tab="certificat" onclick="switchTab('certificat', this)">📄 Certificats</button>
+      <button type="button" class="tab-btn tab-btn-corr" data-tab="correspondance" onclick="switchTab('correspondance', this)">✉️ Correspondance</button>
     </div>
   </div>
 </header>
@@ -5129,6 +5407,91 @@
     </div>
   </section>
 
+  <section id="panel-correspondance" class="panel">
+    <div class="corr-shell">
+
+      <!-- Dropdown: sélecteur de type de lettre -->
+      <div class="corr-dropdown-wrap">
+        <div class="corr-dropdown-label">✉️ Type de lettre</div>
+        <div class="corr-dropdown-selector" id="corr-dropdown" onclick="toggleCorrDropdown()">
+          <span class="corr-dropdown-selected" id="corr-dropdown-text">🚑 Lettre de transfert</span>
+          <span class="corr-dropdown-arrow" id="corr-dropdown-arrow">▼</span>
+        </div>
+        <div class="corr-dropdown-menu" id="corr-dropdown-menu">
+          <div data-corrtype="transfert" class="corr-dropdown-item active" onclick="selectCorrType('transfert','🚑 Lettre de transfert',this)">🚑 Lettre de transfert</div>
+          <div data-corrtype="contreref" class="corr-dropdown-item" onclick="selectCorrType('contreref','↩️ Contre-référence',this)">↩️ Contre-référence</div>
+          <div data-corrtype="orientation" class="corr-dropdown-item" onclick="selectCorrType('orientation','🩺 Orientation spécialiste',this)">🩺 Orientation spécialiste</div>
+          <div data-corrtype="compterendu" class="corr-dropdown-item" onclick="selectCorrType('compterendu','📝 Compte-rendu de consultation',this)">📝 Compte-rendu de consultation</div>
+          <div data-corrtype="sortie" class="corr-dropdown-item" onclick="selectCorrType('sortie','🚪 Lettre de sortie',this)">🚪 Lettre de sortie</div>
+          <div data-corrtype="examen" class="corr-dropdown-item" onclick="selectCorrType('examen','🔬 Demande d\'examen',this)">🔬 Demande d'examen</div>
+          <div data-corrtype="pharmacien" class="corr-dropdown-item" onclick="selectCorrType('pharmacien','💊 Liaison pharmacien',this)">💊 Liaison pharmacien</div>
+          <div data-corrtype="famille" class="corr-dropdown-item" onclick="selectCorrType('famille','👪 Information patient/famille',this)">👪 Information patient/famille</div>
+        </div>
+      </div>
+
+      <!-- Zone principale -->
+      <div class="corr-main">
+
+        <!-- Formulaire médecin commun -->
+        <div class="corr-form-header">
+          <div class="corr-form-title" id="corr-form-title">🚑 Lettre de transfert</div>
+          <div class="corr-form-row">
+            <div class="corr-field">
+              <label class="corr-label">Nom du médecin (expéditeur)</label>
+              <input class="corr-input" id="corr-doc-nom" type="text" placeholder="Dr RAKOTO Jean" oninput="updateCorrPreview()">
+            </div>
+            <div class="corr-field">
+              <label class="corr-label">Lieu d'exercice</label>
+              <input class="corr-input" id="corr-lieu" type="text" placeholder="Antananarivo" oninput="updateCorrPreview()">
+            </div>
+            <div class="corr-field">
+              <label class="corr-label">Date</label>
+              <input class="corr-input" id="corr-date" type="date" oninput="updateCorrPreview()">
+            </div>
+          </div>
+          <div class="corr-form-row">
+            <div class="corr-field">
+              <label class="corr-label">N&deg; d&apos;Ordre</label>
+              <input class="corr-input" id="corr-doc-ordre" type="text" placeholder="OMNIS/2024/0000" oninput="updateCorrPreview()">
+            </div>
+            <div class="corr-field">
+              <label class="corr-label">T&eacute;l&eacute;phone</label>
+              <input class="corr-input" id="corr-doc-tel" type="tel" placeholder="+261 XX XX XXX XX" oninput="updateCorrPreview()">
+            </div>
+            <div class="corr-field">
+              <label class="corr-label">Cabinet / Service</label>
+              <input class="corr-input" id="corr-doc-cabinet" type="text" placeholder="Cabinet m&eacute;dical, CSB2, CHU..." oninput="updateCorrPreview()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Champs dynamiques selon le type -->
+        <div class="corr-dynamic-fields" id="corr-dynamic-fields"></div>
+
+        <!-- Bouton impression/PDF -->
+        <div class="corr-actions">
+          <button class="corr-print-btn" onclick="printCorrespondance()">
+            🖨️ Imprimer / Exporter PDF
+          </button>
+          <button class="corr-reset-btn" onclick="resetCorr()">
+            ↺ Réinitialiser
+          </button>
+        </div>
+
+        <!-- Aperçu de la lettre -->
+        <div class="corr-preview-wrap">
+          <div class="corr-preview-label">Aperçu de la lettre</div>
+          <div class="corr-preview" id="corr-preview">
+            <div style="color:var(--text-muted);text-align:center;padding:40px;font-size:0.9rem;">
+              Remplissez les champs ci-dessus pour voir l'aperçu.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- ====================
@@ -5162,7 +5525,7 @@ const PHARMACIES = [
   // --- Antananarivo ---
   { city: "Antananarivo", name: "Pharmacie Isoraka", addr: "Isoraka", h24: false, tels: ["+261202228504", "+261207669412"] },
   { city: "Antananarivo", name: "Pharmacie Capitale", addr: "Rond point Ankazomanga", h24: false, tels: ["+261321261000", "+261332869388", "+261342561000"] },
-  { city: "Antananarivo", name: "Pharmacie Ampandrana", addr: "Ampandrana", h24: false, tels: ["+261325811174", "+261341934182", "+261346446099"] },
+  { city: "Antananarivo", name: "Pharmacie Ampandrana", addr: "Lot LIV 80 bis, 51 Route Circulaire, Ampandrana", h24: false, tels: ["+261325811174", "+261341934182", "+261346446099"] },
   { city: "Antananarivo", name: "Pharmacie Ambodivona", addr: "Ambodivona", h24: false, tels: ["+261340722898"] },
   { city: "Antananarivo", name: "Pharmacie Mahamasina", addr: "Mahamasina", h24: false, tels: ["+261334754558"] },
   { city: "Antananarivo", name: "Pharmacie d\'Ivandry", addr: "Ivandry", h24: false, tels: ["+261320354976", "+261381254977", "+261331154976"] },
@@ -5174,7 +5537,6 @@ const PHARMACIES = [
   { city: "Antananarivo", name: "Pharmacie Mahavoky", addr: "Mahavoky Andravoahangy", h24: false, tels: ["+261348905609", "+261208525551"] },
   { city: "Antananarivo", name: "Pharmacie Namontana", addr: "Namontana", h24: false, tels: ["+261342389993"] },
   { city: "Antananarivo", name: "Pharmacie H", addr: "Andrefan\'Ambohijanahary", h24: false, tels: ["+261320511165", "+261341401165"] },
-  { city: "Antananarivo", name: "Pharmacie Météo", addr: "Arrêt Bus Météo Ampasapito", h24: false, tels: ["+261346305838"] },
   { city: "Antananarivo", name: "Pharmacie Mahafaly", addr: "Soavimasoandro, près terminus bus 165 Mahatony", h24: false, tels: ["+261341093711", "+261321199710"] },
   { city: "Antananarivo", name: "Pharmacie Ankazomanga", addr: "Ankazomanga", h24: false, tels: ["+261321271417", "+261341271417"] },
 
@@ -5267,7 +5629,7 @@ const PHARMACIES = [
   { city: "Antananarivo", name: "Pharmacie Abondance", addr: "Logt III C 158 B Bis Antsahakely Ifarihy, Ankaraobato", h24: false, tels: ["+261320532690", "+261338172690", "+261347521436"], email: "pharmacie.abondance@yahoo.com" },
 
   // --- Ambohidratrimo / Périphérie nord ---
-  { city: "Périphérie", name: "Pharmacie d\'Avaradrano", addr: "Lot II N 87 bis, Analamahitsy", h24: true, tels: ["+261222479843", "+26122242365"], email: "ph.avaradrano@moov.mg" },
+  { city: "Périphérie", name: "Pharmacie d\'Avaradrano", addr: "Lot II N 87 bis, Analamahitsy", h24: true, tels: ["+261222479843", "+261202242365", "+261202249700", "+261341613319"], email: "ph.avaradrano@moov.mg" },
   { city: "Périphérie", name: "Pharmacie Tiana", addr: "Lot 27 I Imerina Afovoany", h24: false, tels: ["+26122227623", "+261331221579", "+261341103299"], email: "pharmacieimerinafovoany@gmail.com" },
   { city: "Périphérie", name: "Pharmacie Ambohitravao", addr: "Lot IF 150 Talatamaty", h24: false, tels: ["+26122248670", "+261331207415"], email: "robijeat@yahoo.fr" },
   { city: "Périphérie", name: "Pharmacie Mahatsara", addr: "Lot 104 ter Pavillon n°4 Antanimarina, Ivato Aéroport", h24: false, tels: ["+261345201676"] },
@@ -5292,7 +5654,6 @@ const PHARMACIES = [
   { city: "Périphérie", name: "Pharmacie d\'Ambohimahintsy", addr: "Ambohimahintsy", h24: true, tels: ["+261343330417", "+261349588230"] },
   { city: "Périphérie", name: "Pharmacie d\'Ambohimangakely", addr: "Ambohimangakely", h24: true, tels: ["+261342537252"] },
   { city: "Périphérie", name: "Pharmacie Ho Anao", addr: "Ambohimangakely", h24: true, tels: ["+261341052115"] },
-  { city: "Périphérie", name: "Pharmacie d\'Avaradrano", addr: "Analamahitsy", h24: true, tels: ["+261202242365", "+261202249700", "+261341613319"] },
   { city: "Périphérie", name: "Pharmacie Analavory", addr: "Analavory, Firavaha", h24: true, tels: ["+261321210107", "+261345602399"] },
   { city: "Périphérie", name: "Pharmacie d\'Andoharanofotsy", addr: "Andoharanofotsy", h24: true, tels: ["+261320547984", "+261331147984", "+261342047984"] },
   { city: "Périphérie", name: "Pharmacie de la RN7", addr: "Andoharanofotsy", h24: true, tels: ["+261202257077", "+261389181332"] },
@@ -5317,7 +5678,6 @@ const PHARMACIES = [
   { city: "Périphérie", name: "Pharmacie Grazia", addr: "Itaosy", h24: true, tels: ["+261346773362"] },
   { city: "Périphérie", name: "Pharmacie La Colombe", addr: "Itaosy Cité", h24: true, tels: ["+261346039661", "+261336428042"] },
   { city: "Périphérie", name: "Pharmacie d\'Ivato", addr: "Ivato", h24: true, tels: ["+261208544295"] },
-  { city: "Périphérie", name: "Pharmacie Jade", addr: "Près Horizon, Ivato", h24: true, tels: ["+261348734094"] },
   { city: "Périphérie", name: "Pharmacie La Référence", addr: "Lot A 21 Bis, Mahitsy", h24: true, tels: ["+261321996527", "+261385383982"] },
   { city: "Périphérie", name: "Pharmacie Hasin\'ny Aina", addr: "Mandroseza", h24: true, tels: ["+261349977621"] },
   { city: "Périphérie", name: "Pharmacie de Sabotsy Namehana", addr: "Sabotsy Namehana", h24: true, tels: ["+261348800103", "+261349215854"] },
@@ -5425,7 +5785,6 @@ const PHARMACIES = [
   { city: "Antananarivo", name: "La Petite Pharmacie", addr: "Lot AD 12 ter B Ambohitrarahaba, Ankadikely", h24: false, tels: ["+261384952955"] },
   { city: "Antananarivo", name: "M Pharma Isotry", addr: "Lot IF 12 bis Ambalavao, Isotry", h24: false, tels: ["+26122266522"] },
   { city: "Antananarivo", name: "Pharmacie Vonjy Anosizato", addr: "Z 142 B Anosizato", h24: false, tels: ["+261320554321"] },
-  { city: "Antananarivo", name: "Pharmacie Ampandrana", addr: "Lot LIV 80 bis, 51 Route Circulaire", h24: false, tels: ["+261341934182"] },
   { city: "Antananarivo", name: "Hôpital des Enfants (Pharmacie)", addr: "Tsaralalana, Antananarivo", h24: false, tels: ["+26122267975"] },
   { city: "Antananarivo", name: "Hôpital Militaire Régional N°1 (Pharmacie)", addr: "Ampahibe, Antananarivo", h24: false, tels: ["+261340495038"] },
   { city: "Antananarivo", name: "Maternité Befelatanana (Pharmacie)", addr: "Befelatanana, Antananarivo", h24: false, tels: ["+261340804873"] },
@@ -16413,8 +16772,32 @@ function buildJune2026ReliablePosologyBatch7(m = {}) {
   return null;
 }
 
+function buildJune2026ReliablePosologyBatch9(m = {}) {
+  const rawDci = canonicalizeDci(m.dci);
+  const dci = PRIORITY_DCI_ALIASES[rawDci] || rawDci;
+  const forme = canonicalizeDci(m.forme);
+  const presentation = canonicalizeDci(m.presentation);
+  const route = `${forme} ${presentation}`;
+  const same = (...names) => names.map(canonicalizeDci).includes(dci);
+
+  if (same("CHLORHYDRATE D'OXYTETRACYCLINE + SULFATE DE POLYMYXINE B + PHOSPHATE SODIQUE DE DEXAMETHASONE + NYSTATINE") && /AURIC/.test(route)) {
+    return {
+      voie: 'Voie auriculaire (locale), après vérification de l’intégrité du tympan par un médecin',
+      standard: 'Association otologique combinant un anti-inflammatoire stéroïdien (dexaméthasone), deux antibiotiques (oxytétracycline et polymyxine B) et un antifongique (nystatine), indiquée dans le traitement local de certaines otites. Chaque flacon de poudre contient 100 mg de chlorhydrate d’oxytétracycline, 12,3 mg de sulfate de polymyxine B, 10 mg de phosphate sodique de dexaméthasone et 1 000 000 UI de nystatine.',
+      adulte: 'Sous forme de poudre : effectuer 1 à 2 pulvérisations par jour, ou une administration tous les 2 à 3 jours, en orientant le flacon souple tête en bas pour tasser la poudre puis en exerçant une pression pour délivrer une dose. Sous forme de suspension (poudre reconstituée avec l’ampoule de solvant fournie) : instiller 5 à 10 gouttes dans le conduit auditif de l’oreille atteinte, 1 à 2 fois par jour. Durée habituelle du traitement : 7 jours, pouvant aller jusqu’à 15 jours en cas d’infection fongique. Se conformer à l’ordonnance du médecin.',
+      enfant: 'Utilisation chez l’enfant et l’adolescent : sans objet particulier selon la notice ; se conformer strictement à la prescription médicale.',
+      adaptation: 'Contre-indiqué en cas d’allergie connue à l’oxytétracycline ou à une autre cycline, à la polymyxine B, à la nystatine, à la dexaméthasone ou à l’un des excipients, en cas de perforation tympanique sans écoulement, et en cas d’infection virale de l’oreille (varicelle, herpès). Ne pas injecter ni avaler ce médicament ; éviter la mise en contact de l’embout avec l’oreille ou les doigts. Ne pas administrer un autre médicament dans l’oreille en même temps. Grossesse : à n’envisager que si nécessaire ; allaitement : utilisation possible sur avis médical. La suspension reconstituée se conserve au maximum 8 jours entre +2°C et +8°C (au réfrigérateur) ; à tiédir dans la main avant emploi pour éviter l’inconfort du contact froid.',
+      conseil: 'Faire vérifier l’état du tympan avant toute prescription. Pencher la tête du côté opposé à l’oreille atteinte, instiller les gouttes, tirer sur le pavillon de l’oreille pour favoriser la pénétration, puis garder la tête penchée environ 5 minutes. Arrêter le traitement et consulter en cas d’éruption cutanée ou de réaction allergique locale ou générale. Des résidus brunâtres sans danger peuvent persister dans le conduit auditif. Reconsulter si aucune amélioration après 10 jours (15 jours en cas d’infection fongique).',
+      source: 'Notice patient ANSM — AURICULARUM, poudre et solvant pour suspension pour instillation auriculaire, Laboratoires Grimberg (mise à jour 19/12/2016)',
+      source_url: 'https://agence-prd.ansm.sante.fr/php/ecodex/notice/N0289005.htm'
+    };
+  }
+
+  return null;
+}
+
 function buildStandardPosology(m = {}) {
-  return buildJune2026ReliablePosologyBatch8(m) || buildJune2026ReliablePosologyBatch7(m) || buildJune2026ReliablePosologyBatch6(m) || buildJune2026ReliablePosologyBatch5(m) || buildJune2026ReliablePosologyBatch4(m) || buildJune2026ReliablePosologyBatch3(m) || buildJune2026MadagascarPosology(m) || buildJune2026ReliablePosologyBatch2(m) || buildJune2026ContinuationPosology(m) || buildJune2026ReliablePosology(m) || buildResidualPosology(m) || buildFurtherPosology(m) || buildSupplementalBrandPosology(m) || buildAdditionalReliablePosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
+  return buildJune2026ReliablePosologyBatch9(m) || buildJune2026ReliablePosologyBatch8(m) || buildJune2026ReliablePosologyBatch7(m) || buildJune2026ReliablePosologyBatch6(m) || buildJune2026ReliablePosologyBatch5(m) || buildJune2026ReliablePosologyBatch4(m) || buildJune2026ReliablePosologyBatch3(m) || buildJune2026MadagascarPosology(m) || buildJune2026ReliablePosologyBatch2(m) || buildJune2026ContinuationPosology(m) || buildJune2026ReliablePosology(m) || buildResidualPosology(m) || buildFurtherPosology(m) || buildSupplementalBrandPosology(m) || buildAdditionalReliablePosology(m) || buildPriorityPosology(m) || buildContinuedPosology(m) || buildGenericStandardPosology(m);
 }
 
 function buildStandardPosologyHtml(m = {}) {
@@ -18848,6 +19231,7 @@ function renderHopDirectory() {
 
 (function init() {
   console.log('[MedMada] v90 — BUG FIX v90: debounce 180ms sur med/pharm/care search (était 4 renders/frappe); ambulance listener anonyme remplacé par handler nommé (removeEventListener fonctionnel); event ambulance "search" ajouté dans switchTab; data-city sur chips (onCitySelectChange robuste); hopSearch réduit à input+search');
+  console.log('[MedMada] v91 — NOUVEAU: onglet ✉️ Correspondance avec 8 modèles de lettres médicales (transfert, contre-référence, orientation spécialiste, compte-rendu de consultation, sortie d\'hospitalisation, demande d\'examen, liaison pharmacien, information patient/famille); module CORR_TYPES + impression/export PDF via Blob URL, sur le modèle du module Certificats existant');
   var _sm = document.getElementById('statMeds'); if (_sm) _sm.textContent = `${ALL_MEDICINES.length.toLocaleString('fr-FR')} médicaments`;
   var _sp = document.getElementById('statPharms'); if (_sp) _sp.textContent = `${PHARMACIES.length.toLocaleString('fr-FR')} pharmacies`;
 
@@ -19477,6 +19861,326 @@ const CERT_TYPES = {
   }
 };
 
+// ====================
+// CORRESPONDANCE MÉDICALE (lettres confrères)
+// ====================
+
+const CORR_TYPES = {
+  transfert: {
+    title: "🚑 Lettre de Transfert",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (médecin / service)', placeholder: 'Dr RABE — Service de Médecine Interne', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Établissement de destination', placeholder: 'CHU Joseph Raseta Befelatanana', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RAKOTO Jean', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '52 ans, masculin', type: 'text' },
+      { id: 'corr-motif', label: 'Motif du transfert', placeholder: 'plateau technique insuffisant / nécessité d\'avis spécialisé', type: 'text' },
+      { id: 'corr-anamnese', label: 'Anamnèse / histoire de la maladie', placeholder: 'Patient admis le... pour... évolution depuis...', type: 'textarea' },
+      { id: 'corr-examen', label: 'Examen clinique à l\'admission', placeholder: 'Constantes, signes cliniques pertinents...', type: 'textarea' },
+      { id: 'corr-paraclinique', label: 'Examens complémentaires réalisés', placeholder: 'Bilan biologique, imagerie...', type: 'textarea' },
+      { id: 'corr-traitement', label: 'Traitement déjà entrepris', placeholder: 'Perfusion, antibiothérapie, antalgiques...', type: 'textarea' },
+      { id: 'corr-diag', label: 'Diagnostic évoqué / retenu', placeholder: 'Suspicion de...', type: 'text' },
+      { id: 'corr-urgence', label: 'Degré d\'urgence', placeholder: 'urgent / très urgent / programmé', type: 'text' },
+      { id: 'corr-transport', label: 'Mode de transport', placeholder: 'ambulance médicalisée', type: 'text' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Confrère destinataire'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Demande de transfert / prise en charge</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Cher Confrère, Chère Consœur,</div>
+      <div class="lp-body">
+        <p>Je vous adresse ce jour <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, pour ${esc(d['corr-motif']) || '…'}.</p>
+        ${d['corr-anamnese'] ? `<p><strong>Anamnèse :</strong> ${esc(d['corr-anamnese'])}</p>` : ''}
+        ${d['corr-examen'] ? `<p><strong>Examen clinique :</strong> ${esc(d['corr-examen'])}</p>` : ''}
+        ${d['corr-paraclinique'] ? `<p><strong>Examens complémentaires :</strong> ${esc(d['corr-paraclinique'])}</p>` : ''}
+        ${d['corr-traitement'] ? `<p><strong>Traitement entrepris :</strong> ${esc(d['corr-traitement'])}</p>` : ''}
+        ${d['corr-diag'] ? `<p><strong>Diagnostic évoqué :</strong> ${esc(d['corr-diag'])}</p>` : ''}
+        <p><strong>Degré d'urgence :</strong> ${esc(d['corr-urgence']) || '…'} — <strong>Transport :</strong> ${esc(d['corr-transport']) || '…'}</p>
+        <p>Je vous remercie par avance de l'attention que vous porterez à ce patient et reste à votre disposition pour toute information complémentaire.</p>
+      </div>
+      <div class="lp-closing">Confraternellement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  contreref: {
+    title: "↩️ Lettre de Contre-référence",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (médecin référent)', placeholder: 'Dr RABE — CSB2 Ambohimanga', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Établissement du référent', placeholder: 'CSB2 Ambohimanga', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RAKOTO Jean', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '52 ans, masculin', type: 'text' },
+      { id: 'corr-ref-date', label: 'Date de référence initiale', placeholder: '12/06/2026', type: 'text' },
+      { id: 'corr-diag-pose', label: 'Diagnostic final retenu', placeholder: 'Pneumopathie bactérienne communautaire', type: 'text' },
+      { id: 'corr-prise-charge', label: 'Prise en charge effectuée', placeholder: 'Antibiothérapie IV 7 jours, oxygénothérapie...', type: 'textarea' },
+      { id: 'corr-evolution', label: 'Évolution clinique', placeholder: 'Favorable, apyrexie depuis J3...', type: 'textarea' },
+      { id: 'corr-suite', label: 'Conduite à tenir / suivi recommandé', placeholder: 'Poursuite antibiothérapie orale 5 jours, contrôle clinique à J10', type: 'textarea' },
+      { id: 'corr-traitement-sortie', label: 'Traitement de sortie', placeholder: 'Amoxicilline 1g x3/j pendant 5 jours', type: 'textarea' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Confrère référent'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Contre-référence du patient</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Cher Confrère, Chère Consœur,</div>
+      <div class="lp-body">
+        <p>Je vous remercie de m'avoir référé <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}${d['corr-ref-date'] ? `, le ${esc(d['corr-ref-date'])}` : ''}, et vous adresse en retour le compte-rendu de sa prise en charge.</p>
+        <p><strong>Diagnostic retenu :</strong> ${esc(d['corr-diag-pose']) || '…'}</p>
+        ${d['corr-prise-charge'] ? `<p><strong>Prise en charge réalisée :</strong> ${esc(d['corr-prise-charge'])}</p>` : ''}
+        ${d['corr-evolution'] ? `<p><strong>Évolution :</strong> ${esc(d['corr-evolution'])}</p>` : ''}
+        ${d['corr-traitement-sortie'] ? `<p><strong>Traitement de sortie :</strong> ${esc(d['corr-traitement-sortie'])}</p>` : ''}
+        ${d['corr-suite'] ? `<p><strong>Conduite à tenir / suivi recommandé :</strong> ${esc(d['corr-suite'])}</p>` : ''}
+        <p>Je vous remercie de bien vouloir assurer le suivi de ce patient et reste à votre disposition pour tout renseignement complémentaire.</p>
+      </div>
+      <div class="lp-closing">Confraternellement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  orientation: {
+    title: "🩺 Lettre d'Orientation vers Spécialiste",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (spécialiste)', placeholder: 'Dr RASOA — Cardiologue', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Cabinet / Service', placeholder: 'Clinique Les Hauts Plateaux', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RAZAFY Marie', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '61 ans, féminin', type: 'text' },
+      { id: 'corr-ant', label: 'Antécédents pertinents', placeholder: 'HTA depuis 10 ans, diabète type 2...', type: 'textarea' },
+      { id: 'corr-motif-orient', label: 'Motif de la demande d\'avis', placeholder: 'douleurs thoraciques atypiques d\'effort', type: 'textarea' },
+      { id: 'corr-examen-orient', label: 'Constatations cliniques', placeholder: 'TA 150/95, auscultation cardiaque...', type: 'textarea' },
+      { id: 'corr-deja-fait', label: 'Examens déjà réalisés', placeholder: 'ECG de repos normal, bilan lipidique...', type: 'textarea' },
+      { id: 'corr-traitement-encours', label: 'Traitement en cours', placeholder: 'Amlodipine 5mg/j, Metformine 850mg x2/j', type: 'textarea' },
+      { id: 'corr-question', label: 'Question posée au spécialiste', placeholder: 'Avis sur opportunité d\'une épreuve d\'effort', type: 'text' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Confrère spécialiste'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Demande d'avis spécialisé</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Cher Confrère, Chère Consœur,</div>
+      <div class="lp-body">
+        <p>Je vous adresse <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, pour avis spécialisé concernant ${esc(d['corr-motif-orient']) || '…'}.</p>
+        ${d['corr-ant'] ? `<p><strong>Antécédents :</strong> ${esc(d['corr-ant'])}</p>` : ''}
+        ${d['corr-examen-orient'] ? `<p><strong>Constatations cliniques :</strong> ${esc(d['corr-examen-orient'])}</p>` : ''}
+        ${d['corr-deja-fait'] ? `<p><strong>Examens déjà réalisés :</strong> ${esc(d['corr-deja-fait'])}</p>` : ''}
+        ${d['corr-traitement-encours'] ? `<p><strong>Traitement en cours :</strong> ${esc(d['corr-traitement-encours'])}</p>` : ''}
+        ${d['corr-question'] ? `<p><strong>Question posée :</strong> ${esc(d['corr-question'])}</p>` : ''}
+        <p>Je vous remercie de votre avis et reste à votre disposition pour toute information complémentaire.</p>
+      </div>
+      <div class="lp-closing">Confraternellement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  compterendu: {
+    title: "📝 Compte-rendu de Consultation",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (médecin traitant)', placeholder: 'Dr RABE Paul', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Cabinet / Service', placeholder: 'Cabinet médical Analakely', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RANDRIA Sosoa', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '38 ans, féminin', type: 'text' },
+      { id: 'corr-date-cs', label: 'Date de la consultation', placeholder: '20/06/2026', type: 'text' },
+      { id: 'corr-motif-cs', label: 'Motif de consultation', placeholder: 'douleurs abdominales récidivantes', type: 'text' },
+      { id: 'corr-examen-cs', label: 'Examen clinique', placeholder: 'Abdomen souple, sensibilité épigastrique...', type: 'textarea' },
+      { id: 'corr-paraclinique-cs', label: 'Examens complémentaires / résultats', placeholder: 'Échographie abdominale du...', type: 'textarea' },
+      { id: 'corr-diag-cs', label: 'Diagnostic retenu', placeholder: 'Gastrite chronique', type: 'text' },
+      { id: 'corr-conduite-cs', label: 'Conduite à tenir proposée', placeholder: 'IPP 4 semaines, contrôle si non amélioration', type: 'textarea' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Médecin traitant'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Compte-rendu de consultation du ${esc(d['corr-date-cs']) || '…'}</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Cher Confrère, Chère Consœur,</div>
+      <div class="lp-body">
+        <p>J'ai reçu en consultation le ${esc(d['corr-date-cs']) || '…'} votre patient(e) <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, pour ${esc(d['corr-motif-cs']) || '…'}.</p>
+        ${d['corr-examen-cs'] ? `<p><strong>Examen clinique :</strong> ${esc(d['corr-examen-cs'])}</p>` : ''}
+        ${d['corr-paraclinique-cs'] ? `<p><strong>Examens complémentaires :</strong> ${esc(d['corr-paraclinique-cs'])}</p>` : ''}
+        <p><strong>Diagnostic retenu :</strong> ${esc(d['corr-diag-cs']) || '…'}</p>
+        ${d['corr-conduite-cs'] ? `<p><strong>Conduite à tenir proposée :</strong> ${esc(d['corr-conduite-cs'])}</p>` : ''}
+        <p>Je vous remercie de poursuivre le suivi de ce patient et reste à votre disposition pour toute information complémentaire.</p>
+      </div>
+      <div class="lp-closing">Confraternellement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  sortie: {
+    title: "🚪 Lettre de Sortie d'Hospitalisation",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (médecin traitant)', placeholder: 'Dr RABE Paul', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Cabinet / CSB', placeholder: 'CSB2 Itaosy', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RAKOTO Jean', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '52 ans, masculin', type: 'text' },
+      { id: 'corr-date-entree', label: 'Date d\'admission', placeholder: '15/06/2026', type: 'text' },
+      { id: 'corr-date-sortie', label: 'Date de sortie', placeholder: '22/06/2026', type: 'text' },
+      { id: 'corr-motif-hosp', label: 'Motif d\'hospitalisation', placeholder: 'décompensation cardiaque', type: 'text' },
+      { id: 'corr-deroulement', label: 'Déroulement du séjour / traitements reçus', placeholder: 'Diurétiques IV, surveillance scope...', type: 'textarea' },
+      { id: 'corr-diag-sortie', label: 'Diagnostic final', placeholder: 'Insuffisance cardiaque décompensée', type: 'text' },
+      { id: 'corr-etat-sortie', label: 'État à la sortie', placeholder: 'stable, apyrétique, eupnéique', type: 'text' },
+      { id: 'corr-trait-sortie', label: 'Traitement de sortie', placeholder: 'Furosémide 40mg/j, IEC...', type: 'textarea' },
+      { id: 'corr-suivi-sortie', label: 'Suivi / RDV recommandé', placeholder: 'Contrôle dans 15 jours, ionogramme à J7', type: 'textarea' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Médecin traitant'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Lettre de sortie d'hospitalisation</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Cher Confrère, Chère Consœur,</div>
+      <div class="lp-body">
+        <p>Votre patient(e) <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, a été hospitalisé(e) du ${esc(d['corr-date-entree']) || '…'} au ${esc(d['corr-date-sortie']) || '…'} pour ${esc(d['corr-motif-hosp']) || '…'}.</p>
+        ${d['corr-deroulement'] ? `<p><strong>Déroulement du séjour :</strong> ${esc(d['corr-deroulement'])}</p>` : ''}
+        <p><strong>Diagnostic final :</strong> ${esc(d['corr-diag-sortie']) || '…'}</p>
+        <p><strong>État à la sortie :</strong> ${esc(d['corr-etat-sortie']) || '…'}</p>
+        ${d['corr-trait-sortie'] ? `<p><strong>Traitement de sortie :</strong> ${esc(d['corr-trait-sortie'])}</p>` : ''}
+        ${d['corr-suivi-sortie'] ? `<p><strong>Suivi recommandé :</strong> ${esc(d['corr-suivi-sortie'])}</p>` : ''}
+        <p>Je vous remercie de bien vouloir assurer la poursuite de la prise en charge de ce patient.</p>
+      </div>
+      <div class="lp-closing">Confraternellement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  examen: {
+    title: "🔬 Demande d'Examen Complémentaire",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (laboratoire / service d\'imagerie)', placeholder: 'Laboratoire Iharanandriana', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Adresse / service', placeholder: 'Antananarivo', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RAZAFY Marie', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '61 ans, féminin', type: 'text' },
+      { id: 'corr-examen-demande', label: 'Examen(s) demandé(s)', placeholder: 'Échographie abdominale, NFS, CRP', type: 'textarea' },
+      { id: 'corr-renseignement', label: 'Renseignements cliniques', placeholder: 'Douleur fosse iliaque droite depuis 48h, fébricule...', type: 'textarea' },
+      { id: 'corr-hypothese', label: 'Hypothèse(s) diagnostique(s)', placeholder: 'Suspicion d\'appendicite', type: 'text' },
+      { id: 'corr-urgence-ex', label: 'Degré d\'urgence', placeholder: 'urgent — résultat souhaité dans la journée', type: 'text' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Laboratoire / service d\'imagerie'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Demande d'examen complémentaire</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Madame, Monsieur,</div>
+      <div class="lp-body">
+        <p>Je vous prie de bien vouloir réaliser pour mon patient(e) <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, l'examen suivant :</p>
+        <p><strong>${esc(d['corr-examen-demande']) || '…'}</strong></p>
+        ${d['corr-renseignement'] ? `<p><strong>Renseignements cliniques :</strong> ${esc(d['corr-renseignement'])}</p>` : ''}
+        ${d['corr-hypothese'] ? `<p><strong>Hypothèse diagnostique :</strong> ${esc(d['corr-hypothese'])}</p>` : ''}
+        <p><strong>Degré d'urgence :</strong> ${esc(d['corr-urgence-ex']) || 'non urgent'}</p>
+        <p>Je vous remercie de me faire parvenir les résultats dans les meilleurs délais.</p>
+      </div>
+      <div class="lp-closing">Cordialement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  pharmacien: {
+    title: "💊 Lettre de Liaison Médecin-Pharmacien",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire (pharmacien)', placeholder: 'Pharmacien titulaire — Pharmacie Tsaralalana', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Pharmacie', placeholder: 'Pharmacie Tsaralalana', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RABE Solo', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '70 ans, masculin', type: 'text' },
+      { id: 'corr-contexte-pharm', label: 'Contexte clinique', placeholder: 'Patient polypathologique, insuffisance rénale modérée...', type: 'textarea' },
+      { id: 'corr-trait-encours-pharm', label: 'Traitement actuel complet', placeholder: 'Liste des médicaments en cours...', type: 'textarea' },
+      { id: 'corr-nouveau-trait', label: 'Nouveau(x) traitement(s) introduit(s)', placeholder: 'Ajout de...', type: 'textarea' },
+      { id: 'corr-point-vigilance', label: 'Points de vigilance / interactions à surveiller', placeholder: 'Risque d\'interaction avec..., surveiller la fonction rénale', type: 'textarea' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Pharmacien'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Liaison concernant le traitement d'un patient commun</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Cher Confrère pharmacien,</div>
+      <div class="lp-body">
+        <p>Je vous informe par la présente de la situation thérapeutique de <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, patient(e) que nous suivons en commun.</p>
+        ${d['corr-contexte-pharm'] ? `<p><strong>Contexte clinique :</strong> ${esc(d['corr-contexte-pharm'])}</p>` : ''}
+        ${d['corr-trait-encours-pharm'] ? `<p><strong>Traitement en cours :</strong> ${esc(d['corr-trait-encours-pharm'])}</p>` : ''}
+        ${d['corr-nouveau-trait'] ? `<p><strong>Nouveau(x) traitement(s) introduit(s) :</strong> ${esc(d['corr-nouveau-trait'])}</p>` : ''}
+        ${d['corr-point-vigilance'] ? `<p><strong>Points de vigilance :</strong> ${esc(d['corr-point-vigilance'])}</p>` : ''}
+        <p>Je vous remercie de votre vigilance dans la dispensation et reste disponible pour toute question relative à ce traitement.</p>
+      </div>
+      <div class="lp-closing">Confraternellement,</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  },
+
+  famille: {
+    title: "👪 Lettre d'Information au Patient / à la Famille",
+    fields: [
+      { id: 'corr-dest-nom', label: 'Destinataire', placeholder: 'Famille de M./Mme...', type: 'text' },
+      { id: 'corr-dest-etab', label: 'Lien avec le patient', placeholder: 'l\'époux / la fille / le tuteur légal', type: 'text' },
+      { id: 'corr-pat-nom', label: 'Nom et prénom du patient', placeholder: 'RAKOTO Jean', type: 'text' },
+      { id: 'corr-pat-age', label: 'Âge / sexe', placeholder: '68 ans, masculin', type: 'text' },
+      { id: 'corr-situation', label: 'Situation médicale actuelle', placeholder: 'Hospitalisé depuis le..., état stable...', type: 'textarea' },
+      { id: 'corr-explication', label: 'Explications en termes simples', placeholder: 'Le diagnostic retenu est..., cela signifie que...', type: 'textarea' },
+      { id: 'corr-suite-prevue', label: 'Suite de la prise en charge prévue', placeholder: 'Poursuite du traitement, examens à venir...', type: 'textarea' },
+      { id: 'corr-contact', label: 'Contact en cas de question', placeholder: 'Service au XX XX XXX XX, du lundi au vendredi', type: 'text' },
+    ],
+    render: (d) => `
+      <div class="lp-header">
+        <div class="lp-dest-label">Destinataire</div>
+        <div class="lp-dest">${esc(d['corr-dest-nom']) || 'Famille du patient'}</div>
+        <div class="lp-dest-sub">${esc(d['corr-dest-etab']) || '…'}</div>
+        ${d.doc ? `<div class="lp-from">De : Dr ${esc(d.doc)}${d.docCabinet ? ' — ' + esc(d.docCabinet) : ''}</div>` : ''}
+        <div class="lp-meta-row">
+          <div class="lp-object">Objet : <span>Information concernant l'état de santé de votre proche</span></div>
+        </div>
+      </div>
+      <div class="lp-salut">Madame, Monsieur,</div>
+      <div class="lp-body">
+        <p>Je me permets de vous adresser ces quelques lignes au sujet de <span class="lp-field">${esc(d['corr-pat-nom']) || '…'}</span>, ${esc(d['corr-pat-age']) || '…'}, dont vous êtes ${esc(d['corr-dest-etab']) || 'le proche'}.</p>
+        ${d['corr-situation'] ? `<p><strong>Situation actuelle :</strong> ${esc(d['corr-situation'])}</p>` : ''}
+        ${d['corr-explication'] ? `<p>${esc(d['corr-explication'])}</p>` : ''}
+        ${d['corr-suite-prevue'] ? `<p><strong>Suite de la prise en charge :</strong> ${esc(d['corr-suite-prevue'])}</p>` : ''}
+        <p>N'hésitez pas à nous contacter pour toute question${d['corr-contact'] ? ` : ${esc(d['corr-contact'])}` : ''}.</p>
+      </div>
+      <div class="lp-closing">Veuillez recevoir, Madame, Monsieur, nos salutations distinguées.</div>
+      <div class="lp-sign">
+        <div class="lp-sign-label">Signature et cachet</div>
+      </div>`
+  }
+};
+
 function toggleCertDropdown() {
   const menu = document.getElementById('cert-dropdown-menu');
   const arrow = document.getElementById('cert-dropdown-arrow');
@@ -19955,6 +20659,342 @@ function printCertificat() {
 // (appelé dans le bloc DOMContentLoaded unifié ci-dessous)
 
 // ====================
+// CORRESPONDANCE MÉDICALE — fonctions UI
+// ====================
+
+function toggleCorrDropdown() {
+  const menu = document.getElementById('corr-dropdown-menu');
+  const arrow = document.getElementById('corr-dropdown-arrow');
+  if (!menu || !arrow) return;
+  const isOpen = menu.classList.contains('open');
+  menu.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+
+function selectCorrType(type, label, el) {
+  document.querySelectorAll('.corr-dropdown-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  var _cdt = document.getElementById('corr-dropdown-text'); if (_cdt) _cdt.textContent = label;
+  var _cdm = document.getElementById('corr-dropdown-menu'); if (_cdm) _cdm.classList.remove('open');
+  var _cda = document.getElementById('corr-dropdown-arrow'); if (_cda) _cda.classList.remove('open');
+  switchCorr(type, null);
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('corr-dropdown');
+  const menu = document.getElementById('corr-dropdown-menu');
+  if (wrap && menu && !wrap.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.remove('open');
+    const arrow = document.getElementById('corr-dropdown-arrow');
+    if (arrow) arrow.classList.remove('open');
+  }
+});
+
+let currentCorrType = 'transfert';
+
+function switchCorr(type, btn) {
+  currentCorrType = type;
+  document.querySelectorAll('.corr-dropdown-item').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    const activeItem = document.querySelector('.corr-dropdown-item[data-corrtype="' + type + '"]');
+    if (activeItem) activeItem.classList.add('active');
+  }
+  const cfg = CORR_TYPES[type];
+  if (!cfg) return;
+  var _cft = document.getElementById('corr-form-title'); if (_cft) _cft.textContent = cfg.title;
+  renderCorrFields(cfg.fields);
+  updateCorrPreview();
+}
+
+function renderCorrFields(fields) {
+  const container = document.getElementById('corr-dynamic-fields');
+  if (!container) return;
+  container.innerHTML = fields.map(f => {
+    let tag = '';
+    if (f.type === 'textarea') {
+      tag = `<textarea class="corr-textarea" id="${f.id}" placeholder="${f.placeholder}" oninput="updateCorrPreview()" rows="3"></textarea>`;
+    } else {
+      tag = `<input class="corr-input" id="${f.id}" type="text" placeholder="${f.placeholder}" oninput="updateCorrPreview()">`;
+    }
+    return `<div class="corr-form-row" style="margin-bottom:14px">
+      <div class="corr-field" style="grid-column: 1/-1">
+        <label class="corr-label">${f.label}</label>
+        ${tag}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getCorrData() {
+  const docNom = (document.getElementById('corr-doc-nom') || {}).value || '';
+  const lieu = (document.getElementById('corr-lieu') || {}).value || 'Antananarivo';
+  const dateInput = (document.getElementById('corr-date') || {}).value || '';
+  let dateStr = '';
+  if (dateInput) {
+    const parts = dateInput.split('-');
+    if (parts.length === 3) {
+      const [y, m, day] = parts;
+      const months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+      const monthIdx = parseInt(m, 10) - 1;
+      const monthName = (monthIdx >= 0 && monthIdx < 12) ? months[monthIdx] : '';
+      dateStr = `${parseInt(day, 10)} ${monthName} ${y}`;
+    }
+  }
+  const docOrdre = (document.getElementById('corr-doc-ordre') || {}).value || '';
+  const docTel = (document.getElementById('corr-doc-tel') || {}).value || '';
+  const docCabinet = (document.getElementById('corr-doc-cabinet') || {}).value || '';
+  const data = { doc: docNom, lieu, dateStr, docOrdre, docTel, docCabinet };
+  const cfg = CORR_TYPES[currentCorrType];
+  if (cfg) cfg.fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (el) data[f.id] = el.value;
+  });
+  return data;
+}
+
+function updateCorrPreview() {
+  const data = getCorrData();
+  const cfg = CORR_TYPES[currentCorrType];
+  if (!cfg) return;
+  var _cp = document.getElementById('corr-preview'); if (_cp) _cp.innerHTML = cfg.render(data);
+}
+
+function resetCorr() {
+  var _cdn = document.getElementById('corr-doc-nom'); if (_cdn) _cdn.value = '';
+  var _cl = document.getElementById('corr-lieu'); if (_cl) _cl.value = '';
+  var _cd = document.getElementById('corr-date'); if (_cd) _cd.value = '';
+  const ordreEl = document.getElementById('corr-doc-ordre'); if (ordreEl) ordreEl.value = '';
+  const telEl = document.getElementById('corr-doc-tel'); if (telEl) telEl.value = '';
+  const cabEl = document.getElementById('corr-doc-cabinet'); if (cabEl) cabEl.value = '';
+  const cfg = CORR_TYPES[currentCorrType];
+  if (cfg) cfg.fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (el) el.value = '';
+  });
+  updateCorrPreview();
+}
+
+function printCorrespondance() {
+  const data = getCorrData();
+  const cfg = CORR_TYPES[currentCorrType];
+  if (!cfg) return;
+  const letterContent = cfg.render(data);
+  const docNom     = data.doc;
+  const lieu       = data.lieu;
+  const dateStr    = data.dateStr;
+  const docOrdre   = data.docOrdre;
+  const docTel     = data.docTel;
+  const docCabinet = data.docCabinet;
+  const corrType = cfg.title.replace(/[^\w\sÀ-ÿà-ÿ'\u2019\-]/g, '').trim();
+
+  // Approche Blob URL — compatible Android WebView, iOS Safari, desktop (évite les popups bloqués)
+  const htmlContent = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${corrType}</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+    font-family: 'Times New Roman', Times, Georgia, serif;
+    font-size: 11pt;
+    line-height: 1.8;
+    color: #1a1a1a;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 16mm 20mm 14mm 20mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Doctor header ── */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid #92400E;
+    margin-bottom: 18px;
+  }
+  .doc-header-left { font-size: 9.5pt; line-height: 1.65; }
+  .doc-header-left .doc-name {
+    font-size: 10.5pt;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #5C2E00;
+  }
+  .doc-header-left .doc-qual { font-style: italic; font-size: 9.5pt; color: #444; }
+  .doc-header-right {
+    text-align: right;
+    font-size: 9.5pt;
+    line-height: 1.65;
+    color: #333;
+  }
+  .doc-header-right .doc-location { font-weight: 600; font-size: 10pt; }
+
+  /* ── Letter header (destinataire / objet / date) ── */
+  .lp-header { margin-bottom: 22px; }
+  .lp-dest-label {
+    font-size: 7.5pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #92400E;
+    margin-bottom: 4px;
+  }
+  .lp-dest { font-size: 11.5pt; font-weight: 700; color: #1a1a1a; }
+  .lp-dest-sub { font-size: 10pt; color: #555; }
+  .lp-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 0.7px solid #ccc;
+    gap: 12px;
+  }
+  .lp-object { font-size: 10.5pt; font-weight: 700; }
+  .lp-object span { font-weight: 400; }
+  .lp-lieu-date { font-size: 10pt; color: #555; white-space: nowrap; }
+
+  .lp-salut { margin: 4px 0 14px; font-size: 11pt; font-style: italic; }
+
+  .lp-body { flex: 1; }
+  .lp-body p { margin-bottom: 11px; text-align: justify; hyphens: auto; }
+  .lp-body ul { margin: 6px 0 10px 26px; }
+  .lp-body li { margin-bottom: 4px; }
+
+  .lp-field { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+
+  .lp-closing { margin-top: 6px; font-size: 11pt; }
+
+  .lp-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 24px;
+    flex-shrink: 0;
+  }
+  .lp-sign-box {
+    border: 1px solid #aaa;
+    width: 58mm;
+    min-height: 26mm;
+    padding: 5px 8px 4px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .lp-sign-box-title {
+    font-size: 7.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+    width: 100%;
+    text-align: center;
+  }
+  .lp-sign-box-space { flex: 1; min-height: 14mm; }
+  .lp-sign-label { display: none; }
+  .lp-sign-date { font-size: 10pt; color: #333; margin-bottom: 8px; }
+
+  .doc-footer {
+    margin-top: 14px;
+    padding-top: 7px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 7pt;
+    color: #999;
+    flex-shrink: 0;
+  }
+  .doc-footer-center { font-style: italic; text-align: center; flex: 1; margin: 0 8px; }
+
+  strong { font-weight: 700; }
+  em { font-style: italic; }
+
+  @media print {
+    html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="doc-name">${docNom ? 'Dr ' + docNom : 'Dr _____________________'}</div>
+      <div class="doc-qual">Docteur en Médecine</div>
+      <div>N° Ordre : ${docOrdre || '___________'}</div>
+      <div>Tél : ${docTel || '_______________'}</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="doc-location">${lieu || 'Antananarivo'}, Madagascar</div>
+      <div>Cabinet / Service : ${docCabinet || '___________'}</div>
+    </div>
+  </div>
+
+  ${letterContent.replace(
+    /<div class="lp-sign">\s*<div class="lp-sign-label">[^<]*<\/div>\s*<\/div>/,
+    `<div class="lp-sign">
+      <div class="lp-sign-date">${esc(lieu) || 'Antananarivo'}, le ${esc(dateStr) || '…'}</div>
+      <div class="lp-sign-box">
+        <div class="lp-sign-box-title">Signature &amp; Cachet</div>
+        <div class="lp-sign-box-space"></div>
+      </div>
+    </div>`
+  )}
+
+  <div class="doc-footer">
+    <div class="doc-footer-center">Correspondance médicale confidentielle — secret professionnel</div>
+    <div>Original — 1 exemplaire</div>
+  </div>
+
+</div>
+<script>setTimeout(function(){ window.print(); }, 600);<\/script>
+</body></html>`;
+  try {
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 15000);
+  } catch(e) {
+    // Fallback : téléchargement direct du fichier HTML
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Lettre_' + corrType.replace(/\s+/g, '_') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 5000);
+  }
+}
+// Initialise le panneau correspondance avec le premier type
+// (appelé dans le bloc DOMContentLoaded unifié ci-dessous, via switchTab)
+
+// ====================
 // TABS
 // ====================
 function switchTab(name, btn) {
@@ -20037,6 +21077,15 @@ function switchTab(name, btn) {
       certDateEl.value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
     }
     updateCertPreview();
+  }
+  if (name === 'correspondance') {
+    switchCorr(currentCorrType, null);
+    const corrDateEl = document.getElementById('corr-date');
+    if (corrDateEl && !corrDateEl.value) {
+      const today = new Date();
+      corrDateEl.value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+    }
+    updateCorrPreview();
   }
   // FIX: case 'gardes' — le panel gardes est un modal overlay, pas un .panel standard
   // Si switchTab est appelé avec 'gardes' (ex: lien direct), ouvrir le modal proprement

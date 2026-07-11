@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medicaments-mada-v92';
+const CACHE_NAME = 'medicaments-mada-v94';
 const BASE = '/medicament_madagascar';
 const ASSETS = [BASE+'/',BASE+'/index.html',BASE+'/manifest.json',BASE+'/icon-192.png',BASE+'/icon-512.png',BASE+'/apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())); });

@@ -5332,6 +5332,7 @@
           <div data-certtype="viol" class="cert-dropdown-item" onclick="selectCertType('viol','🔒 Certificat pour viol',this)">🔒 Certificat pour viol</div>
           <div data-certtype="expertise" class="cert-dropdown-item" onclick="selectCertType('expertise','⚖️ Rapport médico-légal',this)">⚖️ Rapport médico-légal</div>
           <div data-certtype="circoncision" class="cert-dropdown-item" onclick="selectCertType('circoncision','✂️ Circoncision',this)">✂️ Circoncision</div>
+          <div data-certtype="circoncisionprog" class="cert-dropdown-item" onclick="selectCertType('circoncisionprog','✂️ Circoncision programmée (assistance médicale)',this)">✂️ Circoncision programmée (assistance médicale)</div>
           <div data-certtype="arret" class="cert-dropdown-item" onclick="selectCertType('arret','🛌 Arrêt de travail',this)">🛌 Arrêt de travail</div>
           <div data-certtype="reprisetr" class="cert-dropdown-item" onclick="selectCertType('reprisetr','💼 Reprise du travail',this)">💼 Reprise du travail</div>
           <div data-certtype="hospit" class="cert-dropdown-item" onclick="selectCertType('hospit','🏥 Hospitalisation',this)">🏥 Hospitalisation</div>
@@ -18524,8 +18525,6 @@ const PER_PAGE = 50;
 let searchQ = '';
 let formeQ = '';
 let classeQ = '';
-let careSearchQ = '';
-let careTypeFilter = 'all';
 let ambulanceSearchQ = '';
 let gardeSearchQ = '';
 let gardeActiveTab = 'opham';
@@ -18630,10 +18629,6 @@ function hopTypeLabel(type) {
   if (type === 'centre') return 'Centre de soins';
   if (type === 'espace') return 'Espace médical';
   return 'Hôpital';
-}
-
-function careTypeLabel(type) {
-  return type === 'clinique' ? 'Clinique' : type === 'centre' ? 'Centre' : 'Hôpital';
 }
 
 // ====================
@@ -19564,6 +19559,67 @@ const CERT_TYPES = {
       </div>`;
     }
   },
+  circoncisionprog: {
+    title: "✂️ Attestation d'Assistance Médicale — Circoncision Programmée",
+    fields: [
+      { id: 'cert-prog-par-nom', label: 'Nom et prénom du parent / tuteur', placeholder: 'RAKOTO Jean', type: 'text' },
+      { id: 'cert-prog-par-lien', label: 'Lien avec l\'enfant', placeholder: 'Père', type: 'text' },
+      { id: 'cert-prog-enf-nom', label: 'Nom et prénom de l\'enfant', placeholder: 'RAKOTO Ny Andriamanitra', type: 'text' },
+      { id: 'cert-prog-enf-age', label: 'Âge de l\'enfant', placeholder: '5 ans', type: 'text' },
+      { id: 'cert-prog-date-prevue', label: 'Date prévue de l\'intervention', placeholder: 'JJ/MM/AAAA', type: 'text' },
+      { id: 'cert-prog-heure-prevue', label: 'Heure prévue', placeholder: '09h00', type: 'text' },
+      { id: 'cert-prog-lieu-type', label: 'Lieu prévu de l\'acte', placeholder: '', type: 'radio',
+        options: [
+          { value: 'cabinet', label: '🏥 Cabinet / Centre médical' },
+          { value: 'domicile', label: '🏠 Domicile des parents' }
+        ]
+      },
+      { id: 'cert-prog-lieu-cabinet', label: 'Nom et adresse du cabinet / centre', placeholder: 'Centre médical SOAMANANDRAY, Antananarivo', type: 'text', showIf: 'cabinet' },
+      { id: 'cert-prog-lieu-domicile', label: 'Adresse du domicile', placeholder: 'Lot XX, Ankadifotsy, Antananarivo', type: 'text', showIf: 'domicile' },
+      { id: 'cert-prat-qualite', label: 'Qualité du praticien assistant', placeholder: '', type: 'radio',
+        options: [
+          { value: 'medecin', label: '⚕️ Médecin' },
+          { value: 'thesard', label: '🎓 Thésard en médecine' }
+        ]
+      },
+      { id: 'cert-prog-bilan', label: 'Bilan pré-opératoire / absence de contre-indication (facultatif)', placeholder: 'Examen clinique satisfaisant, aucune contre-indication relevée à ce jour', type: 'textarea' },
+    ],
+    render: (d) => {
+      const lieuType = d['cert-prog-lieu-type'] || 'cabinet';
+      const lieuText = lieuType === 'domicile'
+        ? `au domicile des parents — <strong>${esc(d['cert-prog-lieu-domicile']) || '…'}</strong>`
+        : `au cabinet / centre médical — <strong>${esc(d['cert-prog-lieu-cabinet']) || '…'}</strong>`;
+      const isThesard = (d['cert-prat-qualite'] === 'thesard');
+      const praticienLabel = isThesard
+        ? `${esc(d.doc) || '…'}, Thésard en Médecine`
+        : `Dr ${esc(d.doc) || '…'}, docteur en médecine`;
+      const bilanLine = d['cert-prog-bilan']
+        ? `<p><strong>Bilan pré-opératoire :</strong> ${esc(d['cert-prog-bilan'])}</p><br>`
+        : '';
+      return `
+      <div class="cp-header">
+        <div class="cp-title">Attestation d'Assistance Médicale — Circoncision Programmée</div>
+        ${d.doc ? `<div class="cp-doc-line">${praticienLabel}</div>` : ''}
+      </div>
+      <div class="cp-body">
+        <p>Je soussigné(e), <span class="cp-field">${praticienLabel}</span>, atteste assurer l\'assistance médicale pour l\'intervention de circoncision programmée concernant l\'enfant :</p>
+        <br>
+        <p><span class="cp-field">${esc(d['cert-prog-enf-nom']) || '…'}</span>, âgé de ${esc(d['cert-prog-enf-age']) || '…'},<br>
+        fils / fille de <span class="cp-field">${esc(d['cert-prog-par-nom']) || '…'}</span> <em>(${esc(d['cert-prog-par-lien']) || 'Père / Mère / Tuteur(trice)'})</em>.</p>
+        <br>
+        <p>L\'intervention est programmée le <strong>${esc(d['cert-prog-date-prevue']) || '…'}</strong> à <strong>${esc(d['cert-prog-heure-prevue']) || '…'}</strong>, ${lieuText}.</p>
+        <br>
+        ${bilanLine}
+        <p>Cette attestation est délivrée à la demande de l\'intéressé(e) pour servir et faire valoir ce que de droit, notamment auprès de son employeur ou de l\'établissement scolaire, à titre justificatif de la programmation de l\'intervention.</p>
+        <br>
+        <p><em>${isThesard ? 'Le praticien' : 'Le médecin'} décline toute responsabilité quant à l\'usage qui sera fait de ce document.</em></p>
+      </div>
+      <div class="cp-sign">
+        <div class="cp-sign-lieu">Fait à ${esc(d.lieu) || 'Antananarivo'} le ${esc(d.dateStr) || '…'}</div>
+        <div class="cp-sign-label">${isThesard ? 'Signature' : 'Signature et cachet'}</div>
+      </div>`;
+    }
+  },
   arret: {
     title: "🛌 Arrêt de Travail",
     fields: [
@@ -20347,6 +20403,7 @@ function printCertificat() {
   const docOrdre   = data.docOrdre;
   const docTel     = data.docTel;
   const docCabinet = data.docCabinet;
+  const isThesard  = (data['cert-prat-qualite'] === 'thesard');
   const certType = cfg.title.replace(/[^\w\sÀ-ÿà-ÿ'\u2019\-]/g, '').trim();
 
   // Post-process certContent: replace the whole .cp-sign block
@@ -20606,9 +20663,9 @@ function printCertificat() {
 
     <div class="doc-header">
       <div class="doc-header-left">
-        <div class="doc-name">${docNom ? 'Dr ' + docNom : 'Dr _____________________'}</div>
-        <div class="doc-qual">Docteur en Médecine</div>
-        <div>N° Ordre : ${docOrdre || '___________'}</div>
+        <div class="doc-name">${docNom ? (isThesard ? docNom : 'Dr ' + docNom) : (isThesard ? '_____________________' : 'Dr _____________________')}</div>
+        <div class="doc-qual">${isThesard ? 'Thésard en Médecine' : 'Docteur en Médecine'}</div>
+        ${isThesard ? '' : `<div>N° Ordre : ${docOrdre || '___________'}</div>`}
         <div>Tél : ${docTel || '_______________'}</div>
       </div>
       <div class="doc-header-right">
@@ -21161,20 +21218,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     medInput.addEventListener('input', _onMedSearch);
     medInput.addEventListener('search', _onMedSearch); // pour le bouton clear du type="search"
-  }
-  var careInput = document.getElementById('careSearch');
-  if (careInput) {
-    // BUG FIX v90: debounce 180ms, un seul handler nommé pour pouvoir le retirer si besoin
-    var _careSearchTimer = null;
-    function _onCareSearch() {
-      clearTimeout(_careSearchTimer);
-      _careSearchTimer = setTimeout(function() {
-        careSearchQ = careInput.value.trim().toLowerCase();
-        renderCareDirectory();
-      }, 180);
-    }
-    careInput.addEventListener('input', _onCareSearch);
-    careInput.addEventListener('search', _onCareSearch);
   }
   var ambulanceInput = document.getElementById('ambulanceSearch');
   if (ambulanceInput) {
@@ -21753,37 +21796,6 @@ const GARDE_DATA = {
   ]
 };
 
-const CARE_DIRECTORY = [
-  { nom: "Hôpital Universitaire Joseph Ravoahangy Andrianavalona", adresse: "Anosy", tels: ["+261202227979", "+261202261864"] },
-  { nom: "Hôpital Universitaire Joseph Raseta Befelatanana (HUJRB)", adresse: "Befelatanana", tels: ["+261202222384", "+261202267221"] },
-  { nom: "Centre Hospitalier de Soavinandriana (HOMI / ex-Girard et Robic)", adresse: "Soavinandriana", tels: ["+261202339751"] },
-  { nom: "Pavillon Sainte Fleur Centre Hospitalier Universitaire", adresse: "Ampefiloha", tels: ["+261202266104", "+261202266305"] },
-  { nom: "Clinique et Maternité d’Anosibe", adresse: "Immeuble OSTIE Anosibe", tels: ["+261202220032", "+261202229056"] },
-  { nom: "Marie Stopes International Maternité Clinique", adresse: "Avaradoha", tels: ["+261202241836", "+261331108411"] },
-  { nom: "Clinique et Maternité Saint François d’Assise", adresse: "Ankadifotsy", tels: ["+261202223554"] },
-  { nom: "Clinique Gynéco-obstétrique Noa", adresse: "Village des Jeux Ankorondrano", tels: ["+261202260880"] },
-  { nom: "Polyclinique d’Ilafy Ambohitrarahaba (24/24)", adresse: "Ambohitrarahaba", tels: ["+261202242566", "+261202242569"] },
-  { nom: "Espace Médical / SOS Médecins Ambodivona", adresse: "Ambodivona", tels: ["+261202262566", "+261340208816"] },
-  { nom: "Clinique Nathan", adresse: "Ampasika Itaosy", tels: ["+261341261757"] },
-  { nom: "Clinique Mère et enfant Antsakaviro", adresse: "Lot II W23 Antsakaviro Ambodirotra", tels: ["+261341434567"] },
-  { nom: "Clinique Imaho", adresse: "Analamahitsy", tels: ["+261340165199"] },
-  { nom: "Monicentre", adresse: "Ambohipo", tels: ["+261340748993"] },
-  { nom: "Centre 67 Hectares", adresse: "Lot 12 cité des 67 ha", tels: ["+261340720945"] },
-  { nom: "Centre Isotry", adresse: "Isotry", tels: ["+261340767695"] },
-  { nom: "Clinique Médico Chirurgicale de Tanjombato", adresse: "Lot III A 42 Andafiatsimo Tanjombato", tels: ["+261202257193"] },
-  { nom: "Clinique St Paul", adresse: "Route Ambohipo", tels: ["+261202227147", "+261202261046"] },
-  { nom: "Clinique Fidy", adresse: "Lot II A 38 FAB Ambatomainty", tels: ["+261331420991"] },
-  { nom: "Clinique Miadana", adresse: "Lot AZ 172 Anosizato Andrefana", tels: ["+261343941469"] },
-  { nom: "Clinique Ivokoloaina", adresse: "Lot AV Faliarivo II - Loharanombato Ambavahaditokana", tels: ["+261342702565", "+261344301253", "+261324680418"] },
-  { nom: "Clinique les Rosiers", adresse: "Lot IBF - 5Bis Antsahavola", tels: ["+261202254244"] },
-  { nom: "Clinique Reine Marie", adresse: "4, Rue Joseph Ramanandraibe Antanimena", tels: ["+261342023972"] },
-  { nom: "Clinique Médico Chirurgicale Santé Plus", adresse: "Lot 20G 240 Ambohimiandrisoa", tels: ["+261204449851", "+261320245858"] },
-  { nom: "Clinique Esperance", adresse: "Lot II W 26 N Ankorahotra", tels: ["+261340700609", "+261331105785", "+261320223050"] },
-  { nom: "Clinique et Maternité", adresse: "Lot VO 26 C Manakambahiny", tels: ["+261345485527", "+261337311441"] },
-  { nom: "Clinique La Sérénité", adresse: "LOT III O 10 CA Mananjara Fort-Voyron", tels: ["+261345566564"] },
-  { nom: "Clinique Aina Henintsoa", adresse: "LOT II U 31 Bis, Antananarivo", tels: ["+261202269143"] }
-].map(item => ({ ...item, type: careTypeOf(item.nom), tels: uniquePhones(item.tels) }));
-
 const AMBULANCE_DIRECTORY = [
   { nom: "Ambulance Municipale (SAMU Madagascar)", adresse: "Antananarivo", tels: ["117"] },
   { nom: "Ambulance Polyclinique d’Ilafy", adresse: "Andafiavaratra Ambohitrarahaba - Antananarivo 101 - Madagascar", tels: ["+261202242566", "+261202242569"] },
@@ -21799,53 +21811,6 @@ const AMBULANCE_DIRECTORY = [
 // ====================
 
 
-
-function onCareSearch() {
-  var _cs = document.getElementById('careSearch'); if (_cs) careSearchQ = _cs.value.trim().toLowerCase();
-  renderCareDirectory();
-}
-
-function setCareTypeFilter(type, el) {
-  careTypeFilter = type;
-  document.querySelectorAll('#careTypeFilter .directory-chip').forEach(c => c.classList.remove('active'));
-  if (el) el.classList.add('active');
-  renderCareDirectory();
-}
-
-function renderCareDirectory() {
-  const container = document.getElementById('careDirectory');
-  if (!container) return;
-  const items = CARE_DIRECTORY.filter(item => {
-    if (careTypeFilter !== 'all' && item.type !== careTypeFilter) return false;
-    if (!careSearchQ) return true;
-    const hay = `${item.nom} ${item.adresse} ${(item.tels || []).join(' ')}`.toLowerCase();
-    return hay.includes(careSearchQ);
-  });
-
-  const countBadge = document.getElementById('careCountBadge');
-  if (countBadge) countBadge.textContent = `${items.length} résultat${items.length > 1 ? 's' : ''}`;
-
-  if (!items.length) {
-    container.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><span class="emoji">🏥</span>Aucun établissement trouvé avec ces filtres.</div>`;
-    return;
-  }
-
-  container.innerHTML = items.map(item => {
-    const phones = uniquePhones(item.tels || []);
-    const phonesHtml = phones.map(t => `<a href="${phoneHref(t)}" class="directory-phone"><span>📞</span><span>${formatTel(t)}</span></a>`).join('');
-    return `
-      <div class="directory-item">
-        <div class="directory-item-top">
-          <div class="directory-item-name">${esc(item.nom)}</div>
-          <span class="directory-type-badge ${esc(item.type)}">${esc(careTypeLabel(item.type))}</span>
-        </div>
-        <div class="directory-meta">
-          <div class="directory-meta-row"><span class="meta-ic">📍</span><span>${esc(item.adresse || 'Adresse non précisée')}</span></div>
-        </div>
-        <div class="directory-phones">${phonesHtml || '<span style="font-size:0.8rem;color:var(--text-muted);">Téléphone non disponible</span>'}</div>
-      </div>`;
-  }).join('');
-}
 
 function onAmbulanceSearch() {
   const el = document.getElementById('ambulanceSearch');
